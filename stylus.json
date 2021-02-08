@@ -120,13 +120,14 @@
           "https://hive-t-app01",
           "https://docs.tenable",
           "https://support.atlassian",
-          "https://app.quickhelp"
+          "https://app.quickhelp",
+          "http://fastnet.fastenal"
         ]
       }
     ],
-    "updateDate": 1612792425050,
+    "updateDate": 1612797546191,
     "_id": "d7f99fe7-2b6a-4de4-80f0-d1a565d85aed",
-    "_rev": 1612792425050,
+    "_rev": 1612797546191,
     "id": 1,
     "exclusions": [
       "https://outlook.office.com/mail/inbox/id/AAQkAGFiNTA1ZGQ4LWQ0ZDktNGQ4NC1iMjkwLWE0NDY0ZTM2YTIyOQAQAD67g4SFSTVGnozD%2B2xMAYg%3D"
