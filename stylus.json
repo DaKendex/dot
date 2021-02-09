@@ -60,7 +60,7 @@
       "editor.matchHighlight": "token",
       "editor.autoCloseBrackets": true,
       "editor.autocompleteOnTyping": false,
-      "editor.contextDelete": true,
+      "editor.contextDelete": null,
       "editor.selectByTokens": true,
       "editor.appliesToLineWidget": true,
       "editor.livePreview": true,
@@ -121,13 +121,14 @@
           "https://docs.tenable",
           "https://support.atlassian",
           "https://app.quickhelp",
-          "http://fastnet.fastenal"
+          "http://fastnet.fastenal",
+          "https://www.amway"
         ]
       }
     ],
-    "updateDate": 1612797546191,
+    "updateDate": 1612833063332,
     "_id": "d7f99fe7-2b6a-4de4-80f0-d1a565d85aed",
-    "_rev": 1612797546191,
+    "_rev": 1612833063332,
     "id": 1,
     "exclusions": [
       "https://outlook.office.com/mail/inbox/id/AAQkAGFiNTA1ZGQ4LWQ0ZDktNGQ4NC1iMjkwLWE0NDY0ZTM2YTIyOQAQAD67g4SFSTVGnozD%2B2xMAYg%3D"
@@ -773,7 +774,7 @@
     "name": "GitHub Dark",
     "originalDigest": "c58131f7ef710fcef91a53e0fae23156b43e1ab1",
     "_id": "f0593a89-c72c-4378-be68-e8a7af9930f1",
-    "_rev": 1611750518019,
+    "_rev": 1612833008113,
     "id": 4,
     "updateDate": 1611750517845
   },
@@ -798,7 +799,7 @@
     "name": "ServiceNow Dark by TeamUltra",
     "originalDigest": "db72a750c060c6a0de9cde3ee9228ecbc7e514b4",
     "_id": "be4c42a1-4675-4b50-b6f5-e910d658bd54",
-    "_rev": 1607005626568,
+    "_rev": 1612833008113,
     "id": 5
   },
   {
@@ -1045,7 +1046,7 @@
     "name": "Dark-Instagram",
     "originalDigest": "ca6af9911674d334e47b9eaeaaff0da8a477dba3",
     "_id": "555923ff-775b-46bf-ae77-0a4fb45c9372",
-    "_rev": 1608040405039,
+    "_rev": 1612833008113,
     "id": 7,
     "updateDate": 1608040404212
   },
@@ -1379,7 +1380,7 @@
     "name": "Google Dark Search",
     "originalDigest": "b6ab83c526574d5cbcfc3a0eba7decceb1e855ca",
     "_id": "73eff6b8-67ff-46a1-8b13-a6c506d2074c",
-    "_rev": 1607005626568,
+    "_rev": 1612833008113,
     "id": 8
   }
 ]
