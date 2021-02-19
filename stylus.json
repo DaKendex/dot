@@ -87,7 +87,7 @@
     "url": null,
     "originalMd5": null,
     "installDate": 1605272244719,
-    "name": "Dark theme",
+    "name": "Dark theme Work",
     "sections": [
       {
         "code": "html\n  {\n    filter: invert(86%) hue-rotate(180deg) brightness(105%) contrast(105%);\n    background: white;\n  }\n\n  body\n  {\n    background: white;\n  }\n\n  span[role=\"img\"]\n  {\n    filter: invert(100%) hue-rotate(180deg) brightness(105%) contrast(105%);\n  }\n\n  img, svg, iframe, .emoji-common-emoji-sprite\n  {\n    filter: invert(100%) hue-rotate(180deg) brightness(105%) contrast(105%);\n  }\n/* Fix bug with white edges on sprint board */\n  #gh\n  {\n    padding: 0 40px;\n  }\n\n  #content\n  {\n    margin: 0;\n  }\n/* Fix scroll background problems */\n  [data-testid=\"Content\"] > div:first-child\n  {\n    background: white;\n  }",
@@ -112,30 +112,30 @@
           "https://acunetix01",
           "https://admin.exchange",
           "https://askubuntu",
-          "https://secure.bankofamerica",
-          "https://www.everydollar",
           "https://azure.microsoft",
           "https://hive-t-app01",
           "https://docs.tenable",
           "https://support.atlassian",
           "https://app.quickhelp",
           "http://fastnet.fastenal",
-          "https://www.amway",
           "https://protect.cylance.",
-          "https://www.indeed.",
-          "https://www.amazon.",
           "https://stackoverflow.",
           "https://service.bitsighttech.",
           "https://www.lucidchart.",
           "https://lucid.",
           "https://splunk-",
-          "https://hr.fastenal."
+          "https://hr.fastenal.",
+          "https://www.troyhunt.",
+          "https://www.sans.",
+          "https://community.atlassian.",
+          "https://tasks.office.",
+          "https://app.smartsheet."
         ]
       }
     ],
-    "updateDate": 1613500156724,
+    "updateDate": 1613751895716,
     "_id": "d7f99fe7-2b6a-4de4-80f0-d1a565d85aed",
-    "_rev": 1613500156724,
+    "_rev": 1613751895716,
     "id": 1,
     "exclusions": [
       "https://outlook.office.com/mail/inbox/id/AAQkAGFiNTA1ZGQ4LWQ0ZDktNGQ4NC1iMjkwLWE0NDY0ZTM2YTIyOQAQAD67g4SFSTVGnozD%2B2xMAYg%3D"
@@ -1411,5 +1411,32 @@
     "_id": "73eff6b8-67ff-46a1-8b13-a6c506d2074c",
     "_rev": 1606232484706,
     "id": 8
+  },
+  {
+    "enabled": true,
+    "updateUrl": null,
+    "md5Url": null,
+    "url": null,
+    "originalMd5": null,
+    "installDate": 1613751766124,
+    "name": "Dark Theme personal",
+    "sections": [
+      {
+        "code": "html\n  {\n    filter: invert(86%) hue-rotate(180deg) brightness(105%) contrast(105%);\n    background: white;\n  }\n\n  body\n  {\n    background: white;\n  }\n\n  span[role=\"img\"]\n  {\n    filter: invert(100%) hue-rotate(180deg) brightness(105%) contrast(105%);\n  }\n\n  img, svg, iframe, .emoji-common-emoji-sprite\n  {\n    filter: invert(100%) hue-rotate(180deg) brightness(105%) contrast(105%);\n  }\n/* Fix bug with white edges on sprint board */\n  #gh\n  {\n    padding: 0 40px;\n  }\n\n  #content\n  {\n    margin: 0;\n  }\n/* Fix scroll background problems */\n  [data-testid=\"Content\"] > div:first-child\n  {\n    background: white;\n  }",
+        "urlPrefixes": [
+          "https://secure.bankofamerica",
+          "https://www.everydollar",
+          "chrome-extension://",
+          "https://www.amway",
+          "https://www.indeed.",
+          "https://www.amazon.",
+          "https://www.autonomous."
+        ]
+      }
+    ],
+    "updateDate": 1613751897632,
+    "_id": "ce1ea439-b423-483e-9a82-9490a81eeece",
+    "_rev": 1613751897632,
+    "id": 9
   }
 ]
