@@ -87,7 +87,7 @@
     "url": null,
     "originalMd5": null,
     "installDate": 1605272244719,
-    "name": "Dark theme Work",
+    "name": "Dark theme",
     "sections": [
       {
         "code": "html\n  {\n    filter: invert(86%) hue-rotate(180deg) brightness(105%) contrast(105%);\n    background: white;\n  }\n\n  body\n  {\n    background: white;\n  }\n\n  span[role=\"img\"]\n  {\n    filter: invert(100%) hue-rotate(180deg) brightness(105%) contrast(105%);\n  }\n\n  img, svg, iframe, .emoji-common-emoji-sprite\n  {\n    filter: invert(100%) hue-rotate(180deg) brightness(105%) contrast(105%);\n  }\n/* Fix bug with white edges on sprint board */\n  #gh\n  {\n    padding: 0 40px;\n  }\n\n  #content\n  {\n    margin: 0;\n  }\n/* Fix scroll background problems */\n  [data-testid=\"Content\"] > div:first-child\n  {\n    background: white;\n  }",
@@ -108,43 +108,31 @@
           "chrome-extension://",
           "https://fastenal.sharepoint",
           "https://www.fireeye",
+          "https://www.microsoft",
           "https://protection.office",
           "https://acunetix01",
           "https://admin.exchange",
           "https://askubuntu",
+          "https://secure.bankofamerica",
+          "https://www.everydollar",
+          "https://docs.microsoft",
           "https://azure.microsoft",
           "https://hive-t-app01",
           "https://docs.tenable",
           "https://support.atlassian",
           "https://app.quickhelp",
           "http://fastnet.fastenal",
-          "https://protect.cylance.",
-          "https://stackoverflow.",
-          "https://service.bitsighttech.",
-          "https://www.lucidchart.",
-          "https://lucid.",
-          "https://splunk-",
-          "https://hr.fastenal.",
-          "https://www.troyhunt.",
-          "https://www.sans.",
-          "https://community.atlassian.",
-          "https://tasks.office.",
-          "https://app.smartsheet.",
-          "https://dynamicview.smartsheet.",
-          "https://admin.smartsheet.",
-          "https://duo.",
-          "https://fastenal.",
-          "https://0030f501.pphosted."
+          "https://www.amway"
         ]
       }
     ],
-    "updateDate": 1614096966783,
+    "updateDate": 1612833063332,
     "_id": "d7f99fe7-2b6a-4de4-80f0-d1a565d85aed",
-    "_rev": 1614097007753,
+    "_rev": 1613875984521,
     "id": 1,
     "exclusions": [
       "https://outlook.office.com/mail/inbox/id/AAQkAGFiNTA1ZGQ4LWQ0ZDktNGQ4NC1iMjkwLWE0NDY0ZTM2YTIyOQAQAD67g4SFSTVGnozD%2B2xMAYg%3D",
-      "https://fastenal.service-now.com/*"
+      "https://docs.microsoft.com/*"
     ]
   },
   {
@@ -787,7 +775,7 @@
     "name": "GitHub Dark",
     "originalDigest": "c58131f7ef710fcef91a53e0fae23156b43e1ab1",
     "_id": "f0593a89-c72c-4378-be68-e8a7af9930f1",
-    "_rev": 1612457612346,
+    "_rev": 1612833008113,
     "id": 4,
     "updateDate": 1611750517845
   },
@@ -812,7 +800,7 @@
     "name": "ServiceNow Dark by TeamUltra",
     "originalDigest": "db72a750c060c6a0de9cde3ee9228ecbc7e514b4",
     "_id": "be4c42a1-4675-4b50-b6f5-e910d658bd54",
-    "_rev": 1612457612346,
+    "_rev": 1612833008113,
     "id": 5
   },
   {
@@ -834,7 +822,7 @@
     ],
     "updateDate": 1605296300913,
     "_id": "107e7ace-be6c-4277-82e9-bae447994acb",
-    "_rev": 1605296300914,
+    "_rev": 1613875584598,
     "id": 6
   },
   {
@@ -1081,7 +1069,7 @@
     "name": "Dark-Instagram",
     "originalDigest": "ca6af9911674d334e47b9eaeaaff0da8a477dba3",
     "_id": "555923ff-775b-46bf-ae77-0a4fb45c9372",
-    "_rev": 1612457612346,
+    "_rev": 1612833008113,
     "id": 7,
     "updateDate": 1608040404212
   },
@@ -1415,15 +1403,13 @@
     "name": "Google Dark Search",
     "originalDigest": "b6ab83c526574d5cbcfc3a0eba7decceb1e855ca",
     "_id": "73eff6b8-67ff-46a1-8b13-a6c506d2074c",
-    "_rev": 1606232484706,
+    "_rev": 1612833008113,
     "id": 8
   },
   {
     "enabled": true,
     "updateUrl": null,
-    "md5Url": null,
     "url": null,
-    "originalMd5": null,
     "installDate": 1613751766124,
     "name": "Dark Theme personal",
     "sections": [
@@ -1442,7 +1428,72 @@
     ],
     "updateDate": 1613751897632,
     "_id": "ce1ea439-b423-483e-9a82-9490a81eeece",
-    "_rev": 1613751897632,
+    "_rev": 1614214773434,
     "id": 9
+  },
+  {
+    "enabled": true,
+    "updateUrl": null,
+    "url": null,
+    "installDate": 1605272244719,
+    "name": "Dark theme Work",
+    "sections": [
+      {
+        "code": "html\n  {\n    filter: invert(86%) hue-rotate(180deg) brightness(105%) contrast(105%);\n    background: white;\n  }\n\n  body\n  {\n    background: white;\n  }\n\n  span[role=\"img\"]\n  {\n    filter: invert(100%) hue-rotate(180deg) brightness(105%) contrast(105%);\n  }\n\n  img, svg, iframe, .emoji-common-emoji-sprite\n  {\n    filter: invert(100%) hue-rotate(180deg) brightness(105%) contrast(105%);\n  }\n/* Fix bug with white edges on sprint board */\n  #gh\n  {\n    padding: 0 40px;\n  }\n\n  #content\n  {\n    margin: 0;\n  }\n/* Fix scroll background problems */\n  [data-testid=\"Content\"] > div:first-child\n  {\n    background: white;\n  }",
+        "urlPrefixes": [
+          "https://jira",
+          "http://jira",
+          "https://confluence",
+          "http://confluence",
+          "https://bitbucket",
+          "http://bitbucket",
+          "http://fastenal.onelogin",
+          "https://fastenal.onelogin",
+          "https://fastenal.splunkcloud",
+          "http://fastenal.splunkcloud",
+          "https://es-fastenal.splunkcloud",
+          "http://es-fastenal.splunkcloud",
+          "http://hive-t-app01:900",
+          "chrome-extension://",
+          "https://fastenal.sharepoint",
+          "https://www.fireeye",
+          "https://protection.office",
+          "https://acunetix01",
+          "https://admin.exchange",
+          "https://askubuntu",
+          "https://azure.microsoft",
+          "https://hive-t-app01",
+          "https://docs.tenable",
+          "https://support.atlassian",
+          "https://app.quickhelp",
+          "http://fastnet.fastenal",
+          "https://protect.cylance.",
+          "https://stackoverflow.",
+          "https://service.bitsighttech.",
+          "https://www.lucidchart.",
+          "https://lucid.",
+          "https://splunk-",
+          "https://hr.fastenal.",
+          "https://www.troyhunt.",
+          "https://www.sans.",
+          "https://community.atlassian.",
+          "https://tasks.office.",
+          "https://app.smartsheet.",
+          "https://dynamicview.smartsheet.",
+          "https://admin.smartsheet.",
+          "https://duo.",
+          "https://fastenal.",
+          "https://0030f501.pphosted."
+        ]
+      }
+    ],
+    "updateDate": 1614096966783,
+    "_id": "d7f99fe7-2b6a-4de4-80f0-d1a565d85aed",
+    "_rev": 1614214773434,
+    "exclusions": [
+      "https://outlook.office.com/mail/inbox/id/AAQkAGFiNTA1ZGQ4LWQ0ZDktNGQ4NC1iMjkwLWE0NDY0ZTM2YTIyOQAQAD67g4SFSTVGnozD%2B2xMAYg%3D",
+      "https://fastenal.service-now.com/*"
+    ],
+    "id": 10
   }
 ]
