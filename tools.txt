@@ -1,0 +1,2 @@
+brew install --cask flameshot
+brew install --cask rectangle
