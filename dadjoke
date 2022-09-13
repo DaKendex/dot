@@ -1,0 +1,12 @@
+#!/usr/bin/env python3
+# source: 'https://gist.github.com/itsthejoker/33c390748fd8d4184ca81d421b69f9e6'
+from urllib.request import urlopen
+import json
+import random
+
+resp = urlopen("https://fatherhood.gov/jsonapi/node/dad_jokes")
+joke = random.choice(json.loads(resp.read()).get('data')).get('attributes')
+if joke:
+    print(joke.get('field_joke_opener'))
+    print(joke.get('field_joke_response'))
+

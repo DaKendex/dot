@@ -1,0 +1,14 @@
+alfred
+alt-tab
+app-cleaner
+brave-browser
+dozer
+firefox
+iterm2
+microsoft-teams
+postman
+powershell
+rectangle
+stats
+sublime-text
+visual-studio-code
