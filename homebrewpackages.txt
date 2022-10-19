@@ -1,3 +1,4 @@
+# install with xargs brew install < homebrewpackages.txt
 ca-certificates
 cowsay
 docker
