@@ -29,7 +29,6 @@ cp ~/repo/computer-setup/dotfiles/karabiner/karabiner.json ~/.config/karabiner/
 cp ~/repo/computer-setup/dotfiles/.zshrc ~/
 cp ~/repo/computer-setup/dotfiles/.vimrc ~/
 source ~/.zshrc
-source ~/.vimrc
 
 # brew auto update
 brew autoupdate start --upgrade
