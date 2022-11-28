@@ -27,6 +27,9 @@ syntax on
 " Add numbers to each line on the left-hand side.
 set number
 
+" Add relative numebers to each line on the left-hand side.
+set relativenumber
+
 " Set shift width to 4 spaces.
 set shiftwidth=4
 
@@ -55,7 +58,12 @@ set ignorecase
 set cursorline
 
 " Highlight cursor line underneath the cursor vertically.
-set cursorcolumn
+" (yaml,yml,python,go,)
+autocmd Filetype yaml set cursorcolumn
+autocmd Filetype yml set cursorcolumn
+autocmd Filetype go set cursorcolumn
+autocmd Filetype terraform set cursorcolumn
+autocmd Filetype tf set cursorcolumn
 
 " Override the ignorecase option if searching for capital letters.
 " This will allow you to search specifically for capital letters.
@@ -91,7 +99,18 @@ set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
 " Plugin code goes here.
 
 " }}}
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
+call plug#begin('~/.vim/plugged')
+Plug 'tpope/vim-sensible'
+Plug 'junegunn/vim-easy-align'
+Plug 'https://github.com/hashivim/vim-terraform.git'
+Plug 'flazz/vim-colorschemes'
+call plug#end()
 
 " MAPPINGS --------------------------------------------------------------- {{{
 
