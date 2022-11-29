@@ -93,6 +93,7 @@ export PATH="/usr/local/bin:$PATH"
 
 # Gcloud path setup
 export PATH=$PATH:"$(dirname $(readlink -f $(command -v gcloud)))"
+source ~/.config/gcloud/.generate_cloud_configs.zshrc
 
 # Go path setup
 export GOPATH=$HOME/go
@@ -126,6 +127,7 @@ alias copy="pbcopy"
 alias ipe="curl wtfismyip.com/json"
 alias myip="ifconfig | grep broadcast"
 alias terraform="op run -- terraform"
+alias gconfig="gcloud config configurations activate"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

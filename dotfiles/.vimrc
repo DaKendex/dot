@@ -152,4 +152,5 @@ set statusline+=\ ascii:\ %b\ hex:\ 0x%B\ row:\ %l\ col:\ %c\ percent:\ %p%%
 set laststatus=2
 " }}}
 
-
+set background=dark
+colorscheme gruvbox
