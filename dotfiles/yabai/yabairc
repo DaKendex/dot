@@ -56,6 +56,9 @@ yabai -m rule --add app="^Disk Utility$" sticky=on layer=above manage=off
 yabai -m rule --add app="^System Information$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Activity Monitor$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Find My$" sticky=on layer=above manage=off
+yabai -m rule --add app="^Okta Verify$" sticky=on layer=above manage=off
+yabai -m rule --add app="^Dozer$" sticky=on layer=above manage=off
+yabai -m rule --add app="^Stats$" sticky=on layer=above manage=off
 
 # app borders
 # yabai -m rule --add app='.*' border=on

@@ -110,6 +110,8 @@ Plug 'tpope/vim-sensible'
 Plug 'junegunn/vim-easy-align'
 Plug 'https://github.com/hashivim/vim-terraform.git'
 Plug 'flazz/vim-colorschemes'
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 call plug#end()
 
 " MAPPINGS --------------------------------------------------------------- {{{
@@ -154,3 +156,6 @@ set laststatus=2
 
 set background=dark
 colorscheme gruvbox
+
+nnoremap <C-p> :Files<CR>
+
