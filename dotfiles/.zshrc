@@ -91,6 +91,9 @@ source $ZSH/oh-my-zsh.sh
 export PATH="/usr/local/bin:$PATH"
 # export MANPATH="/usr/local/man:$MANPATH"
 
+# 1Password setup
+source $HOME/.config/op/plugins.sh
+
 # Gcloud path setup
 export PATH=$PATH:"$(dirname $(readlink -f $(command -v gcloud)))"
 source ~/.config/gcloud/.generate_cloud_configs.zshrc

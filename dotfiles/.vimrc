@@ -64,6 +64,10 @@ autocmd Filetype yml set cursorcolumn
 autocmd Filetype go set cursorcolumn
 autocmd Filetype terraform set cursorcolumn
 autocmd Filetype tf set cursorcolumn
+autocmd Filetype py set cursorcolumn
+
+" GO Autocompletion
+au filetype go inoremap <buffer> . .<C-x><C-o>
 
 " Override the ignorecase option if searching for capital letters.
 " This will allow you to search specifically for capital letters.
@@ -112,7 +116,10 @@ Plug 'https://github.com/hashivim/vim-terraform.git'
 Plug 'flazz/vim-colorschemes'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+Plug 'gmarik/Vundle.vim'
 call plug#end()
+
 
 " MAPPINGS --------------------------------------------------------------- {{{
 

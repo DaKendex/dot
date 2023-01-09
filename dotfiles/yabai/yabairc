@@ -47,6 +47,7 @@ yabai -m config window_gap                   2
 
 # ignore these apps
 yabai -m rule --add app="^System Preferences$" sticky=on layer=above manage=off
+yabai -m rule --add app="^System Settings$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Karabiner-Elements$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Karabiner-EventViewer$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Finder$" sticky=on layer=above manage=off
@@ -59,6 +60,7 @@ yabai -m rule --add app="^Find My$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Okta Verify$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Dozer$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Stats$" sticky=on layer=above manage=off
+yabai -m rule --add app="^1Password$" sticky=on layer=above manage=off
 
 # app borders
 # yabai -m rule --add app='.*' border=on
