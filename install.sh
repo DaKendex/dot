@@ -14,8 +14,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 brew bundle install --file ~/repo/computer-setup/macos/Brewfile
 
 # Mac OS
-defaults write com.apple.dock autohide-delay -float 0
-killall Dock
+defaults write com.apple.dock autohide-delay -float 0; killall Dock
 
 # Yabai
 sudo yabai --install-sa
