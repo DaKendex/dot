@@ -132,8 +132,9 @@ alias ohmyzsh="code ~/.oh-my-zsh"
 alias copy="pbcopy"
 alias ipe="curl wtfismyip.com/json"
 alias myip="ifconfig | grep broadcast"
-alias terraform="op run -- terraform"
+alias tf="op run -- terraform"
 alias gconfig="gcloud config configurations activate"
+
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
