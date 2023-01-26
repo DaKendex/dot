@@ -70,12 +70,13 @@ home_symbol = '~'
 format = 'via [🐋 $context](blue bold)'
 
 [gcloud]
-format = 'on [$symbol$account(\($project\))]($style) '
+format = 'on [$symbol$project]($style) '
+style = 'bold yellow'
 
 [git_branch]
 symbol = ''
-truncation_length = 20
-truncation_symbol = ''
+#truncation_length = 20
+#truncation_symbol = ''
 ignore_branches = ['master', 'main']
 
 [git_commit]
