@@ -31,6 +31,7 @@ ln -sf ${dotfiledir}/skhd/skhdrc ${homedir}/.config/skhd/skhdrc
 ln -sf ${dotfiledir}/karabiner/karabiner.json ${homedir}/.config/karabiner/karabiner.json
 ln -sf ${dotfiledir}/.zshrc ${homedir}/.zshrc
 ln -sf ${dotfiledir}/.vimrc ${homedir}/.vimrc
+ln -sf ${dotfiledir}/starship/starhip.toml ${homedir}/.config/starship.toml
 
 source ~/.zshrc
 
