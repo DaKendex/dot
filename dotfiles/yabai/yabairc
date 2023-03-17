@@ -65,6 +65,7 @@ yabai -m rule --add app="^Stats$" sticky=on layer=above manage=off
 yabai -m rule --add app="^1Password$" sticky=on layer=above manage=off
 yabai -m rule --add app="^System Settings$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Logi Options+$" sticky=on layer=above manage=off
+yabai -m rule --add app="^FaceTime$" sticky=on layer=above manage=off
 
 # app borders
 # yabai -m rule --add app='.*' border=on

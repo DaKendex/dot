@@ -18,6 +18,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # ZSH_THEME="robbyrussell"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
+dadjoke | cowsay -f tux
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -128,14 +129,16 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias zshconfig="code ~/.zshrc"
+alias zsource="source ~/.zshrc"
 alias ohmyzsh="code ~/.oh-my-zsh"
 alias copy="pbcopy"
 alias ipe="curl wtfismyip.com/json"
 alias myip="ifconfig | grep broadcast"
 alias tf="op run -- terraform"
 alias gconfig="gcloud config configurations activate"
-alias up="git pull origin main"
-
+alias up="git fetch --all && git merge "
+alias goland="/usr/local/bin/goland"
+alias vim="nvim"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
