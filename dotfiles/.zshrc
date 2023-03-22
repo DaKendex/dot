@@ -139,7 +139,8 @@ alias gconfig="gcloud config configurations activate"
 alias up="git fetch --all && git merge "
 alias goland="/usr/local/bin/goland"
 alias vim="nvim"
-
+alias gproject="gcloud config set project"
+alias glist="gcloud compute instances list"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
@@ -152,4 +153,4 @@ alias vim="nvim"
 # Spaceship theme 
 #source $(brew --prefix)/opt/spaceship/spaceship.zsh
 
-dadjoke | cowsay -f tux
+# dadjoke | cowsay -f tux
