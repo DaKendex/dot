@@ -141,6 +141,7 @@ alias goland="/usr/local/bin/goland"
 alias vim="nvim"
 alias gproject="gcloud config set project"
 alias glist="gcloud compute instances list"
+alias gla="git log --oneline"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
