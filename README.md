@@ -1,6 +1,9 @@
 # computer-setup
 A repo for my computer setup
 
+## Install with install.sh
+
+
 ## Install Brew files
 ```
 brew bundle --file macos/Brewfile
