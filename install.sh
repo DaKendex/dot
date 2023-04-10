@@ -30,8 +30,10 @@ ln -sf ${dotfiledir}/yabai/yabairc ${homedir}/.config/yabai/yabairc
 ln -sf ${dotfiledir}/skhd/skhdrc ${homedir}/.config/skhd/skhdrc
 ln -sf ${dotfiledir}/karabiner/karabiner.json ${homedir}/.config/karabiner/karabiner.json
 ln -sf ${dotfiledir}/.zshrc ${homedir}/.zshrc
+ln -sf ${dotfiledir}/.p10k.zsh ${homedir}/.p10k.zsh
 ln -sf ${dotfiledir}/.vimrc ${homedir}/.vimrc
 ln -sf ${dotfiledir}/starship/starhip.toml ${homedir}/.config/starship.toml
+
 
 source ~/.zshrc
 
