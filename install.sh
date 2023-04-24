@@ -41,5 +41,5 @@ source ~/.zshrc
 brew autoupdate start --upgrade
 
 # dadjoke
-cp dadjoke.py ~/usr/local/bin/dadjoke
-chmod +x ~/usr/local/bin/dadjoke
+cp /scripts/dadjoke/dadjoke /usr/local/bin/dadjoke
+chmod +x /usr/local/bin/dadjoke
