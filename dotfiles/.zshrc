@@ -18,7 +18,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # ZSH_THEME="robbyrussell"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
-dadjoke | cowsay -f tux
+sh $HOME/.config/motd.sh
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -82,8 +82,12 @@ dadjoke | cowsay -f tux
 # Add wisely, as too many plugins slow down shell startup.
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-plugins=(git zsh-autosuggestions colored-man-pages colorize pip python 
-brew macos)
+plugins=(
+  git
+  zsh-autosuggestions
+  colored-man-pages
+  colorize
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -98,6 +102,8 @@ source $HOME/.config/op/plugins.sh
 # Gcloud path setup
 export PATH=$PATH:"$(dirname $(readlink -f $(command -v gcloud)))"
 source ~/.config/gcloud/.generate_cloud_configs.zshrc
+# source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
+# source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
 
 # Go path setup
 export GOPATH=$HOME/go
@@ -142,6 +148,7 @@ alias vim="nvim"
 alias gproject="gcloud config set project"
 alias glist="gcloud compute instances list"
 alias gla="git log --oneline"
+alias trigger="git commit --allow-empty -m 'trigger'"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 

@@ -33,6 +33,11 @@ ln -sf ${dotfiledir}/.zshrc ${homedir}/.zshrc
 ln -sf ${dotfiledir}/.p10k.zsh ${homedir}/.p10k.zsh
 ln -sf ${dotfiledir}/.vimrc ${homedir}/.vimrc
 ln -sf ${dotfiledir}/starship/starhip.toml ${homedir}/.config/starship.toml
+ln -sf ${dotfiledir}/scripts/motd/motd.sh ${homedir}/.config/motd.sh
+
+
+# Enabling Plugins (zsh-autosuggestions)
+git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
 
 
 source ~/.zshrc
