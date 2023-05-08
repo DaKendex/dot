@@ -80,14 +80,14 @@ format = 'via [🐋 $context](blue bold)'
 
 [gcloud]
 symbol = '🌩️ '
-format = 'on [$symbol$project]($style) '
+format = '[$symbol$project]($style) '
 style = 'bold yellow'
 
 [golang]
-format = 'via [🏎💨 $version](bold cyan) '
+format = '[🏎💨 $version](bold cyan) '
 
 [helm]
-format = 'via [⎈ $version](bold white) '
+format = '[⎈ $version](bold white) '
 
 [kubernetes]
 format = 'on [⚙️ ($user on )($cluster in )$context \($namespace\)](dimmed green) '
@@ -101,9 +101,10 @@ disabled = false
 'root/.*' = 'root'
 
 [lua]
-format = 'via [🌕 $version](bold blue) '
+format = '[🌕 $version](bold blue) '
 
 [python]
+format = '[${symbol}(\($virtualenv\))]($style) '
 pyenv_version_name = true
 
 [shell]

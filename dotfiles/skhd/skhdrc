@@ -12,7 +12,7 @@ hyper - r : yabai -m space --rotate 90
 hyper - f : yabai -m window --toggle zoom-fullscreen
 
 # open terminal
-hyper - return : osascript -e 'tell application "iTerm" to activate'
+hyper - return : osascript -e 'tell application "alacritty" to activate'
 
 # focus window
 alt - h : yabai -m window --focus west
