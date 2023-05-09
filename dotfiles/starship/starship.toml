@@ -111,6 +111,7 @@ pyenv_version_name = true
 fish_indicator = ''
 powershell_indicator = '_'
 unknown_indicator = 'mystery shell'
+zsh_indicator = ''
 style = 'cyan bold'
 disabled = false
 
