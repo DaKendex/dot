@@ -6,6 +6,19 @@ plugins=(
   colorize
 )
 
+# Functions 
+source_if_exists () {
+  if test -r "$1"; then
+    source "$1"
+  fi
+}
+
+sh_if_exists () {
+  if test -r "$1"; then
+    sh "$1"
+  fi
+}
+
 source_if_exists $HOME/.env.sh
 source_if_exists $DOTFILES/zsh/alias.zsh
 source_if_exists $ZSH/oh-my-zsh.sh
@@ -53,22 +66,9 @@ if type rg &> /dev/null; then
   export FZF_DEFAULT_OPTS='-m --height 50% --border'
 fi
 
-# Use Starship Config
-eval "$(starship init zsh)"
-
-# Functions 
-source_if_exists () {
-  if test -r "$1"; then
-    source "$1"
-  fi
-}
-
-sh_if_exists () {
-  if test -r "$1"; then
-    sh "$1"
-  fi
-}
-
 precmd() {
   source_if_exists $DOTFILES/zsh/alias.zsh
 }
+
+# Use Starship Config
+eval "$(starship init zsh)"
