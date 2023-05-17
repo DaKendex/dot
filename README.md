@@ -21,7 +21,6 @@ brew bundle --file macos/Brewfile
 brew bundle install --file macos/Brewfile
 ```
 
-
 ### Mac OS Tweaks
 Dock Hides and Appears Instantly
 ```
