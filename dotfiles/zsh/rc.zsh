@@ -55,6 +55,9 @@ sh_if_exists $HOME/.config/motd.sh
 # git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
 source_if_exists ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
+# Enable Z 
+# brew install z
+source_if_exists "$(brew --prefix)/etc/profile.d/z.sh"
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
