@@ -1,6 +1,6 @@
 # https://www.notion.so/Yabai-8da3b829872d432fac43181b7ff628fc
 ## Quickly restart the yabai launch agent
-ctrl + alt + cmd - r : launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"
+ctrl + alt + cmd - r : yabai --restart-service  
 
 ## Close active application
 hyper - backspace : $(yabai -m window $(yabai -m query --windows --window | jq -re ".id") --close)
