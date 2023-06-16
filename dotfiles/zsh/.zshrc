@@ -41,7 +41,7 @@ export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
 
 
 source_if_exists $HOME/.env.sh
-source_if_exists $DOTFILES/zsh/alias.zsh
+source_if_exists $HOME/.config/zsh/alias.zsh
 source_if_exists $ZSH/oh-my-zsh.sh
 
 # 1Password setup
