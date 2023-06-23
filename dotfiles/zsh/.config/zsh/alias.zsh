@@ -13,3 +13,7 @@ alias gproject="gcloud config set project"
 alias glist="gcloud compute instances list"
 alias gla="git log --oneline"
 alias trigger="git commit --allow-empty -m 'trigger'"
+
+
+# ls to exa
+alias l='exa -lah --color=auto --icons'
