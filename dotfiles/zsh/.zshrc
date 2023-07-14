@@ -2,9 +2,9 @@
 [ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ] && source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
 
 export ZAP_GIT_PREFIX="personalgit:"
+plug "zap-zsh/supercharge"
 plug "zsh-users/zsh-autosuggestions"
 plug "MichaelAquilina/zsh-you-should-use"
-plug "zap-zsh/supercharge"
 plug "zap-zsh/exa"
 plug "zsh-users/zsh-syntax-highlighting"
 plug "$HOME/.env.sh"
@@ -15,12 +15,9 @@ plug "$HOME/.config/zsh/alias.zsh"
 autoload -Uz compinit
 compinit
 
-# plugins=(
-#   git
-#   zsh-autosuggestions
-#   colored-man-pages
-#   colorize
-# )
+# Use Starship Config
+eval "$(starship init zsh)"
+
 
 # Functions 
 source_if_exists () {
@@ -36,8 +33,9 @@ sh_if_exists () {
 }
 
 
-# Path to your oh-my-zsh installation.
-# export ZSH="$HOME/.oh-my-zsh"
+# Banner MOTD
+sh_if_exists $HOME/.config/motd.sh
+
 
 # User configuration
 export PATH="/usr/local/bin:$PATH"
@@ -60,26 +58,9 @@ export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
 export PATH=$HOME/.config/tmux/plugins/t-smart-tmux-session-manager/bin:$PATH
 
 
-# source_if_exists $HOME/.env.sh
-# source_if_exists $HOME/.config/zsh/alias.zsh
-# source_if_exists $ZSH/oh-my-zsh.sh
-
 # 1Password setup
 source_if_exists $HOME/.config/op/plugins.sh
 
-# Banner MOTD
-sh_if_exists $HOME/.config/motd.sh
-
-
-# Enabling Plugins (zsh-autosuggestions)
-# git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
-# source_if_exists ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-
-# Enable Z 
-# brew install z
-# source_if_exists "$(brew --prefix)/etc/profile.d/z.sh"
-#
 # brew install zoxide
 eval "$(zoxide init zsh)"
 
@@ -98,5 +79,4 @@ precmd() {
   source_if_exists $DOTFILES/zsh/alias.zsh
 }
 
-# Use Starship Config
-eval "$(starship init zsh)"
+

@@ -13,7 +13,13 @@ alias gproject="gcloud config set project"
 alias glist="gcloud compute instances list"
 alias gla="git log --oneline"
 alias trigger="git commit --allow-empty -m 'trigger'"
+alias lv="lvim"
 
 
 # ls to exa
 alias l='exa -lah --color=auto --icons'
+
+# JWT Decoder
+jwt-decode() {
+  jq -R 'split(".") |.[0:2] | map(@base64d) | map(fromjson)' <<< $1
+}
