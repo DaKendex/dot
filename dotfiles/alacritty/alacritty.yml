@@ -42,6 +42,7 @@ cursor:
     shape: Beam
   unfocused_hollow: true
 
+# Find hexcodes with `xxd -psg` in Terminal
 key_bindings:
   - { key: N,        mods: Command,         action: SpawnNewInstance }
   - { key: Q,        mods: Command,         action: Quit             }
@@ -54,9 +55,10 @@ key_bindings:
   - { key: Right,    mods: Alt,     chars: "\x1bf"                       } # one word right
   - { key: Left,     mods: Command, chars: "\x1bOH",   mode: AppCursor   } # Home
   - { key: Right,    mods: Command, chars: "\x1bOF",   mode: AppCursor   } # End
-  - { key: J,        mods: Command, chars: "\x02\x54" } # open t - tmux smart session manager
-  # - { key: E, mods: Command, chars: "\x02\"" } # split tmux window vertically
-  # - { key: E, mods: Command|Shift, chars: "\x02%" } # split tmux window horizontally
+  - { key: J,        mods: Command, chars: "\x00\x54" } # open t - tmux smart session manager
+  - { key: K, mods: Command, chars: "\x00\x54" } # open t - tmux smart session manager
+  - { key: E, mods: Command, chars: "\x00\"" } # split tmux window vertically
+  - { key: E, mods: Command|Shift, chars: "\x00%" } # split tmux window horizontally
   # - { key: F, mods: Command, chars: "lfcd\n" } # open file manager 'gokcehan/lf'
   # - { key: F, mods: Command|Shift, chars: "\x02\x5b\x2f" } # start tmux search mode
   # - { key: G, mods: Command, chars: "\x02g" } # open git manager 'jesseduffield/lazygit'
@@ -67,8 +69,8 @@ key_bindings:
   # - { key: O, mods: Command, chars: "\x02u" } # open URLs 'joshmedeski/tmux-fzf-url'
   # - { key: P, mods: Command, chars: ":GoToFile\n" } # go to file
   # - { key: P, mods: Command|Shift, chars: ":GoToCommand\n" } # run command
+    # - { key: S, mods: Command, chars: "\x1b\x3a\x77\x0a" } # save vim buffer
   # - { key: Q, mods: Command, chars: ":q\n" } # quit vim
-  # - { key: S, mods: Command, chars: "\x1b\x3a\x77\x0a" } # save vim buffer
   # - { key: T, mods: Command, chars: "\x02c" } # create a new tmux window
   # - { key: T, mods: Command|Shift, chars: "\x02P" } #                ... Toggle Pomodoro
   # - { key: W, mods: Command, chars: "\x02x" } # kill the current pane
