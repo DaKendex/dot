@@ -9,6 +9,7 @@ reload "user.treesitter"
 reload "user.dap"
 reload "user.lsp"
 reload "user.formatting"
+reload "user.mason"
 
 
 
