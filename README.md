@@ -21,6 +21,13 @@ brew bundle Brewfile
 brew bundle install Brewfile
 ```
 
+### Stow 
+```
+# Install dotfiles
+cd dotfiles
+stow -t $HOME <folder>
+```
+
 ### Mac OS Tweaks
 Dock Hides and Appears Instantly
 ```
