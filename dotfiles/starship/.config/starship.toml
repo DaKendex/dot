@@ -16,6 +16,8 @@ $character"""
 
 [os]
 disabled = false
+[os.symbols]
+Macos = "💻 " 
 
 [nodejs]
 format = "[$symbol($version )]($style)"
