@@ -21,4 +21,29 @@ lvim.plugins = {
       require('hop').setup()
     end
   },
+  {
+    "folke/zen-mode.nvim",
+  },
+  {
+  "tpope/vim-fugitive",
+  cmd = {
+    "G",
+    "Git",
+    "Gdiffsplit",
+    "Gread",
+    "Gwrite",
+    "Ggrep",
+    "GMove",
+    "GDelete",
+    "GBrowse",
+    "GRemove",
+    "GRename",
+    "Glgrep",
+    "Gedit"
+  },
+  ft = {"fugitive"}
+  },
+  {
+    "tpope/vim-rhubarb",
+  }
 }
