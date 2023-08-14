@@ -15,10 +15,10 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 ### Brew files
 ```
 # Brew Bundle
-brew bundle --file macos/Brewfile
+brew bundle Brewfile
 
 # Brew install 
-brew bundle install --file macos/Brewfile
+brew bundle install Brewfile
 ```
 
 ### Mac OS Tweaks

@@ -1,4 +1,0 @@
-brew install --cask flameshot
-brew install --cask rectangle
-brew install --cask stats
-brew install --cask dozer
