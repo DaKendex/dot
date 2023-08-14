@@ -11,7 +11,7 @@ echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> $HOME/.zprofile
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # Brew Packages
-brew bundle install --file ~/repo/computer-setup/macos/Brewfile
+brew bundle install --file ~/repo/computer-setup/Brewfile
 
 # Mac OS
 defaults write com.apple.dock autohide-delay -float 0; defaults write com.apple.dock autohide-time-modifier -int 0;killall Dock
