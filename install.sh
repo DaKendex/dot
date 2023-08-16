@@ -31,10 +31,6 @@ stow -t $HOME starship
 ln -sf ${dotfiledir}/scripts/motd/motd.sh ${homedir}/.config/motd.sh
 
 
-# Enabling Plugins (zsh-autosuggestions)
-git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
-
-
 source ~/.zshrc
 
 # brew auto update
