@@ -18,10 +18,9 @@ require("mason-lspconfig").setup({
     "pylsp",
     "sqlls",
     "tailwindcss",
-    "terraformls",
+    "terraform-ls",
     "tflint",
     "vuels",
-    "yamlls",
-    "hcl"
+    "yamlls"
   }
 })

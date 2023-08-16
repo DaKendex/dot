@@ -22,9 +22,6 @@ sudo yabai --load-sa
 brew services start skhd
 brew services start yabai
 
-# zshrc and dotfiles
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-brew install zsh
 
 stow -t $HOME zsh
 stow -t $HOME yabai
