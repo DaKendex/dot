@@ -17,7 +17,7 @@ alias lv="lvim"
 
 
 # ls to exa
-alias l='exa -lah --color=auto --icons'
+# alias l='exa -lah --color=auto --icons'
 
 # JWT Decoder
 jwt-decode() {
