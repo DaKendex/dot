@@ -10,6 +10,7 @@ plug "zsh-users/zsh-syntax-highlighting"
 plug "$HOME/.env.sh"
 plug "$HOME/.config/zsh/git.zsh"
 plug "$HOME/.config/zsh/alias.zsh"
+plug "$HOME/.config/zsh/colima.zsh"
 
 # Load and initialise completion system
 autoload -Uz compinit
