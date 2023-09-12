@@ -69,6 +69,7 @@ yabai -m rule --add app="^FaceTime$" sticky=on layer=above manage=off
 yabai -m rule --add app="^CleanMyMac X$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Music$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Maps$" sticky=on layer=above manage=off
+yabai -m rule --add app="^Raycast$" sticky=on layer=above manage=off
 
 # app borders
 # yabai -m rule --add app='.*' border=on
