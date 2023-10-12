@@ -1,14 +1,14 @@
 # Created by Zap installer zapzsh.org
 [ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ] && source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
 
-export ZAP_GIT_PREFIX="personalgit:"
+export ZAP_GIT_PREFIX="git@github.com:"
 plug "zap-zsh/supercharge"
 plug "zsh-users/zsh-autosuggestions"
 plug "MichaelAquilina/zsh-you-should-use"
-plug "zsh/exa"
+plug "zap-zsh/exa"
 plug "zsh-users/zsh-syntax-highlighting"
 plug "$HOME/.env.sh"
-plug "$HOME/.cargo/env"
+# plug "$HOME/.cargo/env"
 plug "$HOME/.config/zsh/git.zsh"
 plug "$HOME/.config/zsh/alias.zsh"
 plug "$HOME/.config/zsh/colima.zsh"
@@ -59,6 +59,12 @@ export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
 # tmux path setup
 export PATH=$HOME/.config/tmux/plugins/t-smart-tmux-session-manager/bin:$PATH
 
+# brew zsh completion: https://github.com/eza-community/eza#for-zsh-with-homebrew
+if type brew &>/dev/null; then
+    FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+    autoload -Uz compinit
+    compinit
+fi
 
 # 1Password setup
 source_if_exists $HOME/.config/op/plugins.sh
@@ -81,4 +87,28 @@ precmd() {
   source_if_exists $DOTFILES/zsh/alias.zsh
 }
 
+lg()
+{
+    export LAZYGIT_NEW_DIR_FILE=~/.lazygit/newdir
 
+    lazygit "$@"
+
+    if [ -f $LAZYGIT_NEW_DIR_FILE ]; then
+            cd "$(cat $LAZYGIT_NEW_DIR_FILE)"
+            rm -f $LAZYGIT_NEW_DIR_FILE > /dev/null
+    fi
+}
+
+# # YubiKey - Disable OTP
+# # https://support.yubico.com/hc/en-us/articles/360013714379-Accidentally-Triggering-OTP-Codes-with-Your-Nano-YubiKey
+# if ! [[ $(which ykman) ]]; then
+#   brew install ykman
+# fi
+# for serial in $(ykman list -s); do
+#   echo "Disabling OTP for Serial $serial"
+#   ykman --device $serial config usb --disable OTP --force
+#   echo "--- $serial ---" 
+#   ykman --device $serial info
+#   echo
+# done
+export GPG_TTY=$(tty)
