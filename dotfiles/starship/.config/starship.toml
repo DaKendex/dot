@@ -17,7 +17,7 @@ $character"""
 [os]
 disabled = false
 [os.symbols]
-Macos = "💻 " 
+Macos = " "
 
 [nodejs]
 format = "[$symbol($version )]($style)"
@@ -74,12 +74,13 @@ style = "bold white"
 format = "[$time]($style)"
 
 [aws]
-format = 'on [$symbol$region]($style) '
+format = 'on [$symbol$profile$region]($style) '
 style = 'bold blue'
 symbol = '🅰 '
 [aws.region_aliases]
 ap-southeast-2 = 'au'
 us-east-1 = 'va'
+[aws.profile_aliases]
 
 [docker_context]
 format = 'via [🐋 $context](blue bold)'

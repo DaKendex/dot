@@ -7,11 +7,15 @@ plug "zsh-users/zsh-autosuggestions"
 plug "MichaelAquilina/zsh-you-should-use"
 plug "zap-zsh/exa"
 plug "zsh-users/zsh-syntax-highlighting"
+plug "chrishrb/zsh-kubectl"
+plug "zsh-users/zsh-history-substring-search"
+plug "jeffreytse/zsh-vi-mode"
 plug "$HOME/.env.sh"
 # plug "$HOME/.cargo/env"
 plug "$HOME/.config/zsh/git.zsh"
 plug "$HOME/.config/zsh/alias.zsh"
 plug "$HOME/.config/zsh/colima.zsh"
+plug "$HOME/.config/zsh/options.zsh"
 
 # Load and initialise completion system
 autoload -Uz compinit
@@ -20,6 +24,8 @@ compinit
 # Use Starship Config
 eval "$(starship init zsh)"
 
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
 
 # Functions 
 source_if_exists () {
@@ -42,6 +48,9 @@ sh_if_exists $HOME/.config/motd.sh
 # User configuration
 export PATH="/usr/local/bin:$PATH"
 export PATH=$HOME/.local/bin:$PATH
+
+# export homebrew path
+export PATH="/opt/homebrew/bin:$PATH"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # Gcloud path setup
@@ -112,3 +121,8 @@ lg()
 #   echo
 # done
 export GPG_TTY=$(tty)
+ave () {
+  # usage: ave {profile}
+  profile=${1:-dev}
+  aws-vault exec $profile -- zsh
+}

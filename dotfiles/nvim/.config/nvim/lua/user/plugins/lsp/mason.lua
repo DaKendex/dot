@@ -57,5 +57,5 @@ return {
         "gofumpt",
       },
     })
-  end,
+  end
 }
