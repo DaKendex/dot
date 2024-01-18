@@ -7,6 +7,8 @@ $git_branch\
 $git_state\
 $git_status\
 $git_metrics\
+$kubernetes\
+$terraform\
 $fill\
 $all\
 $nodejs\
@@ -29,7 +31,7 @@ symbol = " "
 style = "blue"
 read_only = " 🔒"
 truncation_length = 4
-truncate_to_repo = false
+truncate_to_repo = true
 
 [character]
 success_symbol = "[❯](purple)"
@@ -97,15 +99,14 @@ format = '[🏎💨 $version](bold cyan) '
 format = '[⎈ $version](bold white) '
 
 [kubernetes]
-format = 'on [⚙️ ($user on )($cluster in )$context \($namespace\)](dimmed green) '
+format = '| [$symbol$context\($namespace\)]($style) '
 disabled = false
-[kubernetes.context_aliases]
-'dev.local.cluster.k8s' = 'dev'
-'.*/openshift-cluster/.*' = 'openshift'
-'gke_.*_(?P<var_cluster>[\\w-]+)' = 'gke-$var_cluster'
-[kubernetes.user_aliases]
-'dev.local.cluster.k8s' = 'dev'
-'root/.*' = 'root'
+symbol = "️󱃾 "
+style = "blue"
+# [kubernetes.context_aliases]
+# "kube-prod" = " prod"
+# "kube-stage" = " stage"
+# "kube-dev" = " dev"
 
 [lua]
 format = '[🌕 $version](bold blue) '
@@ -128,7 +129,7 @@ symbol = '👨🏽 💻 '
 disabled = false
 
 [terraform]
-format = '[$symbol $workspace]($style) '
+format = '| [$symbol$workspace]($style) '
 
 [username]
 style_user = 'white bold'

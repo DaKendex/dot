@@ -6,6 +6,9 @@
 
 -- reload "user.octo"
 reload "user.harpoon"
+reload "user.keymap"
+
+
 lvim.plugins = {
   { "tpope/vim-surround" },
   { "christoomey/vim-tmux-navigator" },
@@ -76,5 +79,12 @@ lvim.plugins = {
       --   If not available, we use `mini` as the fallback
       "rcarriga/nvim-notify",
     }
-  } 
+  },
+  {
+    "hashivim/vim-terraform",
+    config = function()
+      vim.g.terraform_align = 1
+      vim.g.terraform_fmt_on_save = 1
+    end
+  }
 }
