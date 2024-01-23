@@ -1,2 +1,2 @@
-require("user.core")
-require("user.lazy")
+require("dakendex.core")
+require("dakendex.lazy")
