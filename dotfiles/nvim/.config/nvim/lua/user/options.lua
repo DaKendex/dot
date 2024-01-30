@@ -41,3 +41,6 @@ opt.splitbelow = true -- split horizontal window to the bottom
 
 -- turn off swapfile
 opt.swapfile = false
+
+-- obsidian conceal level
+opt.conceallevel = 1
