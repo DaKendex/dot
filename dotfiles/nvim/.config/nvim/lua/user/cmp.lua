@@ -44,6 +44,7 @@ function M.config()
   local luasnip = require "luasnip"
   require("luasnip/loaders/from_vscode").lazy_load()
 
+
   vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
   vim.api.nvim_set_hl(0, "CmpItemKindTabnine", { fg = "#CA42F0" })
   vim.api.nvim_set_hl(0, "CmpItemKindEmoji", { fg = "#FDE030" })
@@ -54,6 +55,26 @@ function M.config()
   end
 
   local icons = require "user.icons"
+
+  -- "/" cmdline setup.
+  cmp.setup.cmdline("/", {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = "buffer"}
+    }
+  })
+  -- ":" cmdline setup
+  cmp.setup.cmdline(":", {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = "path" }
+    }, {
+        name = "cmdline",
+        option = {
+          ignore_cmds = { "man", "!" }
+        }
+      })
+  })
 
   cmp.setup {
     snippet = {
