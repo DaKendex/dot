@@ -24,3 +24,19 @@ keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" }) --
 keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" }) -- split window horizontally
 keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" }) -- make split windows equal width & height
 keymap.set("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current split" }) -- close current split window
+
+keymap.set("n", "<leader>'", "<C-^>", { desc = "Switch to previous buffer" }) -- switch to previous buffer
+
+keymap.set("n", "<C-u>", "<C-u>zz")
+keymap.set("n", "<C-d>", "<C-d>zz")
+keymap.set("n", "{", "{zz")
+keymap.set("n", "}", "}zz")
+keymap.set("n", "N", "Nzz")
+keymap.set("n", "n", "nzz")
+keymap.set("n", "G", "Gzz")
+keymap.set("n", "gg", "ggzz")
+keymap.set("n", "<C-i>", "<C-i>zz")
+keymap.set("n", "<C-o>", "<C-o>zz")
+keymap.set("n", "%", "%zz")
+keymap.set("n", "*", "*zz")
+keymap.set("n", "#", "#zz")

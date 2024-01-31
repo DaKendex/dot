@@ -15,4 +15,13 @@ echo '        \/     \/          \/   \/     \/      \/    \/      \/ '
 echo $'\n'
 
 # * Cowsay                                                                    
-dadjoke | cowsay -f tux
+# dadjoke | cowsay -f tux
+
+cache_file="/tmp/dadjoke_cache.txt"
+
+if [ -s "$cache_file" ] && [ "$(($(date +%s) - $(stat -f %m "$cache_file")))" -lt 43200 ]; then
+    cat "$cache_file" | cowsay -f tux
+else
+    dadjoke > "$cache_file"
+    cat "$cache_file" | cowsay -f tux
+fi
