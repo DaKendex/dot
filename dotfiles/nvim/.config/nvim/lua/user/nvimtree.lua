@@ -16,6 +16,9 @@ function M.config()
     sync_root_with_cwd = true,
     view = {
       relativenumber = true,
+      float = {
+        enable = false,
+      },
     },
     renderer = {
       add_trailing = false,
@@ -64,7 +67,7 @@ function M.config()
           },
         },
       },
-      special_files = { "Cargo.toml", "Makefile", "README.md", "readme.md" },
+      special_files = { "Cargo.toml", "Makefile", "README.md", "readme.md", "^.env$", "^.terraform$" },
       symlink_destination = true,
     },
     update_focused_file = {

@@ -6,7 +6,15 @@ local M = {
 
 function M.config()
   require("tokyonight").setup({
-    style = "night",
+    style = "storm",
+    transparent = true,
+    styles = {
+      comments = "italic",
+      -- functions = "italic",
+      -- keywords = "italic",
+      -- strings = "italic",
+      -- variables = "italic",
+    }
   })
   vim.cmd.colorscheme("tokyonight")
 end
