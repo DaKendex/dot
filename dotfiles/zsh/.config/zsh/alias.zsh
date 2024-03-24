@@ -14,6 +14,8 @@ alias gla="git log --oneline"
 alias trigger="git commit --allow-empty -m 'trigger'"
 alias vi="nvim"
 
+alias kns="kubectl config set-context --current --namespace "
+alias kctx="kubectl config use-context "
 
 # ls to exa
 # alias l='exa -lah --color=auto --icons'

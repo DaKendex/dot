@@ -6,7 +6,7 @@ local M = {
   }
 }
 
-function M.config() 
+function M.config()
   local icons = require "user.icons"
   local wk = require "which-key"
   wk.register {
