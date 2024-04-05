@@ -12,3 +12,7 @@ start_colima() {
   colima ssh -- sudo update-ca-certificates
   colima ssh -- sudo service docker restart
 }
+if [ -z "$(which docker-buildx)" ]; then
+  mkdir -p ${HOME}/.docker/cli-plugins
+  ln -s $(which docker-buildx) ${HOME}/.docker/cli-plugins/docker-buildx
+fi
