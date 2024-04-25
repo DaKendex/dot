@@ -8,13 +8,16 @@ local M = {
 }
 
 function M.config()
-  local keymap = vim.keymap.set
-  local opts = { noremap = true, silent = true }
+	local keymap = vim.keymap.set
+	local opts = { noremap = true, silent = true }
 
-  keymap("n", "<leader>O", "<cmd>Octo<CR>", opts)
-  require("octo").setup({
-  enable_builtin = true,
-})
+	keymap("n", "<leader>O", "<cmd>Octo<CR>", opts)
+	require("octo").setup({
+		enable_builtin = true,
+    suppress_missing_scope = {
+      projects_v2 = true,
+    }
+	})
 end
 
 return M

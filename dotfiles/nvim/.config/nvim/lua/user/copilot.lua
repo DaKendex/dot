@@ -28,14 +28,14 @@ function M.config()
         dismiss = "<c-h>",
       },
     },
-    filetypes = {
-      markdown = true,
-      help = false,
-      gitcommit = false,
-      gitrebase = false,
-      cvs = false,
-      ["."] = false,
-    },
+    -- filetypes = {
+    --   markdown = true,
+    --   help = false,
+    --   gitcommit = false,
+    --   gitrebase = false,
+    --   cvs = false,
+    --   ["."] = false,
+    -- },
     copilot_node_command = "node",
   }
 

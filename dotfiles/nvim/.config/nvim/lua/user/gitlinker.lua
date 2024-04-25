@@ -11,30 +11,17 @@ local M = {
 function M.config()
   local wk = require "which-key"
   wk.register {
-    ["<leader>gy"] = { "<cmd>GitLink!<cr>", "Git link" },
-    ["<leader>gY"] = { "<cmd>GitLink blam<cr>", "Git link blame" },
+    ["<leader>gy"] = { "<cmd>GitLink<cr>", "Git link" },
+    ["<leader>gY"] = { "<cmd>GitLink!<cr>", "Open link" },
+    ["<leader>gb"] = { "<cmd>GitLink blame<cr>", "Git link blame" },
+    ["<leader>gB"] = { "<cmd>GitLink! blame<cr>", "Open Git blame link" },
   }
 
   require("gitlinker").setup {
-    -- print message in command line
-    message = true,
-
-    -- key mapping
-    -- mapping = {
-    --   ["<leader>gY"] = {
-    --     -- copy git link to clipboard
-    --     action = require("gitlinker.actions").clipboard,
-    --     desc = "Copy git link to clipboard",
-    --   },
-    --   ["<leader>gy"] = {
-    --     -- open git link in browser
-    --     action = require("gitlinker.actions").system,
-    --     desc = "Open git link in browser",
-    --   },
-    -- },
-
-    -- write logs to console(command line)
     console_log = true,
+  --   callbacks = {
+  --     ["git.cioxhealth.com"] = require"gitlinker.hosts".get_gitlab_type_url
+  --   }
   }
 end
 

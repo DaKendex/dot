@@ -7,6 +7,7 @@ function M.config()
   local wk = require "which-key"
   wk.register {
     ["<leader>e"] = { "<cmd>NvimTreeToggle<CR>", "Explorer" },
+    ["<leader><tab>"] = { "<cmd>NvimTreeToggleFloat<CR>", "Explorer" },
   }
 
   local icons = require "user.icons"
@@ -16,6 +17,7 @@ function M.config()
     sync_root_with_cwd = true,
     view = {
       relativenumber = true,
+      side = "right",
       float = {
         enable = false,
       },
