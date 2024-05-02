@@ -1,7 +1,8 @@
 local M = {
 	"epwalsh/obsidian.nvim",
 	version = "*",
-	event = "BufRead",
+  lazy = true,
+  ft = "markdown",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 	},
@@ -9,7 +10,6 @@ local M = {
 
 function M.config()
 	require("obsidian").setup({
-		opts = {
 			workspaces = {
 				{
 					name = "datavant",
@@ -22,14 +22,13 @@ function M.config()
 				-- Optional, if you want to change the date format for the ID of daily notes.
 				date_format = "YYYY/MM-MMMM/YYYY-MM-DD-dddd",
 				-- Optional, if you want to change the date format of the default alias of daily notes.
-				alias_format = "%B %-d, %Y",
+				-- alias_format = "%B %-d, %Y",
 				-- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
-				template = "Template/daily",
+				template = "templates/daily.md",
 			},
 			ui = {
 				enabled = true,
 			},
-		},
 	})
 end
 

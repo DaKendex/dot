@@ -12,6 +12,7 @@ alias gproject="gcloud config set project"
 alias glist="gcloud compute instances list"
 alias gla="git log --oneline"
 alias trigger="git commit --allow-empty -m 'trigger'"
+alias idgaf="git commit -m $(curl -s https://whatthecommit.com/index.txt)"
 alias vi="nvim"
 
 alias kns="kubectl config set-context --current --namespace "

@@ -76,7 +76,7 @@ style = "bold white"
 format = "[$time]($style)"
 
 [aws]
-format = 'on [$symbol$profile$region]($style) '
+format = 'on [$symbol$profile:$region]($style) '
 style = 'bold blue'
 symbol = '🅰 '
 [aws.region_aliases]
