@@ -64,6 +64,7 @@ chars = " "
 key = "Space"
 mods = "Alt"
 
+# Find hexcodes with `xxd -psg` in Terminal
 [[keyboard.bindings]]
 chars = "\u0015"
 key = "Back"
@@ -112,6 +113,11 @@ key = "E"
 mods = "Command|Shift"
 
 [[keyboard.bindings]]
+chars = "\u0000x"
+key = "W"
+mods = "Control"
+
+[[keyboard.bindings]]
 chars = "\u0000g"
 key = "G"
 mods = "Command"
@@ -122,7 +128,7 @@ key = "G"
 mods = "Command|Shift"
 
 [scrolling]
-history = 10000
+history = 100000
 multiplier = 10
 
 [selection]
@@ -134,5 +140,5 @@ decorations = "buttonless"
 opacity = 0.9
 
 [window.padding]
-x = 5
-y = 5
+x = 10
+y = 10

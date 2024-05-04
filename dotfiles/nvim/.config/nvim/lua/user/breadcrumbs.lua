@@ -1,9 +1,15 @@
 local M = {
-  "LunarVim/breadcrumbs.nvim",
+  "utilyre/barbecue.nvim",
+  name = "barbecue",
+  version = "*",
+  dependencies = {
+    "SmiteshP/nvim-navic",
+    "nvim-tree/nvim-web-devicons",
+  }
 }
 
 function M.config()
-  require("breadcrumbs").setup()
+  require("barbecue").setup()
 end
 
 return M
