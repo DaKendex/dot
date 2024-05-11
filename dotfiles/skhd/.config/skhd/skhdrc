@@ -12,7 +12,7 @@ ctrl + cmd - r : yabai -m space --rotate 90
 ctrl + cmd - f : yabai -m window --toggle zoom-fullscreen
 
 # open terminal
-ctrl + cmd - return : osascript -e 'tell application "alacritty" to activate'
+ctrl + cmd - return : osascript -e 'tell application "wezterm" to activate'
 
 # focus window
 alt - h : yabai -m window --focus west
