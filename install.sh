@@ -26,6 +26,7 @@ stow -t $HOME yabai
 stow -t $HOME skhd
 stow -t $HOME karabiner
 stow -t $HOME starship
+stow -t $HOME wezterm
 ln -sf ${dotfiledir}/scripts/motd/motd.sh ${homedir}/.config/motd.sh
 
 source ~/.zshrc

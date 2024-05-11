@@ -1,5 +1,7 @@
 local opt = vim.opt -- for conciseness
 
+vim.cmd("let g:netrw_liststyle = 3")
+
 -- line numbers
 opt.relativenumber = true -- show relative line numbers
 opt.number = true -- shows absolute line number on cursor line (when relative number is on)
@@ -47,3 +49,6 @@ opt.swapfile = false
 
 -- obsidian conceal level
 opt.conceallevel = 1
+
+-- Consider - as part of keyword
+opt.iskeyword:append("-")

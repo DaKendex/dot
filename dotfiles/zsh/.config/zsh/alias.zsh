@@ -15,8 +15,11 @@ alias trigger="git commit --allow-empty -m 'trigger'"
 alias idgaf="git commit -m $(curl -s https://whatthecommit.com/index.txt)"
 alias vi="nvim"
 
+alias k="kubectl"
 alias kns="kubectl config set-context --current --namespace "
 alias kctx="kubectl config use-context "
+
+alias ob="cd ~/repo/dv/datavant/"
 
 # ls to exa
 # alias l='exa -lah --color=auto --icons'

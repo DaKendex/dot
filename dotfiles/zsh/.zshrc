@@ -4,10 +4,10 @@
 export ZAP_GIT_PREFIX="git@github.com:"
 plug "zap-zsh/supercharge"
 plug "zsh-users/zsh-autosuggestions"
+plug "hlissner/zsh-autopair"
 plug "MichaelAquilina/zsh-you-should-use"
 plug "zap-zsh/exa"
-plug "chrishrb/zsh-kubectl"
-plug "unixorn/fzf-zsh-plugin"
+# plug "chrishrb/zsh-kubectl"
 plug "zsh-users/zsh-syntax-highlighting"
 # plug "chrishrb/zsh-kubectl"
 # plug "zsh-users/zsh-history-substring-search"
@@ -17,6 +17,7 @@ plug "$HOME/.env.zsh"
 plug "$HOME/.config/zsh/git.zsh"
 plug "$HOME/.config/zsh/alias.zsh"
 plug "$HOME/.config/zsh/colima.zsh"
+plug "$HOME/.config/zsh/lg.zsh"
 plug "$HOME/.config/zsh/options.zsh"
 
 # Load and initialise completion system
@@ -25,9 +26,11 @@ compinit
 
 # Use Starship Config
 eval "$(starship init zsh)"
-
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
+bindkey -r '^X'
+
+autoload -U edit-command-line
 
 # Functions 
 source_if_exists () {
@@ -128,3 +131,46 @@ ave () {
   profile=${1:-dev}
   aws-vault exec $profile -- zsh
 }
+
+# BEGIN_AWS_SSO_CLI
+
+# AWS SSO requires `bashcompinit` which needs to be enabled once and
+# only once in your shell.  Hence we do not include the two lines:
+#
+# autoload -Uz +X compinit && compinit
+# autoload -Uz +X bashcompinit && bashcompinit
+#
+# If you do not already have these lines, you must COPY the lines 
+# above, place it OUTSIDE of the BEGIN/END_AWS_SSO_CLI markers
+# and of course uncomment it
+
+__aws_sso_profile_complete() {
+     local _args=${AWS_SSO_HELPER_ARGS:- -L error}
+    _multi_parts : "($(/opt/homebrew/bin/aws-sso ${=_args} list --csv Profile))"
+}
+
+aws-sso-profile() {
+    local _args=${AWS_SSO_HELPER_ARGS:- -L error}
+    if [ -n "$AWS_PROFILE" ]; then
+        echo "Unable to assume a role while AWS_PROFILE is set"
+        return 1
+    fi
+    eval $(/opt/homebrew/bin/aws-sso ${=_args} eval -p "$1")
+    if [ "$AWS_SSO_PROFILE" != "$1" ]; then
+        return 1
+    fi
+}
+
+aws-sso-clear() {
+    local _args=${AWS_SSO_HELPER_ARGS:- -L error}
+    if [ -z "$AWS_SSO_PROFILE" ]; then
+        echo "AWS_SSO_PROFILE is not set"
+        return 1
+    fi
+    eval $(/opt/homebrew/bin/aws-sso ${=_args} eval -c)
+}
+
+compdef __aws_sso_profile_complete aws-sso-profile
+complete -C /opt/homebrew/bin/aws-sso aws-sso
+
+# END_AWS_SSO_CLI

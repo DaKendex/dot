@@ -14,7 +14,7 @@ function M.config()
     ["<leader>gy"] = { "<cmd>GitLink<cr>", "Git link" },
     ["<leader>gY"] = { "<cmd>GitLink!<cr>", "Open link" },
     ["<leader>gb"] = { "<cmd>GitLink blame<cr>", "Git link blame" },
-    ["<leader>gB"] = { "<cmd>GitLink! blame<cr>", "Open Git blame link" },
+    ["<leader>gL"] = { "<cmd>GitLink! blame<cr>", "Open Git blame link" },
   }
 
   require("gitlinker").setup {
