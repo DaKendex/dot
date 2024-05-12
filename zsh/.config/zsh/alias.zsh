@@ -16,8 +16,10 @@ alias idgaf="git commit -m $(curl -s https://whatthecommit.com/index.txt)"
 alias vi="nvim"
 
 alias k="kubectl"
-alias kns="kubectl config set-context --current --namespace "
-alias kctx="kubectl config use-context "
+# alias kns="kubectl config set-context --current --namespace "
+# alias kctx="kubectl config use-context "
+alias kctx="kubectx"
+alias kns="kubens"
 
 alias ob="cd ~/repo/dv/datavant/"
 

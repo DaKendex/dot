@@ -99,7 +99,7 @@ format = '[🏎💨 $version](bold cyan) '
 format = '[⎈ $version](bold white) '
 
 [kubernetes]
-format = '| [$symbol$context\($namespace\)]($style) '
+format = '|[$symbol$context\($namespace\)]($style) '
 disabled = false
 symbol = "️󱃾 "
 style = "blue"

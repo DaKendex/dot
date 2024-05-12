@@ -1,9 +1,7 @@
-# computer-setup
-A repo for my computer setup
+# dotfiles
+A repo for my dotfiles
 
 ## Install with install.sh
-
-
 
 ### Install Homebrew
 ```
@@ -24,19 +22,21 @@ brew bundle install Brewfile
 ### Stow 
 ```
 # Install dotfiles
-cd dotfiles
 stow -t $HOME <folder>
 ```
 
 ### Mac OS Tweaks
-Dock Hides and Appears Instantly
 ```
 defaults write com.apple.dock autohide-delay -float 0; defaults write com.apple.dock autohide-time-modifier -int 0;killall Dock
+```
+#### Disable creation of .DS_Store files on network volumes
+```
+defaults write com.apple.desktopservices DSDontWriteNetworkStores true
 ```
 
 ### Install dadjoke
 ```
 # dadjoke
-cp /scripts/dadjoke/dadjoke /usr/local/bin/dadjoke
+cp /.config/bin/dadjoke/dadjoke /usr/local/bin/dadjoke
 chmod +x /usr/local/bin/dadjoke
 ```
