@@ -9,12 +9,10 @@ $git_status\
 $git_metrics\
 $kubernetes\
 $terraform\
-$fill\
-$all\
-$nodejs\
-$cmd_duration $jobs $time\
 $line_break\
-$character"""
+$character
+"""
+right_format = """$all"""
 
 [os]
 disabled = false
@@ -31,7 +29,7 @@ symbol = " "
 style = "blue"
 read_only = " 🔒"
 truncation_length = 4
-truncate_to_repo = true
+truncate_to_repo = false
 
 [character]
 success_symbol = "[❯](purple)"
@@ -41,7 +39,7 @@ vicmd_symbol = "[❮](green)"
 [git_branch]
 symbol = " "
 format = "[$symbol$branch]($style) "
-style = "bright-black"
+style = "green"
 
 [jobs]
 symbol = "+ "
@@ -88,7 +86,8 @@ us-east-1 = 'va'
 format = 'via [🐋 $context](blue bold)'
 
 [gcloud]
-symbol = '🌩️ '
+disabled = true
+symbol = '🌩️'
 format = '[$symbol$project]($style) '
 style = 'bold yellow'
 
@@ -103,10 +102,11 @@ format = '|[$symbol$context\($namespace\)]($style) '
 disabled = false
 symbol = "️󱃾 "
 style = "blue"
-# [kubernetes.context_aliases]
-# "kube-prod" = " prod"
-# "kube-stage" = " stage"
-# "kube-dev" = " dev"
+contexts = [
+  { context_pattern = "prod"},
+  { context_pattern = "staging" },
+  { context_pattern = "dev" },
+]
 
 [lua]
 format = '[🌕 $version](bold blue) '
@@ -136,4 +136,4 @@ style_user = 'white bold'
 style_root = 'black bold'
 format = '[$user]($style) '
 disabled = false
-show_always = true
+show_always = false

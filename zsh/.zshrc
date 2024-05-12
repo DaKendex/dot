@@ -17,6 +17,7 @@ plug "$HOME/.config/zsh/git.zsh"
 plug "$HOME/.config/zsh/alias.zsh"
 plug "$HOME/.config/zsh/colima.zsh"
 plug "$HOME/.config/zsh/lg.zsh"
+plug "$HOME/.config/zsh/aws.zsh"
 plug "$HOME/.config/zsh/options.zsh"
 plug "$HOME/.config/op/plugins.sh"
 
