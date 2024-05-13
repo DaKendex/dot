@@ -1,0 +1,15 @@
+import = ["~/.sesh.toml"]
+
+[[session]]
+name = "neovim config"
+path = "~/repo/dot/nvim/.config/nvim"
+
+[[session]]
+name = "dotfiles"
+path = "~/repo/dot"
+startup_command = "lazygit"
+
+[[session]]
+name = "Downloads 📥"
+path = "~/Downloads"
+startup_command = "la"

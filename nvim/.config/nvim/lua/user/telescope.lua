@@ -5,6 +5,7 @@ local M = {
 		"nvim-tree/nvim-web-devicons",
 		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make", lazy = true },
 	},
+  cmd = "Telescope",
 }
 
 function M.config()
@@ -37,6 +38,7 @@ function M.config()
 	require("telescope").setup({
 
 		defaults = {
+      file_ignore_patterns = { ".git/", ".terraform/" },
 			prompt_prefix = icons.ui.Telescope .. " ",
 			selection_caret = icons.ui.Forward .. " ",
 			entry_prefix = "   ",
@@ -139,6 +141,11 @@ function M.config()
 			},
 		},
 	})
+  require("telescope").load_extension("fzf")
+  require("telescope").load_extension("harpoon")
+  -- require("telescope").load_extension("live_grep_args")
+  -- require("telescope").load_extension("smart_goto")
+  -- require("telescope").load_extension("smart_open")
 end
 
 return M
