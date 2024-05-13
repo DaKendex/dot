@@ -11,10 +11,6 @@ local M = {
 function M.config()
 	require("obsidian").setup({
 			workspaces = {
-				{
-					name = "datavant",
-					path = "~/repo/dv/datavant",
-				},
 			},
 			daily_notes = {
 				-- Optional, if you keep daily notes in a separate directory.

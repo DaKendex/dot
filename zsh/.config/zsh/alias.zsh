@@ -21,7 +21,6 @@ alias k="kubectl"
 alias kctx="kubectx"
 alias kns="kubens"
 
-alias ob="cd ~/repo/dv/datavant/"
 
 # ls to exa
 # alias l='exa -lah --color=auto --icons'
