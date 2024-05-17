@@ -1,8 +1,8 @@
 import = ["~/.sesh.toml"]
 
 [[session]]
-name = "neovim config"
-path = "~/repo/dot/nvim/.config/nvim"
+name = "Neovim Config"
+path = "~/repo/dot/nvim/_config/nvim"
 
 [[session]]
 name = "dotfiles"

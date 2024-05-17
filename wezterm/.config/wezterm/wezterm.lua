@@ -9,7 +9,7 @@ local config = {
 
 	-- This is where you actually apply your config choices
 	color_scheme = "Tokyo Night",
-  -- color_scheme = "Catppuccin Mocha",
+	-- color_scheme = "Catppuccin Mocha",
 	-- For example, changing the color scheme:
 	-- colors = {
 	-- 	foreground = "#CBE0F0",
@@ -29,10 +29,32 @@ local config = {
 	enable_tab_bar = false,
 
 	window_decorations = "RESIZE",
-	window_background_opacity = 0.9,
+	window_background_opacity = 0.95,
 	macos_window_background_blur = 8,
 	window_close_confirmation = "NeverPrompt",
 	keys = {
+		-- Make Option-Left equivalent to Alt-b which many line editors interpret as backward-word
+		{
+			key = "LeftArrow",
+			mods = "OPT",
+			action = wezterm.action({ SendString = "\x1bb" }),
+		},
+		-- Make Option-Right equivalent to Alt-f; forward-word
+		{
+			key = "RightArrow",
+			mods = "OPT",
+			action = wezterm.action({ SendString = "\x1bf" }),
+		},
+		{
+			key = "LeftArrow",
+			mods = "CMD",
+			action = wezterm.action({ SendString = "\x1bOH" }),
+		},
+		{
+			key = "RightArrow",
+			mods = "CMD",
+			action = wezterm.action({ SendString = "\x1bOF" }),
+		},
 		k.cmd_key("o", k.multiple_actions(":Octo")),
 		k.cmd_key("i", k.multiple_actions(":SmartGoTo")),
 		k.cmd_key("O", k.multiple_actions(":GoToSymbol")),
