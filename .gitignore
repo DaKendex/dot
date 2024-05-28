@@ -4,4 +4,6 @@
 .env*
 dadjoke
 tmux/plugins/*
+tmux-client*
 tmux/.config/tmux/plugins/*
+karabiner/.config/karabiner/automatic_backups/*

@@ -8,8 +8,8 @@ local k = require("utils/keys")
 local config = {
 
 	-- This is where you actually apply your config choices
-	color_scheme = "Tokyo Night",
-	-- color_scheme = "Catppuccin Mocha",
+	-- color_scheme = "Tokyo Night",
+	color_scheme = "Catppuccin Macchiato",
 	-- For example, changing the color scheme:
 	-- colors = {
 	-- 	foreground = "#CBE0F0",
@@ -23,7 +23,7 @@ local config = {
 	-- 	brights = { "#214969", "#E52E2E", "#44FFB1", "#FFE073", "#A277FF", "#a277ff", "#24EAF7", "#24EAF7" },
 	-- },
 
-	font = wezterm.font("JetBrainsMono Nerd Font"),
+	font = wezterm.font("JetBrainsMono NF"),
 	font_size = 18,
 
 	enable_tab_bar = false,

@@ -1,3 +1,6 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
 format = """
 $os\
 $username\
@@ -13,6 +16,8 @@ $line_break\
 $character
 """
 right_format = """$all"""
+follow_symlinks	= true
+command_timeout = 1000
 
 [os]
 disabled = false
@@ -78,8 +83,12 @@ format = 'on [$symbol$profile:$region]($style) '
 style = 'bold blue'
 symbol = '🅰 '
 [aws.region_aliases]
-ap-southeast-2 = 'au'
-us-east-1 = 'va'
+us-east-1 = 'USE1'
+us-east-2 = 'USE2'
+us-west-1 = 'USW1'
+us-west-2 = 'USW2'
+eu-west-1 = 'EUW1'
+eu-west-2 = 'EUW2'
 [aws.profile_aliases]
 
 [docker_context]
