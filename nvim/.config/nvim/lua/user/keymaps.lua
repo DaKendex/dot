@@ -1,42 +1,49 @@
 -- set leader key to space
 vim.g.mapleader = " "
 
-local keymap = vim.keymap -- for conciseness
+local set = vim.keymap.set -- for conciseness
 
 ---------------------
--- General Keymaps -------------------
+-- General  -------------------
 
 -- use jk to exit insert mode
-keymap.set("i", "kj", "<ESC>", { desc = "Exit insert mode with jk" })
+set("i", "kj", "<ESC>", { desc = "Exit insert mode with jk" })
 
 -- clear search highlights
-keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
+set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
 
 -- delete single character without copying into register
-keymap.set("n", "x", '"_x')
+set("n", "x", '"_x')
 
 -- increment/decrement numbers
-keymap.set("n", "<leader>+", "<C-a>", { desc = "Increment number" }) -- increment
-keymap.set("n", "<leader>-", "<C-x>", { desc = "Decrement number" }) -- decrement
+set("n", "<leader>+", "<C-a>", { desc = "Increment number" }) -- increment
+set("n", "<leader>-", "<C-x>", { desc = "Decrement number" }) -- decrement
 
 -- window management
-keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" }) -- split window vertically
-keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" }) -- split window horizontally
-keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" }) -- make split windows equal width & height
-keymap.set("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current split" }) -- close current split window
+set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" }) -- split window vertically
+set("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" }) -- split window horizontally
+set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" }) -- make split windows equal width & height
+set("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current split" }) -- close current split window
 
-keymap.set("n", "<leader>'", "<C-^>", { desc = "Switch to previous buffer" }) -- switch to previous buffer
+set("n", "<leader>'", "<C-^>", { desc = "Switch to previous buffer" }) -- switch to previous buffer
 
-keymap.set("n", "<C-u>", "<C-u>zz")
-keymap.set("n", "<C-d>", "<C-d>zz")
-keymap.set("n", "{", "{zz")
-keymap.set("n", "}", "}zz")
-keymap.set("n", "N", "Nzz")
-keymap.set("n", "n", "nzz")
-keymap.set("n", "G", "Gzz")
-keymap.set("n", "gg", "ggzz")
-keymap.set("n", "<C-i>", "<C-i>zz")
-keymap.set("n", "<C-o>", "<C-o>zz")
-keymap.set("n", "%", "%zz")
-keymap.set("n", "*", "*zz")
-keymap.set("n", "#", "#zz")
+-- Center the screen on the cursor
+set("n", "<C-u>", "<C-u>zz")
+set("n", "<C-d>", "<C-d>zz")
+set("n", "{", "{zz")
+set("n", "}", "}zz")
+set("n", "N", "Nzz")
+set("n", "n", "nzz")
+set("n", "G", "Gzz")
+set("n", "gg", "ggzz")
+set("n", "<C-i>", "<C-i>zz")
+set("n", "<C-o>", "<C-o>zz")
+set("n", "%", "%zz")
+set("n", "*", "*zz")
+set("n", "#", "#zz")
+
+-- These mappings control the size of splits (height/width)
+set("n", "<M-n>", "<c-w>5>")
+set("n", "<M-.>", "<c-w>5<")
+set("n", "<M-m>", "<C-W>+")
+set("n", "<M-,>", "<C-W>-")

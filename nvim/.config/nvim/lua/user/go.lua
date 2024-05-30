@@ -1,12 +1,12 @@
 local M = {
-  "ray-x/go.nvim",
-  dependencies = {
-    "ray-x/guihua.lua",
-    "neavim/nvim-lspconfig",
-    "nvim-treesitter/nvim-treesitter",
-  },
-  event = {"CmdlineEnter"},
-  ft = {"go", "gomod"},
+	"ray-x/go.nvim",
+	dependencies = {
+		"ray-x/guihua.lua",
+		"neavim/nvim-lspconfig",
+		"nvim-treesitter/nvim-treesitter",
+	},
+	event = { "CmdlineEnter" },
+	ft = { "go", "gomod" },
 }
 -- Run gofmt + goimports on save
 
@@ -20,7 +20,15 @@ local M = {
 -- })
 
 function M.config()
-  require("go").setup()
+	require("go").setup({
+		diagnostic = {
+			hdlr = false,
+			underline = true,
+			virtual_text = { spacing = 0, prefix = "■" },
+			update_in_insert = false,
+			signs = true, -- use a table to configure the signs texts
+		},
+	})
 end
 
 return M

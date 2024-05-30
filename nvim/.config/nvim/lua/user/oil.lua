@@ -5,10 +5,14 @@ local M = {
 
 function M.config()
 	require("oil").setup({
+		columns = { "icon" },
 		float = {
 			enable = true,
-			-- max_height = 20,
-			-- max_width = 60,
+			max_height = 40,
+			max_width = 120,
+		},
+		keymaps = {
+			["<S-h>"] = "actiona.select_split",
 		},
 		view_options = {
 			show_hidden = true,

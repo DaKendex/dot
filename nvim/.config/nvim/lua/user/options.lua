@@ -1,6 +1,7 @@
 local opt = vim.opt -- for conciseness
 
 vim.cmd("let g:netrw_liststyle = 3")
+opt.cmdheight = 0 -- height of command line
 
 -- line numbers
 opt.relativenumber = true -- show relative line numbers
@@ -14,7 +15,7 @@ opt.autoindent = true -- copy indent from current line when starting new one
 opt.smartindent = true
 
 -- line wrapping
-opt.wrap = false -- disable line wrapping
+opt.wrap = true -- disable line wrapping
 
 -- search settings
 opt.ignorecase = true -- ignore case when searching
@@ -52,3 +53,5 @@ opt.conceallevel = 1
 
 -- Consider - as part of keyword
 opt.iskeyword:append("-")
+
+-- opt.inccomand = "split"

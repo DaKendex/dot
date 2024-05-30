@@ -1,5 +1,6 @@
 local M = {
 	"ThePrimeagen/git-worktree.nvim",
+	event = "BufReadPre",
 }
 
 function M.config()

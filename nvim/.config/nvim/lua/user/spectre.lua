@@ -1,5 +1,6 @@
 local M = {
 	"nvim-pack/nvim-spectre",
+	event = "BufRead",
 	depends = "nvim-lua/plenary.nvim",
 }
 

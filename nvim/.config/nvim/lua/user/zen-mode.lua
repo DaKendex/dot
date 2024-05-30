@@ -1,5 +1,6 @@
 local M = {
   "folke/zen-mode.nvim",
+  cmd = "ZenMode",
 }
 
 function M.config()

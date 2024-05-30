@@ -1,5 +1,6 @@
 local M = {
   "rest-nvim/rest.nvim",
+  cmd = "RestNvim",
   depends = "nvim-lua/plenary.nvim",
 }
 

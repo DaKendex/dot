@@ -1,5 +1,6 @@
 local M = {
 	"pwntester/octo.nvim",
+	cmd = "Octo",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		"nvim-telescope/telescope.nvim",
@@ -14,9 +15,9 @@ function M.config()
 	keymap("n", "<leader>O", "<cmd>Octo<CR>", opts)
 	require("octo").setup({
 		enable_builtin = true,
-    suppress_missing_scope = {
-      projects_v2 = true,
-    }
+		suppress_missing_scope = {
+			projects_v2 = true,
+		},
 	})
 end
 

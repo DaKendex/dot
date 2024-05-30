@@ -8,11 +8,12 @@ local M = {
 	},
 }
 
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 local function lsp_keymaps(bufnr)
 	local opts = { noremap = true, silent = true }
 	local keymap = vim.api.nvim_buf_set_keymap
 	keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-	keymap(bufnr, "n", "gd", "<cmd>lua require('telescope.builtin').lsp_definitions()<CR>", opts)
+	keymap(bufnr, "n", "gd", "<cmd>lua require('telescope.builtin').lsp_definitions()<CR>zz", opts)
 	keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 	keymap(bufnr, "n", "gI", "<cmd>lua require('telescope.builtin').lsp_implementations()<CR>", opts)
 	keymap(bufnr, "n", "gr", "<cmd>lua require('telescope.builtin').lsp_references()<CR>", opts)
@@ -21,8 +22,20 @@ end
 
 M.on_attach = function(client, bufnr)
 	lsp_keymaps(bufnr)
-	if client.supports_method("textDocument/inlayHint") then
-		vim.lsp.inlay_hint.enable(true)
+	-- if client.supports_method("textDocument/inlayHint") then
+	-- 	vim.lsp.inlay_hint.enable(true)
+	-- end
+	if client.supports_method("textDocument/formatting") then
+		vim.api.nvim_clear_autocmds({
+			group = augroup,
+		})
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			group = augroup,
+			buffer = bufnr,
+			callback = function()
+				vim.lsp.buf.format({ bufnr = bufnr })
+			end,
+		})
 	end
 end
 
@@ -132,6 +145,29 @@ function M.config()
 
 		lspconfig[server].setup(opts)
 	end
+
+	lspconfig.gopls.setup({
+		cmd = { "gopls", "serve" },
+		on_attach = M.on_attach,
+		capabilities = M.common_capabilities(),
+		filetypes = { "go", "gomod", "gowork", "gotmpl" },
+		settings = {
+			gopls = {
+				completeUnimported = true,
+				usePlaceholders = true,
+				analyses = {
+					unusedparams = true,
+					unreachable = false,
+				},
+			},
+		},
+	})
+	lspconfig.terraformls.setup({
+		on_attach = M.on_attach,
+		capabilities = M.common_capabilities(),
+		cmd = { "terraform-ls", "serve" },
+		root_dir = lspconfig.util.root_pattern(".terraform", ".git"),
+	})
 end
 
 return M

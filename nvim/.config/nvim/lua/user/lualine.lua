@@ -1,5 +1,6 @@
 local M = {
 	"nvim-lualine/lualine.nvim",
+	event = "BufWinEnter",
 	dependencies = {
 		"AndreM222/copilot-lualine",
 	},
@@ -8,9 +9,12 @@ local M = {
 function M.config()
 	require("lualine").setup({
 		options = {
-			theme = "tokyonight",
-			component_separators = { left = "", right = "" },
-			section_separators = { left = "", right = "" },
+			theme = "catppucin",
+			-- component_separators = { left = "", right = "" },
+			-- section_separators = { left = "", right = "" },
+			icons_enabled = true,
+			component_separators = "|",
+			section_separators = "",
 			ignore_focus = { "NvimTree" },
 		},
 		sections = {
@@ -23,8 +27,8 @@ function M.config()
 			},
 			lualine_y = { "progress" },
 			lualine_z = { "location" },
-    },
-			extensions = { "quickfix", "man", "fugitive" },
+		},
+		extensions = { "quickfix", "man", "fugitive" },
 	})
 end
 

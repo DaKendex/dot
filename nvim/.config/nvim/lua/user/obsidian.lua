@@ -1,6 +1,6 @@
 local M = {
 	"epwalsh/obsidian.nvim",
-	version = "*",
+	version = "v3.7.12",
 	lazy = true,
 	ft = "markdown",
 	dependencies = {
@@ -13,9 +13,14 @@ function M.config()
 		workspaces = {
 			{
 				name = "obsidian",
-				path = "~/repo/obsidian,",
+				path = "~/repo/obsidian",
 			},
 		},
+    templates = {
+      {
+        folder = "templates",
+      },
+    },
 		daily_notes = {
 			-- Optional, if you keep daily notes in a separate directory.
 			folder = "timestamps",
