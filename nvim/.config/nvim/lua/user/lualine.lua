@@ -9,7 +9,7 @@ local M = {
 function M.config()
 	require("lualine").setup({
 		options = {
-			theme = "catppucin",
+			-- theme = "catppuccin",
 			-- component_separators = { left = "", right = "" },
 			-- section_separators = { left = "", right = "" },
 			icons_enabled = true,

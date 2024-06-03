@@ -3,10 +3,12 @@ local M = {
 	event = "BufReadPre",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
+		--TODO: Add dependency
 	},
-	events = "BufReadPre",
 }
 
-function M.config() end
+function M.config()
+	require("todo-comments").setup()
+end
 
 return M

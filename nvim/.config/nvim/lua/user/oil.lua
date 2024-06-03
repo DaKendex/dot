@@ -12,7 +12,7 @@ function M.config()
 			max_width = 120,
 		},
 		keymaps = {
-			["<S-h>"] = "actiona.select_split",
+			["<S-h>"] = "actions.select_split",
 		},
 		view_options = {
 			show_hidden = true,

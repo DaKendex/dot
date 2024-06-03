@@ -1,6 +1,7 @@
 local M = {
 	-- "folke/tokyonight.nvim",
 	"catppuccin/nvim",
+	-- "Mofiqul/vscode.nvim",
 	as = "catppuccin",
 	lazy = false,
 	priority = 1000,
@@ -19,6 +20,7 @@ function M.config()
 	--   }
 	-- })
 	-- vim.cmd.colorscheme("tokyonight")
+
 	require("catppuccin").setup({
 		flavour = "macchiato",
 		styles = {
@@ -30,6 +32,9 @@ function M.config()
 		},
 	})
 	vim.cmd.colorscheme("catppuccin")
+
+	-- require("vscode").setup()
+	-- vim.cmd.colorscheme("vscode")
 end
 
 return M

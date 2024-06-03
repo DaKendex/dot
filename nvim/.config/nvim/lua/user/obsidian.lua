@@ -1,8 +1,10 @@
 local M = {
 	"epwalsh/obsidian.nvim",
 	version = "v3.7.12",
-	lazy = true,
-	ft = "markdown",
+  event = {
+    "BufReadPre " .. vim.fn.expand "~" .. "/repo/obsidian/**.md",
+    "BufNewFile " .. vim.fn.expand "~" .. "/repo/obsidian/**.md",
+  },
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 	},

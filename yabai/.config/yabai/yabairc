@@ -44,6 +44,9 @@ yabai -m config left_padding                 2
 yabai -m config right_padding                2
 yabai -m config window_gap                   8
 
+# sketchybar 
+yabai -m config external_bar all:40:0
+
 # float these windows with "word" in title
 yabai -m rule --add title=" Preferences$" sticky=on layer=above manage=off
 yabai -m rule --add title=" Settings$" sticky=on layer=above manage=off
