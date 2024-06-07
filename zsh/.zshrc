@@ -8,8 +8,9 @@ plug "hlissner/zsh-autopair"
 plug "MichaelAquilina/zsh-you-should-use"
 plug "zap-zsh/exa"
 plug "zsh-users/zsh-syntax-highlighting"
+plug "jeffreytse/zsh-vi-mode"
 # plug "chrishrb/zsh-kubectl"
-# plug "zsh-users/zsh-history-substring-search"
+plug "zsh-users/zsh-history-substring-search"
 # plug "softmoth/zsh-vim-mode"
 plug "$HOME/.env.zsh"
 # plug "$HOME/.cargo/env"
@@ -21,16 +22,42 @@ plug "$HOME/.config/zsh/aws.zsh"
 plug "$HOME/.config/zsh/options.zsh"
 plug "$HOME/.config/op/plugins.sh"
 
+# history
+HISTSIZE=110000
+SAVEHIST=100000
+HISTFILE=~/.histfile
+
 # Load and initialise completion system
 autoload -Uz compinit
 compinit
 export LC_ALL="en_US.UTF-8"
 export LC_CTYPE="en_US.UTF-8"
 
-# Use Starship Config
-eval "$(starship init zsh)"
+# Check that the function `starship_zle-keymap-select()` is defined.
+# xref: https://github.com/starship/starship/issues/3418
+type starship_zle-keymap-select >/dev/null || \
+  {
+    echo "Load starship"
+    eval "$($(brew --prefix)/bin/starship init zsh)"
+  }
+
+# zmodload zsh/terminfo
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
+# bindkey "$terminfo[kcuu1]" history-substring-search-up
+# bindkey "$terminfo[kcud1]" history-substring-search-down
+bindkey '^[[A' history-substring-search-up
+bindkey '^[OA' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+bindkey '^[OB' history-substring-search-down
+bindkey -M vicmd '^[[A' history-substring-search-up 
+bindkey -M vicmd '^[OA' history-substring-search-up 
+bindkey -M vicmd '^[[B' history-substring-search-down
+bindkey -M vicmd '^[OB' history-substring-search-down
+bindkey -M viins '^[[A' history-substring-search-up 
+bindkey -M viins '^[OA' history-substring-search-up 
+bindkey -M viins '^[[B' history-substring-search-down 
+bindkey -M viins '^[OB' history-substring-search-down
 bindkey -r '^X'
 
 autoload -U edit-command-line
