@@ -9,27 +9,28 @@ local M = {
 
 function M.config()
 	-- require("tokyonight").setup({
-	--   style = "storm",
-	--   transparent = true,
-	--   styles = {
-	--     comments = "italic",
-	--     -- functions = "italic",
-	--     -- keywords = "italic",
-	--     -- strings = "italic",
-	--     -- variables = "italic",
-	--   }
+	-- 	style = "storm",
+	-- 	transparent = true,
+	-- 	styles = {
+	-- 		comments = "italic",
+	-- 		-- functions = "italic",
+	-- 		-- keywords = "italic",
+	-- 		-- strings = "italic",
+	-- 		-- variables = "italic",
+	-- 	},
 	-- })
 	-- vim.cmd.colorscheme("tokyonight")
 
 	require("catppuccin").setup({
 		flavour = "macchiato",
 		styles = {
-			comments = { "italic" },
-			functions = { "italic" },
-			keywords = { "italic" },
-			strings = { "italic" },
-			variables = { "italic" },
+			-- comments = { "italic" },
+			-- functions = { "italic" },
+			-- keywords = { "italic" },
+			-- strings = { "italic" },
+			-- variables = { "italic" },
 		},
+		no_underline = true,
 	})
 	vim.cmd.colorscheme("catppuccin")
 
