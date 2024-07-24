@@ -61,6 +61,9 @@ bindkey -M viins '^[OB' history-substring-search-down
 bindkey -r '^X'
 
 autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '^xe' edit-command-line
+bindkey -M vicmd 'v' edit-command-line
 
 # Functions 
 sh_if_exists () {
@@ -98,11 +101,11 @@ fi
 eval "$(zoxide init zsh)"
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vi'
+else
+  export EDITOR='vi'
+fi
 if type rg &> /dev/null; then
   export FZF_DEFAULT_COMMAND='rg --files'
   export FZF_DEFAULT_OPTS='-m --height 50% --border'
