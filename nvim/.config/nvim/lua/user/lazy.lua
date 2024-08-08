@@ -15,7 +15,7 @@ require("lazy").setup({
 	spec = LAZY_PLUGIN_SPEC,
 	install = {
 		-- colorscheme = { "tokyonight", "default" },
-		colorscheme = { "catppuccin", "default" },
+		colorscheme = { "default" },
 	},
 	ui = {
 		border = "rounded",
