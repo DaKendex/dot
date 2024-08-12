@@ -20,15 +20,15 @@ tmux:
     insertions: " "
     deletions: " "
   styles:
-    state: "#[fg=red,nobold]"
-    branch: "#[fg=white,nobold]"
-    staged: "#[fg=green,nobold]"
-    conflict: "#[fg=red,nobold]"
-    modified: "#[fg=blue,nobold]"
-    untracked: "#[fg=gray,nobold]"
-    stashed: "#[fg=gray,nobold]"
-    clean: "#[fg=green,nobold]"
-    divergence: "#[fg=yellow,nobold]"
+    # state: "#[fg=red,nobold]"
+    # branch: "#[fg=white,nobold]"
+    # staged: "#[fg=green,nobold]"
+    # conflict: "#[fg=red,nobold]"
+    # modified: "#[fg=blue,nobold]"
+    # untracked: "#[fg=gray,nobold]"
+    # stashed: "#[fg=gray,nobold]"
+    # clean: "#[fg=green,nobold]"
+    # divergence: "#[fg=yellow,nobold]"
   layout: [stats, flags, divergence, branch]
   options:
     branch_max_len: 0

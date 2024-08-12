@@ -9,7 +9,7 @@ local config = {
 
 	-- This is where you actually apply your config choices
 	-- color_scheme = "Tokyo Night",
-	color_scheme = "Catppuccin Macchiato",
+	-- color_scheme = "Catppuccin Macchiato",
 	-- For example, changing the color scheme:
 	-- colors = {
 	-- 	foreground = "#CBE0F0",
@@ -28,8 +28,19 @@ local config = {
 
 	enable_tab_bar = false,
 
+	-- background = {
+	-- 	{
+	-- 		source = { File = { path = os.getenv("HOME") .. "/.config/wezterm/blob_blue.gif" } },
+	-- 		height = "Cover",
+	-- 		width = "Cover",
+	-- 		horizontal_align = "Center",
+	-- 		repeat_x = "Repeat",
+	-- 		repeat_y = "Repeat",
+	-- 		opacity = 1,
+	-- 	},
+	-- },
 	window_decorations = "RESIZE",
-	window_background_opacity = 0.95,
+	window_background_opacity = 0.8,
 	macos_window_background_blur = 8,
 	window_close_confirmation = "NeverPrompt",
 	keys = {
@@ -71,6 +82,7 @@ local config = {
 		k.cmd_to_tmux_prefix("G", "G"),
 		k.cmd_to_tmux_prefix("e", "%"),
 		k.cmd_to_tmux_prefix("E", '"'),
+		k.cmd_to_tmux_prefix("c", "c"),
 		k.cmd_to_tmux_prefix("x", "x"),
 		k.cmd_key(
 			"s",
