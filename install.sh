@@ -16,6 +16,8 @@ defaults write com.apple.dock autohide-delay -float 0; defaults write com.apple.
 # Disable creation of .DS_Store files on network volumes
 defaults write com.apple.desktopservices DSDontWriteNetworkStores true
 
+# Aerospace
+defaults write com.apple.dock "expose-group-apps" -bool "true" && killall Dock
 
 # Link dotfiles
 stow -t $HOME zsh
