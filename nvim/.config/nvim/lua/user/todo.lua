@@ -9,6 +9,7 @@ local M = {
 
 function M.config()
 	require("todo-comments").setup()
+	vim.keymap.set("n", "<leader>td", "<cmd>TodoTelescope<CR>", { silent = true, noremap = true })
 end
 
 return M
