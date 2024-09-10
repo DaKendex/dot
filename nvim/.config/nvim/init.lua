@@ -5,8 +5,8 @@ require("user.autocmds")
 require("user.format_on_save")
 -- require("user.commands")
 -- spec "user.copilot-status"
--- spec "user.diffview"
--- spec "user.illuminate"
+spec("user.diffview")
+spec("user.illuminate")
 -- spec "user.rest"
 -- spec("user.gopher")
 
