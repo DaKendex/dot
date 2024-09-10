@@ -1,12 +1,12 @@
 local M = {
 	"nvim-telescope/telescope.nvim",
-  tag = '0.1.6',
+	-- tag = '0.1.6',
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		"nvim-tree/nvim-web-devicons",
 		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make", lazy = true },
 	},
-  cmd = "Telescope",
+	cmd = "Telescope",
 }
 
 function M.config()
@@ -32,14 +32,14 @@ function M.config()
 		local word = vim.fn.expand("<cword>")
 		builtin.grep_string({ search = word })
 	end)
-  vim.keymap.set("n", "<leader>ps", function()
-    builtin.grep_string({ search = vim.fn.input("Grep for > ") })
-  end)
+	vim.keymap.set("n", "<leader>ps", function()
+		builtin.grep_string({ search = vim.fn.input("Grep for > ") })
+	end)
 
 	require("telescope").setup({
 
 		defaults = {
-      file_ignore_patterns = { ".git/", ".terraform/" },
+			file_ignore_patterns = { ".git/", ".terraform/" },
 			prompt_prefix = icons.ui.Telescope .. " ",
 			selection_caret = icons.ui.Forward .. " ",
 			entry_prefix = "   ",
@@ -142,11 +142,11 @@ function M.config()
 			},
 		},
 	})
-  require("telescope").load_extension("fzf")
-  require("telescope").load_extension("harpoon")
-  -- require("telescope").load_extension("live_grep_args")
-  -- require("telescope").load_extension("smart_goto")
-  -- require("telescope").load_extension("smart_open")
+	require("telescope").load_extension("fzf")
+	require("telescope").load_extension("harpoon")
+	-- require("telescope").load_extension("live_grep_args")
+	-- require("telescope").load_extension("smart_goto")
+	-- require("telescope").load_extension("smart_open")
 end
 
 return M
