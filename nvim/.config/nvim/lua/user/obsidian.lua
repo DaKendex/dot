@@ -34,7 +34,7 @@ function M.config()
 			template = "templates/daily.md",
 		},
 		ui = {
-			enabled = true,
+			enabled = false,
 		},
 	})
 end

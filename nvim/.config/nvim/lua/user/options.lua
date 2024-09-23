@@ -1,5 +1,4 @@
 local opt = vim.opt -- for conciseness
-
 vim.cmd("let g:netrw_liststyle = 3")
 opt.cmdheight = 0 -- height of command line
 
