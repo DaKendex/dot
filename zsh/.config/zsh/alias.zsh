@@ -16,11 +16,25 @@ alias idgaf="git commit -m $(curl -s https://whatthecommit.com/index.txt)"
 alias vi="nvim"
 
 alias k="kubectl"
+alias kg="kubectl get"
+alias kd="kubectl describe"
 # alias kns="kubectl config set-context --current --namespace "
 # alias kctx="kubectl config use-context "
 alias kctx="kubectx"
 alias kns="kubens"
 
+wta() {
+  local branch=$1
+  local current_dir=$(pwd)
+  local worktree_path=".wt/$branch"
+
+  [ ! -d ".wt" ] && mkdir .wt
+  # Create the worktree
+  git worktree add $worktree_path
+
+  # Change to the new worktree directory
+  cd $worktree_path && cd $current_dir
+}
 
 # ls to exa
 # alias l='exa -lah --color=auto --icons'

@@ -34,7 +34,7 @@ ecr-login() {
     return 1
   fi
 
-  if [ "$FEDERAL" = true ]; then
+  if [ "$AWS_FEDERAL" = true ]; then
     endpoint_suffix="dkr.ecr-fips"
   else
     endpoint_suffix="dkr.ecr"

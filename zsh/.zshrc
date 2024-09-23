@@ -111,6 +111,8 @@ if type rg &> /dev/null; then
   export FZF_DEFAULT_OPTS='-m --height 50% --border'
 fi
 
+source <(fzf --zsh)
+
 # # YubiKey - Disable OTP
 # # https://support.yubico.com/hc/en-us/articles/360013714379-Accidentally-Triggering-OTP-Codes-with-Your-Nano-YubiKey
 # if ! [[ $(which ykman) ]]; then
