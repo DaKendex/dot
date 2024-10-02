@@ -14,6 +14,7 @@ alias gla="git log --oneline"
 alias trigger="git commit --allow-empty -m 'trigger'"
 alias idgaf="git commit -m $(curl -s https://whatthecommit.com/index.txt)"
 alias vi="nvim"
+alias history="history 1 | fzf"
 
 alias k="kubectl"
 alias kg="kubectl get"
