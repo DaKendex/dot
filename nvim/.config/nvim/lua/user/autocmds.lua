@@ -18,21 +18,37 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 		"lir",
 		"DressingSelect",
 		"tsplayground",
-		"",
 	},
 	callback = function()
 		vim.cmd([[
-      nnoremap <silent> <buffer> q :close<CR>
-      set nobuflisted
-    ]])
+	     nnoremap <silent> <buffer> q :close<CR>
+	     set nobuflisted
+	   ]])
 	end,
 })
 
-vim.api.nvim_create_autocmd({ "CmdWinEnter" }, {
-	callback = function()
-		vim.cmd("quit")
+-- Workaround to use macros with cmdheight 0
+vim.api.nvim_create_autocmd("RecordingEnter", {
+	callback = function(ctx)
+		vim.opt.cmdheight = 1
+		local msg = string.format("Key:  %s\nFile: %s", vim.fn.reg_recording(), ctx.file)
+		vim.notify(msg, vim.log.levels.INFO, {
+			title = "Macro Recording",
+		})
 	end,
 })
+
+vim.api.nvim_create_autocmd("RecordingLeave", {
+	callback = function()
+		vim.opt.cmdheight = 0
+	end,
+})
+
+-- vim.api.nvim_create_autocmd({ "CmdWinEnter" }, {
+-- 	callback = function()
+-- 		vim.cmd("quit")
+-- 	end,
+-- })
 
 vim.api.nvim_create_autocmd({ "VimResized" }, {
 	callback = function()
@@ -74,3 +90,7 @@ vim.api.nvim_create_autocmd({ "CursorHold" }, {
 		end
 	end,
 })
+
+-- vim.cmd([[
+--   nnoremap q q
+-- ]])

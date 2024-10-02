@@ -21,6 +21,8 @@ function M.config()
 			formatting.goimports_reviser,
 			formatting.golines,
 			formatting.gofumpt,
+			-- formatting.terrafom_fmt,
+			-- formatting.terraformer_validate,
 			-- formatting.prettier.with {
 			--   extra_filetypes = { "toml" },
 			--   -- extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote" },

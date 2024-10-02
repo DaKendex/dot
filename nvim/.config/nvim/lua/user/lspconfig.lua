@@ -8,6 +8,8 @@ local M = {
 	},
 }
 
+vim.lsp.set_log_level("off")
+
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 local function lsp_keymaps(bufnr)
 	local opts = { noremap = true, silent = true }
@@ -83,7 +85,6 @@ function M.config()
 		"html",
 		"tsserver",
 		"eslint",
-		"tsserver",
 		"pyright",
 		"bashls",
 		"jsonls",
@@ -120,7 +121,7 @@ function M.config()
 	vim.diagnostic.config(default_diagnostic_config)
 
 	for _, sign in ipairs(vim.tbl_get(vim.diagnostic.config(), "signs", "values") or {}) do
-		vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
+		-- vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
 	end
 
 	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
@@ -168,6 +169,22 @@ function M.config()
 		cmd = { "terraform-ls", "serve" },
 		root_dir = lspconfig.util.root_pattern(".terraform", ".git"),
 	})
+	-- lspconfig.yamlls.setup({
+	-- 	on_attach = M.on_attach,
+	-- 	capabilities = M.common_capabilities(),
+	-- 	settings = {
+	-- 		yaml = {
+	-- 			schemas = {
+	-- 				kubernetes = "/*.yaml",
+	-- 				["http://json.schemastore.org/github-workflow"] = ".github/workflows/*",
+	-- 				["http://json.schemastore.org/github-action"] = {
+	-- 					".github/action.{yml,yaml}",
+	-- 					"**/action.{yml,yaml}",
+	-- 				},
+	-- 			},
+	-- 		},
+	-- 	},
+	-- })
 end
 
 return M
