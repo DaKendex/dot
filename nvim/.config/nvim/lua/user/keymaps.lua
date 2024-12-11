@@ -47,3 +47,10 @@ set("n", "<M-n>", "<c-w>5>")
 set("n", "<M-.>", "<c-w>5<")
 set("n", "<M-m>", "<C-W>+")
 set("n", "<M-,>", "<C-W>-")
+
+-- Copy file path / filepath to the clipboard
+set("n", "<leader>fp", function()
+	local filePath = vim.fn.expand("%:~") -- Gets the file path relative to the home directory
+	vim.fn.setreg("+", filePath) -- Copy the file path to the clipboard register
+	print("File path copied to clipboard: " .. filePath) -- Optional: print message to confirm
+end, { desc = "[P]Copy file path to clipboard" })

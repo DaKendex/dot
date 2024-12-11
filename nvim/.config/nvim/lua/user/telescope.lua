@@ -15,9 +15,9 @@ function M.config()
 		["<leader>bb"] = { "<cmd>Telescope buffers previewer=false<cr>", "Find" },
 		["<leader>fb"] = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
 		["<leader>fc"] = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },
-		["<leader>ff"] = { "<cmd>Telescope find_files<cr>", "Find files" },
-		["<leader>fp"] = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
-		["<leader>ft"] = { "<cmd>Telescope live_grep<cr>", "Find Text" },
+		-- ["<leader>ff"] = { "<cmd>Telescope find_files<cr>", "Find files" },
+		-- ["<leader>fp"] = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
+		-- ["<leader>ft"] = { "<cmd>Telescope live_grep<cr>", "Find Text" },
 		["<leader>fh"] = { "<cmd>Telescope help_tags<cr>", "Help" },
 		["<leader>fl"] = { "<cmd>Telescope resume<cr>", "Last Search" },
 		["<leader>fr"] = { "<cmd>Telescope oldfiles<cr>", "Recent File" },
@@ -27,7 +27,25 @@ function M.config()
 	local actions = require("telescope.actions")
 
 	local builtin = require("telescope.builtin")
+
 	vim.keymap.set("n", "<C-p>", builtin.git_files, { desc = "Find files" })
+  -- find files in the current directory
+	vim.keymap.set("n", "<leader>ff", function()
+		builtin.find_files({ cwd = vim.fn.expand("%:p:h") })
+	end)
+  -- find files in the root directory
+	vim.keymap.set("n", "<leader>fF", function()
+		builtin.find_files({})
+	end)
+  -- grep in the current directory
+	vim.keymap.set("n", "<leader>ft", function()
+		builtin.live_grep({ cwd = vim.fn.expand("%:p:h") })
+	end)
+  -- grep in the root directory
+	vim.keymap.set("n", "<leader>fT", function()
+		builtin.live_grep({})
+	end)
+
 	vim.keymap.set("n", "<leader>pws", function()
 		local word = vim.fn.expand("<cword>")
 		builtin.grep_string({ search = word })
