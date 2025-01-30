@@ -1,0 +1,52 @@
+# gui:
+  # border: hidden
+  # theme:
+  #   activeBorderColor:
+  #     - blue
+  #     - bold
+  #   inactiveBorderColor:
+  #     - cyan
+  #   optionsTextColor:
+  #     - white
+  #   selectedLineBgColor:
+  #     - black
+  #   cherryPickedCommitBgColor:
+  #     - blue
+  #   cherryPickedCommitFgColor:
+  #     - cyan
+  #   unstagedChangesColor:
+  #     - white
+# to skip without creating a new repo
+# git:
+#   paging:
+#     colorArg: always
+#     pager: delta --paging=never
+#     useConfig: false
+customCommands:
+  - key: "o"
+    command: "sesh connect '{{.SelectedWorktree.Path}}'"
+    context: "worktrees"
+    description: "Open with sesh"
+  - key: "f"
+    command: "git difftool -y {{.SelectedLocalCommit.Sha}} -- {{.SelectedCommitFile.Name}}"
+    context: "commitFiles"
+    description: "Compare (difftool) with local copy"
+  - key: "s"
+    command: "sesh connect '{{.SelectedWorktree.Path}}'"
+    context: "worktrees"
+    description: "Connect to session"
+  - key: "O"
+    command: "nvim -c ':Octo pr create'"
+    context: "localBranches"
+    loadingText: "Loading Octo"
+    description: "Open pull request with Octo"
+    subprocess: true
+  - key: "E"
+    context: "files"
+    command: "gitmoji -c"
+    loadingText: "Loading gitmoji"
+    subprocess: true
+keybinding:
+  branches:
+    createPullRequest: "O"
+    viewPullRequestOptions: "o"
