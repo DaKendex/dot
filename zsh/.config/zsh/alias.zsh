@@ -11,9 +11,11 @@ alias goland="/usr/local/bin/goland"
 alias gproject="gcloud config set project"
 alias glist="gcloud compute instances list"
 alias gla="git log --oneline"
+alias glp='git log --pretty=format:"%C(yellow)%h%Creset - %C(green)%an%Creset, %ar : %s"'
 alias trigger="git commit --allow-empty -m 'trigger'"
 alias idgaf="git commit -m $(curl -s https://whatthecommit.com/index.txt)"
 alias vi="nvim"
+alias vid="NVIM_APPNAME=nvim-dev nvim"
 alias history="history 1 | fzf"
 
 alias k="kubectl"
