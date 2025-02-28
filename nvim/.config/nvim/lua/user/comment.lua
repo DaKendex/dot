@@ -11,15 +11,6 @@ local M = {
 }
 
 function M.config()
-	local wk = require("which-key")
-	wk.register({
-		["<leader>/"] = { "<Plug>(comment_toggle_linewise_current)", "Comment" },
-	})
-
-	wk.register({
-		["<leader>/"] = { "<Plug>(comment_toggle_linewise_visual)", "Comment", mode = "v" },
-	})
-
 	vim.g.skip_ts_context_commentstring_module = true
 	---@diagnostic disable: missing-fields
 	require("ts_context_commentstring").setup({
@@ -31,4 +22,6 @@ function M.config()
 	})
 end
 
+vim.keymap.set({ "n" }, "<leader>/", "<Plug>(comment_toggle_linewise_current)", { desc = "Comment" })
+vim.keymap.set({ "v" }, "<leader>/", "<Plug>(comment_toggle_linewise_visual)", { desc = "Comment" })
 return M

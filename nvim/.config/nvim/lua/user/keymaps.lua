@@ -6,6 +6,7 @@ local set = vim.keymap.set -- for conciseness
 ---------------------
 -- General  -------------------
 
+set("n", "<leader>nh", "<cmd>nohlsearch<CR>", { desc = "NOHL" }) -- clear search highlights
 -- use jk to exit insert mode
 set("i", "kj", "<ESC>", { desc = "Exit insert mode with jk" })
 

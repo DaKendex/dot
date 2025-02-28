@@ -6,25 +6,36 @@ local M = {
 M.config = function()
 	-- local icons = require "user.icons"
 
-	local wk = require("which-key")
-	wk.register({
-		["gj"] = { "<cmd>lua require 'gitsigns'.next_hunk({navigation_message = false})<cr>zz", "Next Hunk" },
-		["gk"] = { "<cmd>lua require 'gitsigns'.prev_hunk({navigation_message = false})<cr>zz", "Prev Hunk" },
-		["hp"] = { "<cmd>lua require 'gitsigns'.preview_hunk()<cr>", "Preview Hunk" },
-		["hr"] = { "<cmd>lua require 'gitsigns'.reset_hunk()<cr>", "Reset Hunk" },
-		["<leader>gl"] = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
-		["<leader>gR"] = { "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", "Reset Buffer" },
-		["hs"] = { "<cmd>lua require 'gitsigns'.stage_hunk()<cr>", "Stage Hunk" },
-		["hu"] = {
-			"<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>",
-			"Undo Stage Hunk",
-		},
-		["<leader>gd"] = {
-			"<cmd>Gitsigns diffthis HEAD<cr>",
-			"Git Diff",
-		},
-	})
-	vim.keymap.set({ "n", "v" }, "<leader>hs", ":Gitsigns stage_hunk<CR>")
+	vim.keymap.set(
+		{ "n", "v" },
+		"gj",
+		"<cmd>lua require 'gitsigns'.next_hunk({navigation_message = false})<cr>zz",
+		{ desc = "Next Hunk" }
+	)
+	vim.keymap.set(
+		{ "n", "v" },
+		"gk",
+		"<cmd>lua require 'gitsigns'.prev_hunk({navigation_message = false})<cr>zz",
+		{ desc = "Prev Hunk" }
+	)
+	vim.keymap.set({ "n", "v" }, "hp", "<cmd>lua require 'gitsigns'.preview_hunk()<cr>", { desc = "Preview Hunk" })
+	vim.keymap.set({ "n", "v" }, "hr", "<cmd>lua require 'gitsigns'.reset_hunk()<cr>", { desc = "Reset Hunk" })
+	vim.keymap.set({ "n", "v" }, "hs", ":Gitsigns stage_hunk<CR>", { desc = "Stage Hunk" })
+	vim.keymap.set({ "n", "v" }, "<leader>gl", ":Gitsigns blame_line<CR>", { desc = "Blame" })
+	vim.keymap.set(
+		{ "n", "v" },
+		"<leader>gR",
+		"<cmd>lua require 'gitsigns'.reset_buffer()<cr>",
+		{ desc = "Reset Buffer" }
+	)
+	vim.keymap.set(
+		{ "n", "v" },
+		"hu",
+		"<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>",
+		{ desc = "Undo Stage Hunk" }
+	)
+	vim.keymap.set({ "n", "v" }, "<leader>gd", "<cmd>Gitsigns diffthis HEAD<cr>", { desc = "Git Diff" })
+
 	require("gitsigns").setup({
 		signs = {
 			add = { text = "+" },

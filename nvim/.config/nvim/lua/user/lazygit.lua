@@ -1,17 +1,10 @@
 local M = {
-  "kdheepak/lazygit.nvim",
-  event = "VeryLazy",
-  dependencies = {
-    "nvim-lua/plenary.nvim",
-  }
+	"kdheepak/lazygit.nvim",
+	event = "VeryLazy",
+	dependencies = {
+		"nvim-lua/plenary.nvim",
+	},
 }
 
-function M.config()
-  local icons = require "user.icons"
-  local wk = require "which-key"
-  wk.register {
-    ["<leader>gg"] = { "<cmd>LazyGit<CR>", "LazyGit"},
-  }
-end
-
+vim.keymap.set({ "n", "v" }, "<leader>gg", "<cmd>LazyGit<CR>", { desc = "LazyGit" })
 return M

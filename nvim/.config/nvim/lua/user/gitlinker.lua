@@ -1,7 +1,7 @@
 local M = {
-  "linrongbin16/gitlinker.nvim",
-  dependencies = { { "nvim-lua/plenary.nvim" } },
-  event = "VeryLazy",
+	"linrongbin16/gitlinker.nvim",
+	dependencies = { { "nvim-lua/plenary.nvim" } },
+	event = "VeryLazy",
 }
 -- GitLink: generate git link and copy to clipboard.
 -- GitLink!: generate git link and open in browser.
@@ -9,20 +9,14 @@ local M = {
 -- GitLink! blame: generate the /blame url and open in browser.
 
 function M.config()
-  local wk = require "which-key"
-  wk.register {
-    ["<leader>gy"] = { "<cmd>GitLink<cr>", "Git link" },
-    ["<leader>gY"] = { "<cmd>GitLink!<cr>", "Open link" },
-    ["<leader>gb"] = { "<cmd>GitLink blame<cr>", "Git link blame" },
-    ["<leader>gL"] = { "<cmd>GitLink! blame<cr>", "Open Git blame link" },
-  }
+	vim.keymap.set({ "n", "v" }, "<leader>gy", "<cmd>GitLink<cr>", { desc = "Git link" })
+	vim.keymap.set({ "n", "v" }, "<leader>gY", "<cmd>GitLink!<cr>", { desc = "Open link" })
+	vim.keymap.set({ "n", "v" }, "<leader>gb", "<cmd>GitLink blame<cr>", { desc = "Git link blame" })
+	vim.keymap.set({ "n", "v" }, "<leader>gL", "<cmd>GitLink! blame<cr>", { desc = "Open Git blame link" })
 
-  require("gitlinker").setup {
-    console_log = true,
-  --   callbacks = {
-  --     ["git.cioxhealth.com"] = require"gitlinker.hosts".get_gitlab_type_url
-  --   }
-  }
+	require("gitlinker").setup({
+		console_log = true,
+	})
 end
 
 return M
