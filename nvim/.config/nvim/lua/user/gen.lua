@@ -1,11 +1,11 @@
 local M = {
 	"David-Kunz/gen.nvim",
-  event = "BufReadPre",
+	event = "BufReadPre",
 }
 
 function M.config()
 	require("gen").setup({
-		model = "codellama",
+		model = "incept5/llama3.1-claude",
 		display_mode = "float",
 	})
 	require("gen").prompts["Elaborate_Text"] = {
