@@ -34,11 +34,17 @@ function M.config()
 			:find()
 	end
 
-  -- With Telescope
-	vim.keymap.set("n", "<c-e>", function() toggle_telescope(harpoon:list()) end, { desc = "Open harpoon window" })
+	-- With Telescope
+	keymap("n", "<c-e>", function()
+		toggle_telescope(harpoon:list())
+	end, { desc = "Open harpoon window" })
 
-	keymap("n", "<s-m>", function() harpoon:list():add() end, opts)
-	keymap("n", "<TAB>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, opts)
+	keymap("n", "<s-m>", function()
+		harpoon:list():add()
+	end, opts)
+	keymap("n", "<TAB>", function()
+		harpoon.ui:toggle_quick_menu(harpoon:list())
+	end, opts)
 end
 
 function M.mark_file()

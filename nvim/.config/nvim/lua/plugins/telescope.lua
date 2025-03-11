@@ -16,25 +16,25 @@ function M.config()
 	local builtin = require("telescope.builtin")
 
 	vim.keymap.set("n", "<C-p>", builtin.git_files, { desc = "Find files" }) -- find files in the current directory
-	vim.keymap.set("n", "<leader>ff", function()                             -- find files in the root directory
+	vim.keymap.set("n", "<leader>ff", function() -- find files in the root directory
 		builtin.find_files({ cwd = vim.fn.expand("%:p:h") })
-	end)
-	vim.keymap.set("n", "<leader>fF", function()                             -- grep in the current directory
+	end, { desc = "Find files" })
+	vim.keymap.set("n", "<leader>fF", function() -- grep in the current directory
 		builtin.find_files({})
-	end)
-	vim.keymap.set("n", "<leader>ft", function()                             -- grep in the root directory
+	end, { desc = "Find files in Root Dir" })
+	vim.keymap.set("n", "<leader>ft", function() -- grep in the root directory
 		builtin.live_grep({ cwd = vim.fn.expand("%:p:h") })
-	end)
-		vim.keymap.set("n", "<leader>fT", function()
+	end, { desc = "Live Grep" })
+	vim.keymap.set("n", "<leader>fT", function()
 		builtin.live_grep({})
-	end)
+	end, { desc = "Live Grep in Root Dir" })
 	vim.keymap.set("n", "<leader>pws", function()
 		local word = vim.fn.expand("<cword>")
 		builtin.grep_string({ search = word })
-	end)
+	end, { desc = "Grep Word" })
 	vim.keymap.set("n", "<leader>ps", function()
 		builtin.grep_string({ search = vim.fn.input("Grep for > ") })
-	end)
+	end, { desc = "Grep" })
 	vim.keymap.set("n", "<leader>fh", function()
 		builtin.help_tags({})
 	end, { desc = "Help" })
@@ -86,15 +86,15 @@ function M.config()
 		},
 		pickers = {
 			live_grep = {
-				theme = "dropdown",
+				theme = "ivy",
 			},
 
 			grep_string = {
-				theme = "dropdown",
+				theme = "ivy",
 			},
 
 			find_files = {
-				theme = "dropdown",
+				theme = "ivy",
 				previewer = true,
 				hidden = true,
 			},

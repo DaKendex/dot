@@ -46,12 +46,6 @@ function M.config()
 				g = true,
 			},
 		},
-		window = {
-			border = "rounded",
-			position = "bottom",
-			padding = { 2, 2, 2, 2 },
-		},
-		ignore_missing = true,
 		show_help = true,
 		show_keys = false,
 		disable = {

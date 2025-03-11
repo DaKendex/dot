@@ -4,6 +4,7 @@ local M = {
 	dependencies = {
 		{
 			"folke/neodev.nvim",
+			-- "saghen/blink.cmp",
 		},
 	},
 }
@@ -24,9 +25,9 @@ end
 
 M.on_attach = function(client, bufnr)
 	lsp_keymaps(bufnr)
-	-- if client.supports_method("textDocument/inlayHint") then
-	-- 	vim.lsp.inlay_hint.enable(true)
-	-- end
+	if client.supports_method("textDocument/inlayHint") then
+		vim.lsp.inlay_hint.enable(true)
+	end
 	if client.supports_method("textDocument/formatting") then
 		vim.api.nvim_clear_autocmds({
 			group = augroup,
@@ -43,6 +44,7 @@ end
 
 function M.common_capabilities()
 	local capabilities = vim.lsp.protocol.make_client_capabilities()
+	-- local capabilities = require("blink.cmp").get_lsp_capabilities()
 	capabilities.textDocument.completion.completionItem.snippetSupport = true
 	return capabilities
 end
@@ -65,7 +67,7 @@ function M.config()
 	vim.keymap.set(
 		{ "n", "v" },
 		"<leader>lh",
-		"<cmd>lua require('user.lspconfig').toggle_inlay_hints()<cr>",
+		"<cmd>lua require('config.lspconfig').toggle_inlay_hints()<cr>",
 		{ desc = "Hints" }
 	)
 	vim.keymap.set({ "n", "v" }, "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev()<cr>", { desc = "Prev Diagnostic" })
@@ -91,16 +93,20 @@ function M.config()
 	}
 
 	local default_diagnostic_config = {
-		signs = {
-			active = true,
-			values = {
-				{ name = "DiagnosticSignError", text = icons.diagnostics.Error },
-				{ name = "DiagnosticSignWarn", text = icons.diagnostics.Warning },
-				{ name = "DiagnosticSignHint", text = icons.diagnostics.Hint },
-				{ name = "DiagnosticSignInfo", text = icons.diagnostics.Information },
-			},
+		signs = { text = { ERROR = "", WARN = "", INFO = "", HINT = "" } },
+		virtual_text = {
+			virt_text_pos = "eol",
+			prefix = "",
+			format = function(diagnostic)
+				local lspicons = {
+					[vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
+					[vim.diagnostic.severity.WARN] = icons.diagnostics.Warning,
+					[vim.diagnostic.severity.INFO] = icons.diagnostics.Information,
+					[vim.diagnostic.severity.HINT] = icons.diagnostics.Hint,
+				}
+				return string.format("%s %s", lspicons[diagnostic.severity], diagnostic.message)
+			end,
 		},
-		virtual_text = false,
 		update_in_insert = false,
 		underline = false,
 		severity_sort = true,
@@ -112,18 +118,14 @@ function M.config()
 			header = "",
 			prefix = "",
 		},
+		ui = {
+			windows = {
+				border = "rounded",
+			},
+		},
 	}
 
 	vim.diagnostic.config(default_diagnostic_config)
-
-	for _, sign in ipairs(vim.tbl_get(vim.diagnostic.config(), "signs", "values") or {}) do
-		-- vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
-	end
-
-	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-	vim.lsp.handlers["textDocument/signatureHelp"] =
-		vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
-	require("lspconfig.ui.windows").default_options.border = "rounded"
 
 	for _, server in pairs(servers) do
 		local opts = {
@@ -165,22 +167,6 @@ function M.config()
 		cmd = { "terraform-ls", "serve" },
 		root_dir = lspconfig.util.root_pattern(".terraform", ".git"),
 	})
-	-- lspconfig.yamlls.setup({
-	-- 	on_attach = M.on_attach,
-	-- 	capabilities = M.common_capabilities(),
-	-- 	settings = {
-	-- 		yaml = {
-	-- 			schemas = {
-	-- 				kubernetes = "/*.yaml",
-	-- 				["http://json.schemastore.org/github-workflow"] = ".github/workflows/*",
-	-- 				["http://json.schemastore.org/github-action"] = {
-	-- 					".github/action.{yml,yaml}",
-	-- 					"**/action.{yml,yaml}",
-	-- 				},
-	-- 			},
-	-- 		},
-	-- 	},
-	-- })
 end
 
 return M

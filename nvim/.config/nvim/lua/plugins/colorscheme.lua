@@ -23,7 +23,7 @@ function M.config()
 
 	require("catppuccin").setup({
 		flavour = "macchiato",
-    transparent_background = true,
+		transparent_background = true,
 		styles = {
 			-- comments = { "italic" },
 			-- functions = { "italic" },
@@ -32,9 +32,24 @@ function M.config()
 			-- variables = { "italic" },
 		},
 		no_underline = true,
-    integrations = {
-      harpoon = true,
-    }
+		integrations = {
+			harpoon = true,
+			cmp = true,
+			gitsigns = true,
+			telescope = true,
+			which_key = true,
+			neogit = true,
+			mason = true,
+			native_lsp = {
+				enabled = true,
+				virtual_text = {
+					errors = { "italic" },
+					hints = { "italic" },
+					warnings = { "italic" },
+					information = { "italic" },
+				},
+			},
+		},
 	})
 	vim.cmd.colorscheme("catppuccin")
 

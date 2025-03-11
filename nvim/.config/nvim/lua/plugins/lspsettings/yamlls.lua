@@ -1,7 +1,7 @@
 return {
   settings = {
     yaml = {
-      schemas = require("schemastore").yaml.schemas(),
+      schemas = require("plugins.schemastore").yaml.schemas(),
     },
   },
   setup = {
