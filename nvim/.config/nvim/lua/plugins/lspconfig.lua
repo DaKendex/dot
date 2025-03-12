@@ -67,7 +67,7 @@ function M.config()
 	vim.keymap.set(
 		{ "n", "v" },
 		"<leader>lh",
-		"<cmd>lua require('config.lspconfig').toggle_inlay_hints()<cr>",
+		"<cmd>lua require('lspconfig').toggle_inlay_hints()<cr>",
 		{ desc = "Hints" }
 	)
 	vim.keymap.set({ "n", "v" }, "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev()<cr>", { desc = "Prev Diagnostic" })

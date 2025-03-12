@@ -21,15 +21,7 @@ local M = {
 -- })
 
 function M.config()
-	require("go").setup({
-		diagnostic = {
-			hdlr = false,
-			underline = true,
-			virtual_text = { spacing = 0, prefix = "■" },
-			update_in_insert = false,
-			signs = true, -- use a table to configure the signs texts
-		},
-	})
+	require("go").setup({})
 end
 
 return M

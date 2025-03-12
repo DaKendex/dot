@@ -1,9 +1,6 @@
 local M = {
 	"echasnovski/mini.nvim",
-	event = {
-		"BufRead",
-		"BufNewFile",
-	},
+	event = "VeryLazy",
 	version = false,
 }
 

@@ -1,6 +1,6 @@
 local M = {
 	"HiPhish/rainbow-delimiters.nvim",
-	event = "BufRead",
+	event = "VeryLazy",
 }
 
 function M.config()
