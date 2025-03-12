@@ -1,172 +1,161 @@
 local M = {
-	"neovim/nvim-lspconfig",
-	event = { "BufReadPre", "BufNewFile" },
-	dependencies = {
-		{
-			"folke/neodev.nvim",
-			-- "saghen/blink.cmp",
-		},
-	},
+  "neovim/nvim-lspconfig",
+  event = { "BufReadPre", "BufNewFile" },
+  dependencies = {
+    {
+      {
+        "folke/lazydev.nvim",
+        ft = "lua", -- only load on lua files
+        opts = {
+          library = {
+            -- See the configuration section for more details
+            -- Load luvit types when the `vim.uv` word is found
+            { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+          },
+        },
+      },
+      { "j-hui/fidget.nvim" },
+      -- "saghen/blink.cmp",
+    },
+  },
 }
 
 vim.lsp.set_log_level("off")
 
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 local function lsp_keymaps(bufnr)
-	local opts = { noremap = true, silent = true }
-	local keymap = vim.api.nvim_buf_set_keymap
-	keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-	keymap(bufnr, "n", "gd", "<cmd>lua require('telescope.builtin').lsp_definitions()<CR>zz", opts)
-	keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-	keymap(bufnr, "n", "gI", "<cmd>lua require('telescope.builtin').lsp_implementations()<CR>", opts)
-	keymap(bufnr, "n", "gr", "<cmd>lua require('telescope.builtin').lsp_references()<CR>", opts)
-	keymap(bufnr, "n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
+  local opts = { noremap = true, silent = true }
+  local keymap = vim.api.nvim_buf_set_keymap
+  keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+  keymap(bufnr, "n", "gd", "<cmd>lua require('telescope.builtin').lsp_definitions()<CR>zz", opts)
+  keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+  keymap(bufnr, "n", "gI", "<cmd>lua require('telescope.builtin').lsp_implementations()<CR>", opts)
+  keymap(bufnr, "n", "gr", "<cmd>lua require('telescope.builtin').lsp_references()<CR>", opts)
+  keymap(bufnr, "n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 end
 
 M.on_attach = function(client, bufnr)
-	lsp_keymaps(bufnr)
-	if client.supports_method("textDocument/inlayHint") then
-		vim.lsp.inlay_hint.enable(true)
-	end
-	if client.supports_method("textDocument/formatting") then
-		vim.api.nvim_clear_autocmds({
-			group = augroup,
-		})
-		vim.api.nvim_create_autocmd("BufWritePre", {
-			group = augroup,
-			buffer = bufnr,
-			callback = function()
-				vim.lsp.buf.format({ bufnr = bufnr })
-			end,
-		})
-	end
+  lsp_keymaps(bufnr)
+  if client.supports_method("textDocument/inlayHint") then
+    vim.lsp.inlay_hint.enable(true)
+  end
+  if client.supports_method("textDocument/formatting") then
+    vim.api.nvim_clear_autocmds({
+      group = augroup,
+    })
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      group = augroup,
+      buffer = bufnr,
+      callback = function()
+        vim.lsp.buf.format({ bufnr = bufnr })
+      end,
+    })
+  end
 end
 
 function M.common_capabilities()
-	local capabilities = vim.lsp.protocol.make_client_capabilities()
-	-- local capabilities = require("blink.cmp").get_lsp_capabilities()
-	capabilities.textDocument.completion.completionItem.snippetSupport = true
-	return capabilities
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  -- local capabilities = require("blink.cmp").get_lsp_capabilities()
+  capabilities.textDocument.completion.completionItem.snippetSupport = true
+  return capabilities
 end
 
 M.toggle_inlay_hints = function()
-	local bufnr = vim.api.nvim_get_current_buf()
-	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr }))
+  local bufnr = vim.api.nvim_get_current_buf()
+  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr }))
 end
 
 function M.config()
-	vim.keymap.set({ "n", "v" }, "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", { desc = "Code Action" })
-	vim.keymap.set(
-		{ "n", "v" },
-		"<leader>lf",
-		"<cmd>lua vim.lsp.buf.format({async = true, filter = function(client) return client.name ~= 'typescript-tools' end})<cr>",
-		{ desc = "Format" }
-	)
-	vim.keymap.set({ "n", "v" }, "<leader>li", "<cmd>LspInfo<cr>", { desc = "Info" })
-	vim.keymap.set({ "n", "v" }, "<leader>lj", "<cmd>lua vim.diagnostic.goto_next()<cr>", { desc = "Next Diagnostic" })
-	vim.keymap.set(
-		{ "n", "v" },
-		"<leader>lh",
-		"<cmd>lua require('lspconfig').toggle_inlay_hints()<cr>",
-		{ desc = "Hints" }
-	)
-	vim.keymap.set({ "n", "v" }, "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev()<cr>", { desc = "Prev Diagnostic" })
-	vim.keymap.set({ "n", "v" }, "<leader>ll", "<cmd>lua vim.lsp.codelens.run()<cr>", { desc = "CodeLens Action" })
-	vim.keymap.set({ "n", "v" }, "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<cr>", { desc = "Quickfix" })
-	vim.keymap.set({ "n", "v" }, "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", { desc = "Rename" })
+  vim.keymap.set({ "n", "v" }, "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", { desc = "Code Action" })
+  vim.keymap.set(
+    { "n", "v" },
+    "<leader>lf",
+    "<cmd>lua vim.lsp.buf.format({async = true, filter = function(client) return client.name ~= 'typescript-tools' end})<cr>",
+    { desc = "Format" }
+  )
+  vim.keymap.set({ "n", "v" }, "<leader>li", "<cmd>LspInfo<cr>", { desc = "Info" })
+  vim.keymap.set({ "n", "v" }, "<leader>lj", "<cmd>lua vim.diagnostic.goto_next()<cr>", { desc = "Next Diagnostic" })
+  vim.keymap.set(
+    { "n", "v" },
+    "<leader>lh",
+    "<cmd>lua require('lspconfig').toggle_inlay_hints()<cr>",
+    { desc = "Hints" }
+  )
+  vim.keymap.set({ "n", "v" }, "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev()<cr>", { desc = "Prev Diagnostic" })
+  vim.keymap.set({ "n", "v" }, "<leader>ll", "<cmd>lua vim.lsp.codelens.run()<cr>", { desc = "CodeLens Action" })
+  vim.keymap.set({ "n", "v" }, "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<cr>", { desc = "Quickfix" })
+  vim.keymap.set({ "n", "v" }, "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", { desc = "Rename" })
 
-	local lspconfig = require("lspconfig")
-	local icons = require("user.icons")
+  local lspconfig = require("lspconfig")
 
-	local servers = {
-		"lua_ls",
-		"cssls",
-		"html",
-		"eslint",
-		"pyright",
-		"bashls",
-		"jsonls",
-		"yamlls",
-		"terraformls",
-		"gopls",
-		"omnisharp",
-	}
+  local servers = {
+    "lua_ls",
+    "cssls",
+    "html",
+    "eslint",
+    "pyright",
+    "bashls",
+    "jsonls",
+    "yamlls",
+    "terraformls",
+    "gopls",
+    "omnisharp",
+  }
 
-	local default_diagnostic_config = {
-		signs = { text = { ERROR = "", WARN = "", INFO = "", HINT = "" } },
-		virtual_text = {
-			virt_text_pos = "eol",
-			prefix = "",
-			format = function(diagnostic)
-				local lspicons = {
-					[vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
-					[vim.diagnostic.severity.WARN] = icons.diagnostics.Warning,
-					[vim.diagnostic.severity.INFO] = icons.diagnostics.Information,
-					[vim.diagnostic.severity.HINT] = icons.diagnostics.Hint,
-				}
-				return string.format("%s %s", lspicons[diagnostic.severity], diagnostic.message)
-			end,
-		},
-		update_in_insert = false,
-		underline = false,
-		severity_sort = true,
-		float = {
-			focusable = true,
-			style = "minimal",
-			border = "rounded",
-			source = "always",
-			header = "",
-			prefix = "",
-		},
-		ui = {
-			windows = {
-				border = "rounded",
-			},
-		},
-	}
+  local lspIcons = require("user.icons").diagnostics
+  vim.diagnostic.config({
+    virtual_text = {
+      virt_text_pos = "eol",
+      prefix = "",
+      format = function(diagnostic)
+        local icons = {
+          [vim.diagnostic.severity.ERROR] = lspIcons.Error,
+          [vim.diagnostic.severity.WARN] = lspIcons.Warning,
+          [vim.diagnostic.severity.INFO] = lspIcons.Information,
+          [vim.diagnostic.severity.HINT] = lspIcons.Hint,
+        }
+        return string.format("%s %s", icons[diagnostic.severity], diagnostic.message)
+      end,
+    },
+    signs = { text = { ERROR = "", WARN = "", INFO = "", HINT = "" } },
+  })
 
-	vim.diagnostic.config(default_diagnostic_config)
+  for _, server in pairs(servers) do
+    local opts = {
+      on_attach = M.on_attach,
+      capabilities = M.common_capabilities(),
+    }
 
-	for _, server in pairs(servers) do
-		local opts = {
-			on_attach = M.on_attach,
-			capabilities = M.common_capabilities(),
-		}
+    local require_ok, settings = pcall(require, "user.lspsettings." .. server)
+    if require_ok then
+      opts = vim.tbl_deep_extend("force", settings, opts)
+    end
 
-		local require_ok, settings = pcall(require, "user.lspsettings." .. server)
-		if require_ok then
-			opts = vim.tbl_deep_extend("force", settings, opts)
-		end
+    lspconfig[server].setup(opts)
+  end
 
-		if server == "lua_ls" then
-			require("neodev").setup({})
-		end
-
-		lspconfig[server].setup(opts)
-	end
-
-	lspconfig.gopls.setup({
-		cmd = { "gopls", "serve" },
-		on_attach = M.on_attach,
-		capabilities = M.common_capabilities(),
-		filetypes = { "go", "gomod", "gowork", "gotmpl" },
-		settings = {
-			gopls = {
-				completeUnimported = true,
-				usePlaceholders = true,
-				analyses = {
-					unusedparams = true,
-					unreachable = false,
-				},
-			},
-		},
-	})
-	lspconfig.terraformls.setup({
-		on_attach = M.on_attach,
-		capabilities = M.common_capabilities(),
-		cmd = { "terraform-ls", "serve" },
-		root_dir = lspconfig.util.root_pattern(".terraform", ".git"),
-	})
+  lspconfig.gopls.setup({
+    cmd = { "gopls", "serve" },
+    on_attach = M.on_attach,
+    capabilities = M.common_capabilities(),
+    filetypes = { "go", "gomod", "gowork", "gotmpl" },
+    settings = {
+      gopls = {
+        completeUnimported = true,
+        usePlaceholders = true,
+        analyses = {
+          unusedparams = true,
+          unreachable = false,
+        },
+      },
+    },
+  })
+  lspconfig.terraformls.setup({
+    on_attach = M.on_attach,
+    capabilities = M.common_capabilities(),
+    cmd = { "terraform-ls", "serve" },
+    root_dir = lspconfig.util.root_pattern(".terraform", ".git"),
+  })
 end
 
 return M
