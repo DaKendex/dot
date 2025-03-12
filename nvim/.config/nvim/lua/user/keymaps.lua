@@ -13,6 +13,9 @@ set("i", "kj", "<ESC>", { desc = "Exit insert mode with jk" })
 -- clear search highlights
 set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
 
+set("v", "J", ":m '>+1<CR>gv=gv")
+set("v", "K", ":m '<-2<CR>gv=gv")
+
 -- delete single character without copying into register
 set("n", "x", '"_x')
 
