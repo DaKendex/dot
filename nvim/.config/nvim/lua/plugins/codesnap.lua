@@ -8,6 +8,7 @@ local M = {
 function M.config()
 	require("codesnap").setup({
 
+    bg_color = "#1f2335",
 		has_breadcrumbs = true,
 		watermark = "DaKendex",
 
