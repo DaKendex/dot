@@ -14,6 +14,9 @@ local M = {
           },
         },
       },
+      { "williamboman/mason-lspconfig.nvim" },
+      { "williamboman/mason.nvim" },
+      { "hrsh7th/cmp-nvim-lsp" },
       { "j-hui/fidget.nvim" },
       -- "saghen/blink.cmp",
     },
@@ -53,12 +56,6 @@ M.on_attach = function(client, bufnr)
   end
 end
 
-function M.common_capabilities()
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  -- local capabilities = require("blink.cmp").get_lsp_capabilities()
-  capabilities.textDocument.completion.completionItem.snippetSupport = true
-  return capabilities
-end
 
 M.toggle_inlay_hints = function()
   local bufnr = vim.api.nvim_get_current_buf()
@@ -86,7 +83,6 @@ function M.config()
   vim.keymap.set({ "n", "v" }, "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<cr>", { desc = "Quickfix" })
   vim.keymap.set({ "n", "v" }, "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", { desc = "Rename" })
 
-  local lspconfig = require("lspconfig")
 
   local servers = {
     "lua_ls",
@@ -101,6 +97,72 @@ function M.config()
     "gopls",
     "omnisharp",
   }
+
+  local cmp_lsp = require("cmp_nvim_lsp")
+  local capabilities = vim.tbl_deep_extend(
+    "force",
+    {},
+    vim.lsp.protocol.make_client_capabilities(),
+    cmp_lsp.default_capabilities()
+  )
+
+  local lspconfig = require("lspconfig")
+  local lspHandlers = {
+    function(server_name)
+      require("lspconfig")[server_name].setup {
+        on_attach = M.on_attach,
+        capabilities = capabilities,
+
+      }
+    end,
+
+    ["lua_ls"] = function()
+      lspconfig.lua_ls.setup {
+        settings = {
+          Lua = {
+            diagnostics = {
+              globals = { "vim" }
+            }
+          }
+        }
+      }
+    end,
+
+    ["gopls"] = function()
+      lspconfig.gopls.setup {
+        cmd = { "gopls", "serve" },
+        filetypes = { "go", "gomod", "gowork", "gotmpl" },
+        settings = {
+          gopls = {
+            completeUnimported = true,
+            usePlaceholders = true,
+            analyses = {
+              unusedparams = true,
+              unreachable = false,
+            },
+          },
+        },
+      }
+    end,
+
+    ["terraformls"] = function()
+      lspconfig.terraformls.setup({
+        cmd = { "terraform-ls", "serve" },
+        root_dir = lspconfig.util.root_pattern(".terraform", ".git"),
+
+      })
+    end,
+
+  }
+
+  require("mason").setup()
+  require("mason-lspconfig").setup({
+    ensure_installed = servers,
+    automatic_installation = true,
+    handlers = lspHandlers,
+  })
+
+
 
   local lspIcons = require("user.icons").diagnostics
   vim.diagnostic.config({
@@ -118,43 +180,6 @@ function M.config()
       end,
     },
     signs = { text = { ERROR = "", WARN = "", INFO = "", HINT = "" } },
-  })
-
-  for _, server in pairs(servers) do
-    local opts = {
-      on_attach = M.on_attach,
-      capabilities = M.common_capabilities(),
-    }
-
-    local require_ok, settings = pcall(require, "user.lspsettings." .. server)
-    if require_ok then
-      opts = vim.tbl_deep_extend("force", settings, opts)
-    end
-
-    lspconfig[server].setup(opts)
-  end
-
-  lspconfig.gopls.setup({
-    cmd = { "gopls", "serve" },
-    on_attach = M.on_attach,
-    capabilities = M.common_capabilities(),
-    filetypes = { "go", "gomod", "gowork", "gotmpl" },
-    settings = {
-      gopls = {
-        completeUnimported = true,
-        usePlaceholders = true,
-        analyses = {
-          unusedparams = true,
-          unreachable = false,
-        },
-      },
-    },
-  })
-  lspconfig.terraformls.setup({
-    on_attach = M.on_attach,
-    capabilities = M.common_capabilities(),
-    cmd = { "terraform-ls", "serve" },
-    root_dir = lspconfig.util.root_pattern(".terraform", ".git"),
   })
 end
 
