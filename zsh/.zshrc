@@ -37,6 +37,8 @@ setopt inc_append_history       # add commands as they are typed, don't wait unt
 setopt share_history            # share hist between sessions
 setopt bang_hist                # !keyword
 
+source <(fzf --zsh)
+
 # Load and initialise completion system
 autoload -Uz compinit
 compinit
@@ -69,6 +71,7 @@ bindkey -M viins '^[OA' history-substring-search-up
 bindkey -M viins '^[[B' history-substring-search-down 
 bindkey -M viins '^[OB' history-substring-search-down
 bindkey -r '^X'
+# bindkey '^R' fzf-history-widget
 
 autoload -U edit-command-line
 zle -N edit-command-line
@@ -121,7 +124,6 @@ if type rg &> /dev/null; then
   export FZF_DEFAULT_OPTS='-m --height 50% --border'
 fi
 
-source <(fzf --zsh)
 
 # # YubiKey - Disable OTP
 # # https://support.yubico.com/hc/en-us/articles/360013714379-Accidentally-Triggering-OTP-Codes-with-Your-Nano-YubiKey
