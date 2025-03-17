@@ -1,0 +1,90 @@
+# vim: set filetype=dosini
+#
+#  ██████╗ ██╗  ██╗ ██████╗ ███████╗████████╗████████╗██╗   ██╗
+# ██╔════╝ ██║  ██║██╔═══██╗██╔════╝╚══██╔══╝╚══██╔══╝╚██╗ ██╔╝
+# ██║  ███╗███████║██║   ██║███████╗   ██║      ██║    ╚████╔╝
+# ██║   ██║██╔══██║██║   ██║╚════██║   ██║      ██║     ╚██╔╝
+# ╚██████╔╝██║  ██║╚██████╔╝███████║   ██║      ██║      ██║
+#  ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚══════╝   ╚═╝      ╚═╝      ╚═╝
+#
+# Ghostty is a fast, feature-rich, and cross-platform terminal emulator that uses platform-native UI and GPU acceleration.
+# https://ghostty.org/docs/config/reference
+
+# BUG: Improper handling of window title sequences can lead to arbitrary command execution
+# https://github.com/ghostty-org/ghostty/security/advisories/GHSA-5hcq-3j4q-4v6p
+title = Ghostty
+
+###########
+## shell ##
+###########
+shell-integration = zsh
+shell-integration-features = "no-cursor,sudo,title"
+
+#################
+## UI / window ##
+#################
+bold-is-bright = true
+background-opacity = 0.8
+macos-titlebar-style = hidden
+macos-window-shadow = false
+mouse-hide-while-typing = true
+window-decoration = false
+window-padding-balance = true
+window-padding-x = 2
+window-padding-y = 4
+window-save-state = always
+window-theme = auto
+# maximise by default
+window-width = 9999
+window-height = 9999
+
+# visuals
+font-family = "JetBrainsMono Nerd Font"
+# fallback (not needed?)
+# font-family = "Symbols Nerd Font Mono"
+font-size = 18
+macos-window-shadow = false
+mouse-hide-while-typing = true
+theme = catppuccin-mocha
+window-decoration = false
+window-padding-x = 8
+window-padding-y = 5
+
+###############
+## clipboard ##
+###############
+clipboard-read = "allow"
+clipboard-trim-trailing-spaces = true
+clipboard-write = "allow"
+
+#################
+## keybindings ##
+#################
+# Some useful encoded characters:
+# \x0a = Enter/Return \x1b = Esc
+# \x02 = <C-b> (tmux prefix)
+macos-option-as-alt = true
+
+# switch to window by index (1-based)
+keybind = super+physical:one=text:\x001
+keybind = super+physical:two=text:\x002
+keybind = super+physical:three=text:\x003
+keybind = super+physical:four=text:\x004
+keybind = super+physical:five=text:\x005
+keybind = super+physical:six=text:\x006
+keybind = super+physical:seven=text:\x007
+keybind = super+physical:eight=text:\x008
+keybind = super+physical:nine=text:\x009
+
+# Super + j = Leader + J
+keybind = super+j=text:\x00\x4a
+# Super + c = Leader + c 
+keybind = super+c=text:\x00\x63
+# Super + x = Leader + x 
+keybind = super+x=text:\x00\x78
+# Super + e = Leader + %
+keybind = super+e=text:\x00\x25
+# Super + E = Leader + " TODO: not working for some reason
+# keybind = Shift+Super+e=text:\x00\x2d
+# Super + g = Leader + g
+keybind = super+g=text:\x00\x67
