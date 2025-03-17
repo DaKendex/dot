@@ -40,6 +40,7 @@ window-height = 9999
 
 # visuals
 font-family = "Hack Nerd Font"
+# font-family = "JetBrainsMono Nerd Font"
 # fallback (not needed?)
 # font-family = "Symbols Nerd Font Mono"
 font-size = 16
