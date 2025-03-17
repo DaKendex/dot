@@ -42,7 +42,7 @@ window-height = 9999
 font-family = "JetBrainsMono Nerd Font"
 # fallback (not needed?)
 # font-family = "Symbols Nerd Font Mono"
-font-size = 18
+font-size = 16
 macos-window-shadow = false
 mouse-hide-while-typing = true
 theme = catppuccin-mocha
@@ -62,6 +62,7 @@ clipboard-write = "allow"
 #################
 # Some useful encoded characters:
 # \x0a = Enter/Return \x1b = Esc
+# \x00 = <C-Space> (tmux prefix)
 # \x02 = <C-b> (tmux prefix)
 macos-option-as-alt = true
 
