@@ -41,7 +41,7 @@ setopt bang_hist                # !keyword
 autoload -Uz compinit
 compinit
 export LC_ALL="en_US.UTF-8"
-export LC_CTYPE="en_US.UTF-8"
+export LANG="en_US.UTF-8"
 
 # Check that the function `starship_zle-keymap-select()` is defined.
 # xref: https://github.com/starship/starship/issues/3418
