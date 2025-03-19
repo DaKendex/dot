@@ -25,6 +25,7 @@ shell-integration-features = "no-cursor,sudo,title"
 #################
 bold-is-bright = true
 background-opacity = 0.8
+background-blur = 10
 macos-titlebar-style = hidden
 macos-window-shadow = false
 mouse-hide-while-typing = true
@@ -86,7 +87,9 @@ keybind = super+c=text:\x00\x63
 keybind = super+x=text:\x00\x78
 # Super + e = Leader + %
 keybind = super+e=text:\x00\x25
-# Super + E = Leader + " TODO: not working for some reason
-# keybind = Shift+Super+e=text:\x00\x2d
+# Super + E = Leader + "
+keybind = super+shift+e=text:\x00\x2d
 # Super + g = Leader + g
 keybind = super+g=text:\x00\x67
+# Super + G = Leader + G
+keybind = super+shift+g=text:\x00\x47
