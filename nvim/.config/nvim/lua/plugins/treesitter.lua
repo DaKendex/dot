@@ -22,6 +22,8 @@ function M.config()
 		modules = {},
 		ensure_installed = {
 			"lua",
+      "vim",
+      "vimdoc",
 			"markdown",
 			"markdown_inline",
 			"bash",
@@ -32,7 +34,15 @@ function M.config()
 		},
 		highlight = { enable = true },
 		indent = { enable = true },
-		auto_intsll = true,
+    incremental_selection = {
+      enable = true,
+      keymaps = {
+        init_selection = "<Enter>",
+        node_incremental = "<Enter>",
+        scope_incremental = false,
+        node_decremental = "<Backspace>",
+      },
+    },
 	})
 end
 
