@@ -5,7 +5,7 @@ local M = {
     {
       {
         "folke/lazydev.nvim",
-        ft = "lua", -- only load on lua files
+        ft = "lua",   -- only load on lua files
         opts = {
           library = {
             -- See the configuration section for more details
@@ -98,13 +98,14 @@ function M.config()
     "omnisharp",
   }
 
-  local cmp_lsp = require("cmp_nvim_lsp")
-  local capabilities = vim.tbl_deep_extend(
-    "force",
-    {},
-    vim.lsp.protocol.make_client_capabilities(),
-    cmp_lsp.default_capabilities()
-  )
+  -- local cmp_lsp = require("cmp_nvim_lsp")
+  -- local capabilities = vim.tbl_deep_extend(
+  --   "force",
+  --   {},
+  --   vim.lsp.protocol.make_client_capabilities(),
+  --   cmp_lsp.default_capabilities()
+  -- )
+  local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
   local lspconfig = require("lspconfig")
   local lspHandlers = {
