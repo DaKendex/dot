@@ -1,4 +1,4 @@
-export DOCKER_HOST="unix://${HOME}/.colima/default/docker.sock"
+export DOCKER_HOST="unix://${XDG_CONFIG_HOME}/colima/default/docker.sock"
 
 start_colima() {
   local CERTS="${HOME}/.ca-certificates"

@@ -31,6 +31,7 @@ plug "zsh-users/zsh-history-substring-search"
 # Custom Configs
 plug "$HOME/.env.zsh"
 plug "$XDG_CONFIG_HOME/zsh/git.zsh"
+plug "$XDG_CONFIG_HOME/zsh/bash.zsh"
 plug "$XDG_CONFIG_HOME/zsh/alias.zsh"
 plug "$XDG_CONFIG_HOME/zsh/colima.zsh"
 plug "$XDG_CONFIG_HOME/zsh/lg.zsh"
