@@ -29,16 +29,22 @@ plug "jeffreytse/zsh-vi-mode"
 plug "zsh-users/zsh-history-substring-search"
 
 # Custom Configs
-plug "$HOME/.env.zsh"
-plug "$XDG_CONFIG_HOME/zsh/git.zsh"
-plug "$XDG_CONFIG_HOME/zsh/bash.zsh"
-plug "$XDG_CONFIG_HOME/zsh/alias.zsh"
-plug "$XDG_CONFIG_HOME/zsh/colima.zsh"
-plug "$XDG_CONFIG_HOME/zsh/lg.zsh"
-plug "$XDG_CONFIG_HOME/zsh/aws.zsh"
-plug "$XDG_CONFIG_HOME/zsh/k8s.zsh"
-plug "$XDG_CONFIG_HOME/zsh/options.zsh"
-plug "$XDG_CONFIG_HOME/op/plugins.sh"
+zsh_sources=(
+  "$HOME/.env.zsh"
+  "$XDG_CONFIG_HOME/zsh/git.zsh"
+  "$XDG_CONFIG_HOME/zsh/bash.zsh"
+  "$XDG_CONFIG_HOME/zsh/alias.zsh"
+  "$XDG_CONFIG_HOME/zsh/colima.zsh"
+  "$XDG_CONFIG_HOME/zsh/lg.zsh"
+  "$XDG_CONFIG_HOME/zsh/aws.zsh"
+  "$XDG_CONFIG_HOME/zsh/k8s.zsh"
+  "$XDG_CONFIG_HOME/zsh/options.zsh"
+  "$XDG_CONFIG_HOME/op/plugins.sh"
+)
+
+for file in "${zsh_sources[@]}"; do
+  [ -f "$file" ] && source "$file"
+done
 
 
 # ==============================
