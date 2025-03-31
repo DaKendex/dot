@@ -27,6 +27,7 @@ function M.config()
       which_key = true,
       neogit = true,
       mason = true,
+      fidget = true,
       native_lsp = {
         enabled = true,
         virtual_text = {
