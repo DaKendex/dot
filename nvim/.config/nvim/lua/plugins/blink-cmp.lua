@@ -1,90 +1,114 @@
-local M = {
-	"saghen/blink.cmp",
-	dependencies = { "rafamadriz/friendly-snippets" },
-  enabled = false,
-	build = "cargo build --release",
-	opts = {
-		-- 'default' (recommended) for mappings similar to built-in completions (C-y to accept, C-n/C-p for up/down)
-		-- 'super-tab' for mappings similar to vscode (tab to accept, arrow keys for up/down)
-		-- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
-		--
-		-- All presets have the following mappings:
-		-- C-space: Open menu or open docs if already open
-		-- C-e: Hide menu
-		-- C-k: Toggle signature help
-		--
-		-- See the full "keymap" documentation for information on defining your own keymap.
-		keymap = { preset = "default" },
-
-		appearance = {
-			-- Sets the fallback highlight groups to nvim-cmp's highlight groups
-			-- Useful for when your theme doesn't support blink.cmp
-			-- Will be removed in a future release
-			use_nvim_cmp_as_default = true,
-			-- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-			-- Adjusts spacing to ensure icons are aligned
-			nerd_font_variant = "mono",
-		},
-
-		-- Default list of enabled providers defined so that you can extend it
-		-- elsewhere in your config, without redefining it, due to `opts_extend`
-		sources = {
-			default = { "lsp", "path", "snippets", "buffer" },
-		},
-		fuzzy = {
-			implementation = "prefer_rust",
-		},
-
-		-- Blink.cmp uses a Rust fuzzy matcher by default for typo resistance and significantly better performance
-		-- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
-		-- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
-		--
-		-- See the fuzzy documentation for more information
+return {
+	{
+		"saghen/blink.compat",
+		-- use the latest release, via version = '*', if you also use the latest release for blink.cmp
+		version = "*",
+		-- lazy.nvim will automatically load the plugin when it's required by blink.cmp
+		lazy = true,
+		-- make sure to set opts so that lazy.nvim calls blink.compat's setup
+		opts = {},
 	},
-	opts_extend = { "sources.default" },
+	{
+		"saghen/blink.cmp",
+		-- optional: provides snippets for the snippet source
+		dependencies = {
+			{
+				"L3MON4D3/LuaSnip",
+				version = "v2.*",
+			},
+			"rafamadriz/friendly-snippets",
+			"moyiz/blink-emoji.nvim",
+			"ray-x/cmp-sql",
+		},
+
+		-- use a release tag to download pre-built binaries
+		version = "1.*",
+		-- AND/OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
+		-- build = 'cargo build --release',
+		-- If you use nix, you can build from source using latest nightly rust with:
+		-- build = 'nix run .#build-plugin',
+
+		---@module 'blink.cmp'
+		---@type blink.cmp.Config
+		opts = {
+			-- 'default' (recommended) for mappings similar to built-in completions (C-y to accept)
+			-- 'super-tab' for mappings similar to vscode (tab to accept)
+			-- 'enter' for enter to accept
+			-- 'none' for no mappings
+			--
+			-- All presets have the following mappings:
+			-- C-space: Open menu or open docs if already open
+			-- C-n/C-p or Up/Down: Select next/previous item
+			-- C-e: Hide menu
+			-- C-k: Toggle signature help (if signature.enabled = true)
+			--
+			-- See :h blink-cmp-config-keymap for defining your own keymap
+			keymap = {
+				preset = "default",
+			},
+
+			snippets = { preset = "luasnip" },
+			appearance = {
+				-- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+				-- Adjusts spacing to ensure icons are aligned
+				nerd_font_variant = "mono",
+			},
+
+			-- (Default) Only show the documentation popup when manually triggered
+			completion = { documentation = { auto_show = true } },
+			signature = { enabled = true },
+
+			-- Default list of enabled providers defined so that you can extend it
+			-- elsewhere in your config, without redefining it, due to `opts_extend`
+			sources = {
+				default = { "lsp", "path", "snippets", "buffer", "emoji", "sql" },
+				providers = {
+					emoji = {
+						module = "blink-emoji",
+						name = "Emoji",
+						score_offset = 15, -- Tune by preference
+						opts = { insert = true }, -- Insert emoji (default) or complete its name
+						should_show_items = function()
+							return vim.tbl_contains(
+								-- Enable emoji completion only for git commits and markdown.
+								-- By default, enabled for all file-types.
+								{ "gitcommit", "markdown" },
+								vim.o.filetype
+							)
+						end,
+					},
+					sql = {
+						-- IMPORTANT: use the same name as you would for nvim-cmp
+						name = "sql",
+						module = "blink.compat.source",
+
+						-- all blink.cmp source config options work as normal:
+						score_offset = -3,
+
+						-- this table is passed directly to the proxied completion source
+						-- as the `option` field in nvim-cmp's source config
+						--
+						-- this is NOT the same as the opts in a plugin's lazy.nvim spec
+						opts = {},
+						should_show_items = function()
+							return vim.tbl_contains(
+								-- Enable emoji completion only for git commits and markdown.
+								-- By default, enabled for all file-types.
+								{ "sql" },
+								vim.o.filetype
+							)
+						end,
+					},
+				},
+			},
+
+			-- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
+			-- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
+			-- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
+			--
+			-- See the fuzzy documentation for more information
+			fuzzy = { implementation = "prefer_rust_with_warning" },
+		},
+		opts_extend = { "sources.default" },
+	},
 }
-
-local keymap = vim.keymap.set
--- local keymap = vim.keymap.set
-
--- vim.keymap.set({ "n", "v" }, "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", { desc = "Code Action" })
--- vim.keymap.set(
--- 	{ "n", "v" },
--- 	"<leader>lf",
--- 	"<cmd>lua vim.lsp.buf.format({async = true, filter = function(client) return client.name ~= 'typescript-tools' end})<cr>",
--- 	{ desc = "Format" }
--- )
--- vim.keymap.set({ "n", "v" }, "<leader>li", "<cmd>LspInfo<cr>", { desc = "Info" })
--- vim.keymap.set({ "n", "v" }, "<leader>lj", "<cmd>lua vim.diagnostic.goto_next()<cr>", { desc = "Next Diagnostic" })
--- vim.keymap.set(
--- 	{ "n", "v" },
--- 	"<leader>lh",
--- 	"<cmd>lua require('user.lspconfig').toggle_inlay_hints()<cr>",
--- 	{ desc = "Hints" }
--- )
--- vim.keymap.set({ "n", "v" }, "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev()<cr>", { desc = "Prev Diagnostic" })
--- vim.keymap.set({ "n", "v" }, "<leader>ll", "<cmd>lua vim.lsp.codelens.run()<cr>", { desc = "CodeLens Action" })
--- vim.keymap.set({ "n", "v" }, "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<cr>", { desc = "Quickfix" })
--- vim.keymap.set({ "n", "v" }, "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", { desc = "Rename" })
-
--- keymap.set({ "n", "v" }, "<leader>la", "<cmd>lua require('blink.cmp').code_action()<cr>", { desc = "Code Action" })
--- keymap.set(
--- 	{ "n", "v" },
--- 	"<leader>lf",
--- 	"<cmd>lua vim.lsp.buf.format({async = true, filter = function(client) return client.name ~= 'typescript-tools' end})<cr>",
--- 	{ desc = "Format" }
--- )
--- keymap.set({ "n", "v" }, "<leader>li", "<cmd>LspInfo<cr>", { desc = "Info" })
--- keymap.set({ "n", "v" }, "<leader>lj", "<cmd>lua vim.diagnostic.goto_next()<cr>", { desc = "Next Diagnostic" })
--- keymap.set(
---   { "n", "v" },
---   "<leader>lh",
---   "<cmd>lua require('blink.cmp').toggle_inlay_hints()<cr>",
---   { desc = "Hints" }
--- )
-
-function M.opts()
-	require("blink.cmp").setup({})
-end
-
-return M
