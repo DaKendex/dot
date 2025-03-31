@@ -35,7 +35,8 @@ opt.background = "dark" -- colorschemes that can be light or dark will be made d
 opt.signcolumn = "yes" -- show sign column so that text doesn't shift
 
 -- font
-opt.guifont = "Hack Nerd Font" -- set font to Hack Nerd Font with size 12
+-- opt.guifont = "Hack Nerd Font" -- set font to Hack Nerd Font with size 12
+opt.guifont = "JetBrainsMono Nerd Font" -- set font to JetBrainsMono Nerd Font with size 12
 
 -- backspace
 opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
