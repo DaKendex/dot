@@ -1,7 +1,14 @@
 # import = ["~/.sesh.toml"]
 
-[default_sesion]
+[default_session]
 startup_command = "nvim -c ':Telescope find_files"
+preview_command = "eza --all --git --icons --color=always {}"
+
+[[session]]
+name = "Sesh"
+path = "~/repo/dot/sesh/.config/sesh/sesh.toml"
+startup_command = "nvim ~/repo/dot/sesh/.config/sesh/sesh.toml"
+preview_command = "bat --color=always ~/repo/dot/sesh/.config/sesh/sesh.toml"
 
 [[session]]
 name = "Neovim Config"
@@ -11,6 +18,22 @@ path = "~/repo/dot/nvim/.config/nvim"
 name = "dotfiles"
 path = "~/repo/dot"
 startup_command = "lazygit"
+
+[[session]]
+name = "tmux"
+path = "~/repo/dot/tmux/.config/tmux"
+startup_command = "nvim ~/repo/dot/tmux/.config/tmux/tmux.conf"
+preview_command = "bat --color=always ~/repo/dot/tmux/.config/tmux/tmux.conf"
+
+[[session]]
+name = "zsh"
+path = "~/repo/dot/zsh"
+
+[[session]]
+name = "ghostty"
+path = "~/repo/dot/ghostty/.config/ghostty"
+startup_command = "nvim ~/repo/dot/ghostty/.config/ghostty/config"
+preview_command = "bat --color=always ~/repo/dot/ghostty/.config/ghostty/config"
 
 [[session]]
 name = "Downloads 📥"
