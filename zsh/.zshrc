@@ -31,6 +31,7 @@ plug "zsh-users/zsh-history-substring-search"
 # Custom Configs
 zsh_sources=(
   "$HOME/.env.zsh"
+  "$XDG_CONFIG_HOME/zsh/sesh.zsh"
   "$XDG_CONFIG_HOME/zsh/git.zsh"
   "$XDG_CONFIG_HOME/zsh/bash.zsh"
   "$XDG_CONFIG_HOME/zsh/alias.zsh"
@@ -149,7 +150,7 @@ sh_if_exists () {
 }
 
 # Banner MOTD
-sh_if_exists $HOME/.config/bin/motd/motd.sh
+sh_if_exists ${XDG_CONFIG_HOME}/bin/motd/motd.sh
 
 # ==============================
 # Command-Line Tools & Utilities
