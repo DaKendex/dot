@@ -5,5 +5,6 @@ Library
 .github
 .DS_Store
 .gitconfig
+.gitignore
 README.md
 
