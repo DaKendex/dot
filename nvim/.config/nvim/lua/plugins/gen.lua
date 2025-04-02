@@ -1,6 +1,7 @@
 local M = {
 	"David-Kunz/gen.nvim",
 	event = "BufReadPre",
+  -- enabled = false,
 }
 
 function M.config()

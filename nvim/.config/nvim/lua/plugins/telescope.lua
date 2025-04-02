@@ -51,6 +51,14 @@ function M.config()
 			file_ignore_patterns = { ".git/", ".terraform/" },
 			prompt_prefix = icons.ui.Telescope .. " ",
 			selection_caret = icons.ui.Forward .. " ",
+      layout_config = {
+        height = 0.8,
+        width = 0.8,
+        preview_cutoff = 0,
+        horizontal = { preview_width = 0.60 },
+        vertical = { width = 0.999, height = 0.9999, preview_cutoff = 0 },
+        prompt_position = 'top',
+      },
 			entry_prefix = "   ",
 			initial_mode = "insert",
 			selection_strategy = "reset",
@@ -86,22 +94,22 @@ function M.config()
 		},
 		pickers = {
 			live_grep = {
-				theme = "ivy",
+				-- theme = "ivy",
 			},
 
 			grep_string = {
-				theme = "ivy",
+				-- theme = "ivy",
 			},
 
 			find_files = {
-				theme = "ivy",
+				-- theme = "dropdown",
 				previewer = true,
 				hidden = true,
 			},
 
 			buffers = {
-				theme = "dropdown",
-				previewer = true,
+				-- theme = "dropdown",
+				-- previewer = true,
 				initial_mode = "normal",
 				mappings = {
 					i = {
@@ -123,22 +131,22 @@ function M.config()
 			},
 
 			lsp_references = {
-				theme = "dropdown",
+				-- theme = "dropdown",
 				initial_mode = "normal",
 			},
 
 			lsp_definitions = {
-				theme = "dropdown",
+				-- theme = "dropdown",
 				initial_mode = "normal",
 			},
 
 			lsp_declarations = {
-				theme = "dropdown",
+				-- theme = "dropdown",
 				initial_mode = "normal",
 			},
 
 			lsp_implementations = {
-				theme = "dropdown",
+				-- theme = "dropdown",
 				initial_mode = "normal",
 			},
 		},
