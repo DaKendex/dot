@@ -11,7 +11,7 @@ startup_command = "nvim sesh.toml"
 preview_command = "bat --color=always ~/repo/dot/sesh/.config/sesh/sesh.toml"
 
 [[session]]
-name = "Sesh local"
+name = "Local Sesh"
 path = "~/.sesh.toml"
 startup_command = "nvim ~/.sesh.toml"
 preview_command = "bat --color=always ~/.sesh.toml"
@@ -31,6 +31,11 @@ path = "~/.config"
 startup_command = "nvim -c ':Oil'"
 
 [[session]]
+name = "SSH Config"
+path = "~/.ssh"
+startup_command = "nvim config"
+
+[[session]]
 name = "tmux"
 path = "~/repo/dot/.config/tmux"
 startup_command = "nvim tmux.conf"
@@ -41,13 +46,18 @@ name = "zsh"
 path = "~/repo/dot/.zshrc"
 
 [[session]]
+name = "Local zsh"
+path = "~/.env.zsh"
+startup_command = "nvim ~/.env.zsh"
+
+[[session]]
 name = "ghostty"
 path = "~/repo/dot/.config/ghostty"
 startup_command = "nvim config"
 preview_command = "bat --color=always ~/repo/dot/.config/ghostty/config"
 
 [[session]]
-name = "aws config"
+name = "AWS config"
 path = "~/.aws"
 startup_command = "nvim config"
 
