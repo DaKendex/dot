@@ -22,28 +22,9 @@ defaults write com.apple.desktopservices DSDontWriteNetworkStores true
 defaults write com.apple.dock "expose-group-apps" -bool "true" && killall Dock
 
 # Link dotfiles
-stow -t $HOME zsh
-stow -t $HOME yabai
-stow -t $HOME skhd
-stow -t $HOME karabiner
-stow -t $HOME starship
-stow -t $HOME wezterm
+stow .
 
 source ~/.zshrc
 
 # brew auto update
 brew autoupdate start --upgrade
-
-# dadjoke
-if [ -f $HOME/.config/bin/dadjoke ]; then
-  cp $HOME/.config/bin/dadjoke/dadjoke /usr/local/bin/dadjoke
-  chmod +x /usr/local/bin/dadjoke
-else
-  echo "dadjoke not found"
-fi
-
-# Yabai
-sudo yabai --install-sa
-sudo yabai --load-sa
-brew services start skhd
-brew services start yabai
