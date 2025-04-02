@@ -13,7 +13,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 ### Brew files
 ```
 # Brew Bundle
-brew bundle Brewfile
+brew bundle dump --describe --file=Brewfile
 
 # Brew install 
 brew bundle install Brewfile
