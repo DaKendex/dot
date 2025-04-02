@@ -22,7 +22,7 @@ brew bundle install Brewfile
 ### Stow 
 ```
 # Install dotfiles
-stow -t $HOME <folder>
+stow .
 ```
 
 ### Mac OS Tweaks
@@ -32,11 +32,4 @@ defaults write com.apple.dock autohide-delay -float 0; defaults write com.apple.
 #### Disable creation of .DS_Store files on network volumes
 ```
 defaults write com.apple.desktopservices DSDontWriteNetworkStores true
-```
-
-### Install dadjoke
-```
-# dadjoke
-cp /.config/bin/dadjoke/dadjoke /usr/local/bin/dadjoke
-chmod +x /usr/local/bin/dadjoke
 ```
