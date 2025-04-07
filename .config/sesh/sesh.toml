@@ -43,7 +43,8 @@ preview_command = "bat --color=always ~/repo/dot/.config/tmux/tmux.conf"
 
 [[session]]
 name = "zsh"
-path = "~/repo/dot/.zshrc"
+path = "~/repo/dot"
+startup_command = "nvim .zshrc"
 
 [[session]]
 name = "Local zsh"

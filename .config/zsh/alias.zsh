@@ -28,6 +28,10 @@ alias kd="kubectl describe"
 alias kctx="kubectx"
 alias kns="kubens"
 
+alias brew-dump="brew bundle dump --file=~/repo/dot/Brewfile --force"
+alias brew-sync="brew bundle --file=~/repo/dot/Brewfile --no-upgrade"
+alias brew-clean="brew bundle cleanup --file=~/repo/dot/Brewfile --force"
+
 wta() {
   local branch=$1
   local current_dir=$(pwd)
