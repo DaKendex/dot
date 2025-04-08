@@ -1,6 +1,5 @@
 -- install noice
 return {
-  enale = false,
 	"folke/noice.nvim",
 	event = "VeryLazy",
 	-- dependencies = {

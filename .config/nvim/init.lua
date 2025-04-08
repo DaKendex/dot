@@ -1,5 +1,6 @@
 require("user.keymaps")
 require("user.lazy")
 require("user.options")
+require("user.diagnostics")
 require("user.autocmds")
 require("user.format_on_save")

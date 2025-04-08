@@ -30,6 +30,7 @@ function M.config()
 			"bash",
 			"python",
 			"terraform",
+      "hcl",
 			"go",
 			"yaml",
       "graphql",

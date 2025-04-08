@@ -57,7 +57,7 @@ function M.config()
         preview_cutoff = 0,
         horizontal = { preview_width = 0.60 },
         vertical = { width = 0.999, height = 0.9999, preview_cutoff = 0 },
-        prompt_position = 'top',
+        prompt_position = 'bottom',
       },
 			entry_prefix = "   ",
 			initial_mode = "insert",

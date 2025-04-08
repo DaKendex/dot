@@ -40,13 +40,19 @@ local function lsp_keymaps(bufnr)
 	local opts = { noremap = true, silent = true }
 	local keymap = vim.api.nvim_buf_set_keymap
 	keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-	keymap(bufnr, "n", "gd", "<cmd>lua require('telescope.builtin').lsp_definitions()<CR>zz", opts)
-	keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-	keymap(bufnr, "n", "gI", "<cmd>lua require('telescope.builtin').lsp_implementations()<CR>", opts)
-	keymap(bufnr, "n", "gr", "<cmd>lua require('telescope.builtin').lsp_references()<CR>", opts)
+	keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+	keymap(bufnr, "n", "<CR>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+	vim.keymap.set("n", "K", function()
+		local winid = require("ufo").peekFoldedLinesUnderCursor()
+		if not winid then
+			vim.lsp.buf.hover()
+		end
+	end)
+	keymap(bufnr, "n", "gI", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+	keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
 	keymap(bufnr, "n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-  keymap(bufnr, "n", "<leader>ds", "<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>", opts)
 end
+
 M.on_attach = function(client, bufnr)
 	lsp_keymaps(bufnr)
 	if client.supports_method("textDocument/inlayHint") then
@@ -102,6 +108,7 @@ function M.config()
 		"jsonls",
 		"yamlls",
 		"terraformls",
+		"tflint",
 		"gopls",
 		"omnisharp",
 	}
@@ -130,32 +137,67 @@ function M.config()
 						diagnostics = {
 							globals = { "vim" },
 						},
+						runtime = {
+							version = "LuaJIT",
+						},
 					},
-				},
-			})
-		end,
-
-		["gopls"] = function()
-			lspconfig.gopls.setup({
-				cmd = { "gopls", "serve" },
-				filetypes = { "go", "gomod", "gowork", "gotmpl" },
-				settings = {
-					gopls = {
-						completeUnimported = true,
-						usePlaceholders = true,
-						analyses = {
-							unusedparams = true,
-							unreachable = false,
+					workspace = {
+						checkThirdParty = false,
+						library = {
+							[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+							[vim.fn.stdpath("config") .. "/lua"] = true,
 						},
 					},
 				},
 			})
 		end,
 
+		-- ["gopls"] = function()
+		-- 	lspconfig.gopls.setup({
+		-- 		cmd = { "gopls", "serve" },
+		-- 		filetypes = { "go", "gomod", "gowork", "gotmpl" },
+		-- 		settings = {
+		-- 			gopls = {
+		-- 				completeUnimported = true,
+		-- 				usePlaceholders = true,
+		-- 				analyses = {
+		-- 					unusedparams = true,
+		-- 					unreachable = false,
+		-- 				},
+		-- 			},
+		-- 		},
+		-- 	})
+		-- end,
+
 		["terraformls"] = function()
 			lspconfig.terraformls.setup({
 				cmd = { "terraform-ls", "serve" },
 				root_dir = lspconfig.util.root_pattern(".terraform", ".git"),
+			})
+		end,
+		["tflint"] = function()
+			lspconfig.tflint.setup({})
+		end,
+
+		["yamlls"] = function()
+			lspconfig.yamlls.setup({
+				settings = {
+					yaml = {
+						schemas = require("schemastore").yaml.schemas(),
+						format = { enable = true },
+						validate = true,
+					},
+				},
+			})
+		end,
+
+		["jsonls"] = function()
+			lspconfig.jsonls.setup({
+				settings = {
+					json = {
+						schemas = require("schemastore").json.schemas(),
+					},
+				},
 			})
 		end,
 	}
@@ -165,34 +207,6 @@ function M.config()
 		ensure_installed = servers,
 		automatic_installation = true,
 		handlers = lspHandlers,
-	})
-
-	local lspIcons = require("user.icons").diagnostics
-	vim.diagnostic.config({
-		severity_sort = true,
-		float = { border = "rounded", source = "if_many" },
-		underline = { severity = vim.diagnostic.severity.ERROR },
-		signs = {
-			text = {
-				[vim.diagnostic.severity.ERROR] = lspIcons.Error,
-				[vim.diagnostic.severity.WARN] = lspIcons.Warning,
-				[vim.diagnostic.severity.INFO] = lspIcons.Information,
-				[vim.diagnostic.severity.HINT] = lspIcons.Hint,
-			},
-		},
-		virtual_text = {
-			source = "if_many",
-			spacing = 2,
-			format = function(diagnostic)
-				local diagnostic_message = {
-					[vim.diagnostic.severity.ERROR] = diagnostic.message,
-					[vim.diagnostic.severity.WARN] = diagnostic.message,
-					[vim.diagnostic.severity.INFO] = diagnostic.message,
-					[vim.diagnostic.severity.HINT] = diagnostic.message,
-				}
-				return diagnostic_message[diagnostic.severity]
-			end,
-		},
 	})
 end
 
