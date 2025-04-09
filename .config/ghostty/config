@@ -80,7 +80,7 @@ keybind = super+physical:eight=text:\x008
 keybind = super+physical:nine=text:\x009
 
 # Super + j = Leader + J
-keybind = super+j=text:\x00\x4a
+keybind = super+k=text:\x00\x4b
 # Super + c = Leader + c 
 keybind = super+c=text:\x00\x63
 # Super + x = Leader + x 
