@@ -79,17 +79,20 @@ keybind = super+physical:seven=text:\x007
 keybind = super+physical:eight=text:\x008
 keybind = super+physical:nine=text:\x009
 
-# Super + j = Leader + J
-keybind = super+k=text:\x00\x4b
-# Super + c = Leader + c 
-keybind = super+c=text:\x00\x63
-# Super + x = Leader + x 
-keybind = super+x=text:\x00\x78
-# Super + e = Leader + %
-keybind = super+e=text:\x00\x25
-# Super + E = Leader + "
-keybind = super+shift+e=text:\x00\x2d
-# Super + g = Leader + g
-keybind = super+g=text:\x00\x67
-# Super + G = Leader + G
-keybind = super+shift+g=text:\x00\x47
+# Open Sesh 
+keybind = super+k=text:\x00\x4b # Super + k = Leader + K
+# Tmux Create Session 
+keybind = super+c=text:\x00\x63 # Super + c = Leader + c 
+# Tmux Close pane 
+keybind = super+x=text:\x00\x78 # Super + x = Leader + x 
+# Tmux VSplit  pane 
+keybind = super+e=text:\x00\x25 # Super + e = Leader + %
+# Tmux HSplit  pane 
+keybind = super+shift+e=text:\x00\x2d # Super + E = Leader + "
+# Tmux Fullscreen pane 
+keybind = super+f=text:\x00\x7a # Super + f = Leader + z
+# Open Lazygit 
+keybind = super+g=text:\x00\x67 # Super + g = Leader + g
+# Open gh-dash 
+keybind = super+shift+g=text:\x00\x47 # Super + G = Leader + G
+
