@@ -1,4 +1,4 @@
-local M = {
+return {
   "neovim/nvim-lspconfig",
   event = { "BufReadPre", "BufNewFile" },
   dependencies = {
@@ -31,183 +31,166 @@ local M = {
       "saghen/blink.cmp",
     },
   },
-}
 
-vim.lsp.set_log_level("off")
+  config = function()
+    -- LSP keymaps on attach
+    vim.api.nvim_create_autocmd('LspAttach', {
+      group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
+      callback = function(event)
+        local map = function(keys, func, desc, mode)
+          mode = mode or 'n'
+          vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
+        end
 
-local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-local function lsp_keymaps(bufnr)
-  local opts = { noremap = true, silent = true }
-  local keymap = vim.api.nvim_buf_set_keymap
-  keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-  keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-  keymap(bufnr, "n", "<CR>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-  vim.keymap.set("n", "K", function()
-    local winid = require("ufo").peekFoldedLinesUnderCursor()
-    if not winid then
-      vim.lsp.buf.hover()
-    end
-  end)
-  keymap(bufnr, "n", "gI", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-  keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-  keymap(bufnr, "n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-end
+        -- Go to navigation
+        map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+        map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+        map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+        map('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
+        map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
 
-M.on_attach = function(client, bufnr)
-  lsp_keymaps(bufnr)
-  if client.supports_method("textDocument/inlayHint") then
-    vim.lsp.inlay_hint.enable(true)
-  end
-  if client.supports_method("textDocument/formatting") then
-    vim.api.nvim_clear_autocmds({
-      group = augroup,
-    })
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      group = augroup,
-      buffer = bufnr,
-      callback = function()
-        vim.lsp.buf.format({ bufnr = bufnr })
+        -- Symbols
+        map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
+        map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+
+        -- Actions
+        map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+        map('<leader>la', vim.lsp.buf.code_action, '[L]ist [A]ctions', { 'n', 'x' })
+        map('<leader>lf', vim.lsp.buf.format, '[L]SP [F]ormat', { 'n', 'v' })
+
+        -- Info and diagnostics
+        map('K', vim.lsp.buf.hover, 'Hover Documentation')
+        map('<leader>li', '<cmd>LspInfo<CR>', 'LSP [I]nfo')
+        map('gl', vim.diagnostic.open_float, '[G]utter [L]ine Diagnostics')
+
+        -- Optional: Uncomment for inlay hints or conditional formatting
+        -- local client = vim.lsp.get_client_by_id(event.data.client_id)
+        -- if client.supports_method("textDocument/inlayHint") then
+        --   vim.lsp.inlay_hint.enable(true)
+        -- end
       end,
     })
-  end
-end
 
-M.toggle_inlay_hints = function()
-  local bufnr = vim.api.nvim_get_current_buf()
-  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr }))
-end
+    -- Format on save
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      group = vim.api.nvim_create_augroup("Format", { clear = true }),
+      callback = function()
+        if vim.lsp.get_clients() then
+          vim.lsp.buf.format({ async = false })
+        end
+      end,
+    })
 
-function M.config()
-  vim.keymap.set({ "n", "v" }, "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", { desc = "Code Action" })
-  vim.keymap.set(
-    { "n", "v" },
-    "<leader>lf",
-    "<cmd>lua vim.lsp.buf.format({async = true, filter = function(client) return client.name ~= 'typescript-tools' end})<cr>",
-    { desc = "Format" }
-  )
-  vim.keymap.set({ "n", "v" }, "<leader>li", "<cmd>LspInfo<cr>", { desc = "Info" })
-  vim.keymap.set({ "n", "v" }, "<leader>lj", "<cmd>lua vim.diagnostic.goto_next()<cr>", { desc = "Next Diagnostic" })
-  vim.keymap.set(
-    { "n", "v" },
-    "<leader>lh",
-    "<cmd>lua require('lspconfig').toggle_inlay_hints()<cr>",
-    { desc = "Hints" }
-  )
-  vim.keymap.set({ "n", "v" }, "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev()<cr>", { desc = "Prev Diagnostic" })
-  vim.keymap.set({ "n", "v" }, "<leader>ll", "<cmd>lua vim.lsp.codelens.run()<cr>", { desc = "CodeLens Action" })
-  vim.keymap.set({ "n", "v" }, "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<cr>", { desc = "Quickfix" })
-  vim.keymap.set({ "n", "v" }, "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", { desc = "Rename" })
+    local servers = {
+      "lua_ls",
+      "cssls",
+      "html",
+      "eslint",
+      "pyright",
+      "bashls",
+      "jsonls",
+      "yamlls",
+      "terraformls",
+      "tflint",
+      "gopls",
+      "omnisharp",
+    }
 
-  local servers = {
-    "lua_ls",
-    "cssls",
-    "html",
-    "eslint",
-    "pyright",
-    "bashls",
-    "jsonls",
-    "yamlls",
-    "terraformls",
-    "tflint",
-    "gopls",
-    "omnisharp",
-  }
+    -- LSP servers and clients are able to communicate to each other what features they support.
+    --  By default, Neovim doesn't support everything that is in the LSP specification.
+    --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
+    --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
+    local original_capabilities = vim.lsp.protocol.make_client_capabilities()
+    local capabilities = require("blink.cmp").get_lsp_capabilities(original_capabilities)
+    -- capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
-  -- LSP servers and clients are able to communicate to each other what features they support.
-  --  By default, Neovim doesn't support everything that is in the LSP specification.
-  --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
-  --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
-  local original_capabilities = vim.lsp.protocol.make_client_capabilities()
-  local capabilities = require("blink.cmp").get_lsp_capabilities(original_capabilities)
-  -- capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+    local lspconfig = require("lspconfig")
+    local lspHandlers = {
+      function(server_name)
+        require("lspconfig")[server_name].setup({
+          -- on_attach = on_attach,
+          capabilities = capabilities,
+        })
+      end,
 
-  local lspconfig = require("lspconfig")
-  local lspHandlers = {
-    function(server_name)
-      require("lspconfig")[server_name].setup({
-        on_attach = M.on_attach,
-        capabilities = capabilities,
-      })
-    end,
-
-    ["lua_ls"] = function()
-      lspconfig.lua_ls.setup({
-        settings = {
-          Lua = {
-            diagnostics = {
-              globals = { "vim" },
+      ["lua_ls"] = function()
+        lspconfig.lua_ls.setup({
+          settings = {
+            Lua = {
+              diagnostics = {
+                globals = { "vim" },
+              },
+              runtime = {
+                version = "LuaJIT",
+              },
             },
-            runtime = {
-              version = "LuaJIT",
+            workspace = {
+              checkThirdParty = false,
+              library = {
+                [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+                [vim.fn.stdpath("config") .. "/lua"] = true,
+              },
             },
           },
-          workspace = {
-            checkThirdParty = false,
-            library = {
-              [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-              [vim.fn.stdpath("config") .. "/lua"] = true,
+        })
+      end,
+
+      -- ["gopls"] = function()
+      -- 	lspconfig.gopls.setup({
+      -- 		cmd = { "gopls", "serve" },
+      -- 		filetypes = { "go", "gomod", "gowork", "gotmpl" },
+      -- 		settings = {
+      -- 			gopls = {
+      -- 				completeUnimported = true,
+      -- 				usePlaceholders = true,
+      -- 				analyses = {
+      -- 					unusedparams = true,
+      -- 					unreachable = false,
+      -- 				},
+      -- 			},
+      -- 		},
+      -- 	})
+      -- end,
+
+      ["terraformls"] = function()
+        lspconfig.terraformls.setup({
+          cmd = { "terraform-ls", "serve" },
+          root_dir = lspconfig.util.root_pattern(".terraform", ".git"),
+        })
+      end,
+      ["tflint"] = function()
+        lspconfig.tflint.setup({})
+      end,
+
+      ["yamlls"] = function()
+        lspconfig.yamlls.setup({
+          settings = {
+            yaml = {
+              schemas = require("schemastore").yaml.schemas(),
+              format = { enable = true },
+              validate = true,
             },
           },
-        },
-      })
-    end,
+        })
+      end,
 
-    -- ["gopls"] = function()
-    -- 	lspconfig.gopls.setup({
-    -- 		cmd = { "gopls", "serve" },
-    -- 		filetypes = { "go", "gomod", "gowork", "gotmpl" },
-    -- 		settings = {
-    -- 			gopls = {
-    -- 				completeUnimported = true,
-    -- 				usePlaceholders = true,
-    -- 				analyses = {
-    -- 					unusedparams = true,
-    -- 					unreachable = false,
-    -- 				},
-    -- 			},
-    -- 		},
-    -- 	})
-    -- end,
-
-    ["terraformls"] = function()
-      lspconfig.terraformls.setup({
-        cmd = { "terraform-ls", "serve" },
-        root_dir = lspconfig.util.root_pattern(".terraform", ".git"),
-      })
-    end,
-    ["tflint"] = function()
-      lspconfig.tflint.setup({})
-    end,
-
-    ["yamlls"] = function()
-      lspconfig.yamlls.setup({
-        settings = {
-          yaml = {
-            schemas = require("schemastore").yaml.schemas(),
-            format = { enable = true },
-            validate = true,
+      ["jsonls"] = function()
+        lspconfig.jsonls.setup({
+          settings = {
+            json = {
+              schemas = require("schemastore").json.schemas(),
+            },
           },
-        },
-      })
-    end,
+        })
+      end,
+    }
 
-    ["jsonls"] = function()
-      lspconfig.jsonls.setup({
-        settings = {
-          json = {
-            schemas = require("schemastore").json.schemas(),
-          },
-        },
-      })
-    end,
-  }
+    require("mason").setup()
+    require("mason-lspconfig").setup({
+      ensure_installed = servers,
+      automatic_installation = true,
+      handlers = lspHandlers,
+    })
+  end,
 
-  require("mason").setup()
-  require("mason-lspconfig").setup({
-    ensure_installed = servers,
-    automatic_installation = true,
-    handlers = lspHandlers,
-  })
-end
-
-return M
+}
