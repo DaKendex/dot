@@ -140,10 +140,20 @@ cask "shottr"
 cask "signal"
 cask "stats"
 cask "sublime-text"
-cask "time-out"
 cask "vscodium"
 cask "wezterm@nightly"
 cask "yubico-yubikey-manager"
+mas "Amphetamine", id: 937984704
+mas "GarageBand", id: 682658836
+mas "iMovie", id: 408981434
+mas "Keynote", id: 409183694
+mas "Microsoft Excel", id: 462058435
+mas "Microsoft OneNote", id: 784801555
+mas "Microsoft Outlook", id: 985367838
+mas "Microsoft PowerPoint", id: 462062816
+mas "Microsoft Word", id: 462054704
+mas "Numbers", id: 409203825
+mas "Pages", id: 409201541
 vscode "asvetliakov.vscode-neovim"
 vscode "enkia.tokyo-night"
 vscode "golang.go"
