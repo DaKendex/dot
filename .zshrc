@@ -25,7 +25,8 @@ plug "hlissner/zsh-autopair"
 plug "MichaelAquilina/zsh-you-should-use"
 plug "zap-zsh/exa"
 plug "zsh-users/zsh-syntax-highlighting"
-plug "jeffreytse/zsh-vi-mode"
+# plug "jeffreytse/zsh-vi-mode"
+export VI_MODE_ESC_INSERT="kj" && plug "zap-zsh/vim"
 plug "zsh-users/zsh-history-substring-search"
 
 # Custom Configs
@@ -72,6 +73,16 @@ fi
 # fzf integration
 source <(fzf --zsh)
 
+# kubctl completion
+if type kubectl &>/dev/null; then
+  source <(kubectl completion zsh)
+fi
+# Kubecolor completion
+if type kubecolor &>/dev/null; then
+  source <(kubecolor completion zsh)
+  compdef kubecolor=kubectl
+fi
+
 # Zoxide initialization
 eval "$(zoxide init zsh)"
 
@@ -79,7 +90,7 @@ eval "$(zoxide init zsh)"
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vi'
 else
-  export EDITOR='vi'
+  export EDITOR='nvim'
 fi
 
 # Ripgrep (rg) integration with fzf
@@ -134,6 +145,8 @@ bindkey -M viins '^[OB' history-substring-search-down
 bindkey -r '^X'
 
 # Edit command line bindings
+export VISUAL=nvim
+export EDITOR="$VISUAL"
 autoload -U edit-command-line
 zle -N edit-command-line
 bindkey '^xe' edit-command-line
