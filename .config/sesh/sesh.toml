@@ -47,6 +47,11 @@ path = "~/repo/dot"
 startup_command = "nvim .zshrc"
 
 [[session]]
+name = "lazygit"
+path = "~/repo/dot/.config/lazygit"
+startup_command = "nvim config.yml"
+
+[[session]]
 name = "Local zsh"
 path = "~/.env.zsh"
 startup_command = "nvim ~/.env.zsh"
