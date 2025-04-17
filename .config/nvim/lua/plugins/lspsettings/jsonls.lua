@@ -1,7 +1,7 @@
 return {
   settings = {
     json = {
-      schemas = require("plugin.schemastore").json.schemas(),
+      schemas = require("schemastore").json.schemas(),
     },
   },
   setup = {

@@ -102,3 +102,12 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
     require("user.diagnostics").setup()
   end,
 })
+vim.api.nvim_create_user_command("YamllsConfig", function()
+  local clients = vim.lsp.get_clients({ name = "yamlls" })
+  local client = clients[1]
+  if client then
+    print(vim.inspect(client.config.settings))
+  else
+    print("yamlls not active in this buffer")
+  end
+end, {})

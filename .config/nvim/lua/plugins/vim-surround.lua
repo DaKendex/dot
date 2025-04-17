@@ -1,8 +1,4 @@
-local M = {
-	"tpope/vim-surround",
-	lazy = false,
+return {
+  "tpope/vim-surround",
+  key = { "cs", "ds", "ys" },
 }
-
-function M.config() end
-
-return M

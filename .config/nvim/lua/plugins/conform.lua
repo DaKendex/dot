@@ -13,8 +13,9 @@ return {
         html = { "prettier" },
         css = { "prettier" },
         scss = { "prettier" },
-        python = { "black" },
-        go = { "goimports_reviser", "golines", "gofumpt" },
+        python = { "prettier" },
+        -- go = { "goimports_reviser", "golines", "gofumpt" },
+        markdown = { "prettier" },
       },
       formatters = {
         -- optional: override args

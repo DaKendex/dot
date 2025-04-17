@@ -14,6 +14,16 @@ return {
           },
         },
       },
+      {
+        "ray-x/go.nvim",
+        dependencies = {
+          "ray-x/guihua.lua",
+          "nvim/nvim-lspconfig",
+          "nvim-treesitter/nvim-treesitter",
+        },
+        event = { "CmdlineEnter" },
+        ft = { "go", "gomod" },
+      },
       { "williamboman/mason-lspconfig.nvim" },
       { "williamboman/mason.nvim" },
       -- { "hrsh7th/cmp-nvim-lsp" },
@@ -34,34 +44,34 @@ return {
 
   config = function()
     -- LSP keymaps on attach
-    vim.api.nvim_create_autocmd('LspAttach', {
-      group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
+    vim.api.nvim_create_autocmd("LspAttach", {
+      group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
       callback = function(event)
         local map = function(keys, func, desc, mode)
-          mode = mode or 'n'
-          vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
+          mode = mode or "n"
+          vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
         end
 
         -- Go to navigation
-        map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-        map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-        map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-        map('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-        map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
+        map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+        map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+        map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+        map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
+        map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
 
         -- Symbols
-        map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-        map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+        map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
+        map("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
 
         -- Actions
-        map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-        map('<leader>la', vim.lsp.buf.code_action, '[L]ist [A]ctions', { 'n', 'x' })
-        map('<leader>lf', vim.lsp.buf.format, '[L]SP [F]ormat', { 'n', 'v' })
+        map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
+        map("<leader>la", vim.lsp.buf.code_action, "[L]ist [A]ctions", { "n", "x" })
+        map("<leader>lf", vim.lsp.buf.format, "[L]SP [F]ormat", { "n", "v" })
 
         -- Info and diagnostics
-        map('K', vim.lsp.buf.hover, 'Hover Documentation')
-        map('<leader>li', '<cmd>LspInfo<CR>', 'LSP [I]nfo')
-        map('gl', vim.diagnostic.open_float, '[G]utter [L]ine Diagnostics')
+        map("K", vim.lsp.buf.hover, "Hover Documentation")
+        map("<leader>li", "<cmd>LspInfo<CR>", "LSP [I]nfo")
+        map("gl", vim.diagnostic.open_float, "[G]utter [L]ine Diagnostics")
 
         -- Optional: Uncomment for inlay hints or conditional formatting
         -- local client = vim.lsp.get_client_by_id(event.data.client_id)
@@ -75,9 +85,16 @@ return {
     vim.api.nvim_create_autocmd("BufWritePre", {
       group = vim.api.nvim_create_augroup("Format", { clear = true }),
       callback = function()
-        if vim.lsp.get_clients() then
-          vim.lsp.buf.format({ async = false })
+        local buf = vim.api.nvim_get_current_buf()
+        if vim.api.nvim_buf_is_valid(buf) then
+          require("conform").format({
+            bufnr = buf,
+            async = false,
+          })
+          print("Formatting...with conform")
         end
+        -- Removed the check for vim.lsp.get_clients() since it's not necessary and might cause issues
+        vim.lsp.buf.format({ async = false })
       end,
     })
 
@@ -94,6 +111,7 @@ return {
       "tflint",
       "gopls",
       "omnisharp",
+      "harper_ls",
     }
 
     -- LSP servers and clients are able to communicate to each other what features they support.
@@ -134,23 +152,24 @@ return {
           },
         })
       end,
+      ["bashls"] = function()
+        lspconfig.bashls.setup({
+          filetypes = { "sh", "zsh" },
+        })
+      end,
 
-      -- ["gopls"] = function()
-      -- 	lspconfig.gopls.setup({
-      -- 		cmd = { "gopls", "serve" },
-      -- 		filetypes = { "go", "gomod", "gowork", "gotmpl" },
-      -- 		settings = {
-      -- 			gopls = {
-      -- 				completeUnimported = true,
-      -- 				usePlaceholders = true,
-      -- 				analyses = {
-      -- 					unusedparams = true,
-      -- 					unreachable = false,
-      -- 				},
-      -- 			},
-      -- 		},
-      -- 	})
-      -- end,
+      ["gopls"] = function()
+        lspconfig.gopls.setup({})
+        require("go").setup({})
+        local format_sync_grp = vim.api.nvim_create_augroup("goimports", {})
+        vim.api.nvim_create_autocmd("BufWritePre", {
+          pattern = "*.go",
+          callback = function()
+            require("go.format").goimports()
+          end,
+          group = format_sync_grp,
+        })
+      end,
 
       ["terraformls"] = function()
         lspconfig.terraformls.setup({
@@ -183,6 +202,11 @@ return {
           },
         })
       end,
+      ["harper_ls"] = function()
+        lspconfig.harper_ls.setup({
+          filetypes = { "markdown", "git", "gitcommit", "octo" },
+        })
+      end,
     }
 
     require("mason").setup()
@@ -192,5 +216,4 @@ return {
       handlers = lspHandlers,
     })
   end,
-
 }

@@ -1,5 +1,5 @@
 return {
-	"wurli/visimatch.nvim",
-	event = "VeryLazy",
-	opts = {},
+  "wurli/visimatch.nvim",
+  event = "VeryLazy",
+  opts = {},
 }

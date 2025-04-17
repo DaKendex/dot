@@ -1,7 +1,7 @@
 local M = {
-	"nvim-treesitter/nvim-treesitter",
-	event = { "BufReadPost", "BufNewFile" },
-	build = ":TSUpdate",
+  "nvim-treesitter/nvim-treesitter",
+  event = { "BufReadPost", "BufNewFile" },
+  build = ":TSUpdate",
 }
 
 -- local parser_config = require'nvim-treesitter.parsers'.get_parser_configs()
@@ -15,28 +15,28 @@ local M = {
 -- }
 
 function M.config()
-	require("nvim-treesitter.configs").setup({
-		auto_install = true,
-		sync_install = false,
-		ignore_install = {},
-		modules = {},
-		ensure_installed = {
-			"lua",
+  require("nvim-treesitter.configs").setup({
+    auto_install = true,
+    sync_install = false,
+    ignore_install = {},
+    modules = {},
+    ensure_installed = {
+      "lua",
       "vim",
       "vimdoc",
       "tmux",
-			"markdown",
-			"markdown_inline",
-			"bash",
-			"python",
-			"terraform",
+      "markdown",
+      "markdown_inline",
+      "bash",
+      "python",
+      "terraform",
       "hcl",
-			"go",
-			"yaml",
+      "go",
+      "yaml",
       "graphql",
-		},
-		highlight = { enable = true },
-		indent = { enable = true },
+    },
+    highlight = { enable = true },
+    indent = { enable = true },
     incremental_selection = {
       enable = true,
       keymaps = {
@@ -46,7 +46,8 @@ function M.config()
         node_decremental = "<Backspace>",
       },
     },
-	})
+  })
+  vim.treesitter.language.register("markdown", "octo")
 end
 
 return M

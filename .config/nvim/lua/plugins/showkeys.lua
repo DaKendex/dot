@@ -4,5 +4,5 @@ return {
   opts = {
     maxkeys = 5,
     position = "top-right",
-  }
+  },
 }

@@ -2,6 +2,7 @@ return {
   settings = {
     yaml = {
       schemas = require("plugins.schemastore").yaml.schemas(),
+      validate = true,
     },
   },
   setup = {

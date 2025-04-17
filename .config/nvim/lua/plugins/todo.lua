@@ -1,16 +1,16 @@
 local M = {
-	"folke/todo-comments.nvim",
+  "folke/todo-comments.nvim",
   cmd = { "TodoTrouble", "TodoTelescope" },
-	event = "BufReadPre",
-	dependencies = {
-		"nvim-lua/plenary.nvim",
-		--TODO: Add dependency
-	},
+  event = "BufReadPre",
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    --TODO: Add dependency
+  },
 }
 
 function M.config()
-	require("todo-comments").setup()
-	vim.keymap.set("n", "<leader>td", "<cmd>TodoTelescope<CR>", { silent = true, noremap = true })
+  require("todo-comments").setup()
+  vim.keymap.set("n", "<leader>td", "<cmd>TodoTelescope<CR>", { silent = true, noremap = true })
 end
 
 return M

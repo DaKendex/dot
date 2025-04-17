@@ -6,13 +6,12 @@ local M = {
 }
 
 function M.config()
-
   require("catppuccin").setup({
     flavour = "mocha",
     transparent_background = true,
     styles = {
       comments = { "italic" },
-      functions = { "italic"},
+      functions = { "italic" },
       operators = { "italic" },
       conditionals = { "italic" },
       loops = { "italic" },
