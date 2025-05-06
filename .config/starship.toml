@@ -13,10 +13,10 @@ $git_metrics\
 $kubernetes\
 $terraform\
 $line_break\
-$character
+$character\
 """
 right_format = """$all"""
-follow_symlinks	= true
+follow_symlinks = true
 command_timeout = 1000
 
 [os]
@@ -112,7 +112,7 @@ disabled = false
 symbol = "️󱃾 "
 style = "blue"
 contexts = [
-  { context_pattern = "prod"},
+  { context_pattern = "prod" },
   { context_pattern = "staging" },
   { context_pattern = "dev" },
 ]
