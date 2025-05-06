@@ -97,3 +97,9 @@ preview_command = "bat --color=always ~/repo/dot/.config/tmux/tmux.conf"
 name = "Zsh"
 path = "~/repo/dot"
 startup_command = "nvim .zshrc"
+
+[[session]]
+name = "Gh-dash"
+path = "~/repo/dot/.config/gh-dash"
+startup_command = "nvim config.yml"
+preview_command = "bat --color=always ~/repo/dot/.config/gh-dash/config.yml"
