@@ -6,6 +6,7 @@ local M = {
   },
   lazy = true,
   event = "BufReadPost",
+  enabled = false,
 }
 
 function M.config()

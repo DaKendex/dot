@@ -54,13 +54,13 @@ return {
 
         -- Go to navigation
         map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-        map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-        map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+        map("gd", require("fzf-lua").lsp_definitions, "[G]oto [D]efinition")
+        map("gr", require("fzf-lua").lsp_references, "[G]oto [R]eferences")
         map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
         map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
 
         -- Symbols
-        map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
+        map("<leader>ds", require("fzf-lua").lsp_document_symbols, "[D]ocument [S]ymbols")
         map("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
 
         -- Actions
@@ -112,6 +112,7 @@ return {
       "gopls",
       "omnisharp",
       "harper_ls",
+      "taplo",
     }
 
     -- LSP servers and clients are able to communicate to each other what features they support.
