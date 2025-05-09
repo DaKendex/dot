@@ -16,7 +16,7 @@ issuesSections:
 defaults:
   preview:
     open: true
-    width: 150
+    # width: 150
   prsLimit: 20
   issuesLimit: 20
   view: prs
@@ -79,4 +79,4 @@ theme:
     table:
       showSeparator: true
 pager:
-  diff: "delta"
+  diff: "delta --dark --line-numbers"
