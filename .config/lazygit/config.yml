@@ -1,26 +1,29 @@
-# gui:
-# border: hidden
-# theme:
-#   activeBorderColor:
-#     - blue
-#     - bold
-#   inactiveBorderColor:
-#     - cyan
-#   optionsTextColor:
-#     - white
-#   selectedLineBgColor:
-#     - black
-#   cherryPickedCommitBgColor:
-#     - blue
-#   cherryPickedCommitFgColor:
-#     - cyan
-#   unstagedChangesColor:
-#     - white
+gui:
+  expandFocusedSidePanel: true
+  mainPanelSplitMode: "flexible" # one of 'horizontal' | 'flexible' | 'vertical'
+  border: rounded
+  # theme:
+  #   activeBorderColor:
+  #     - blue
+  #     - bold
+  #   inactiveBorderColor:
+  #     - cyan
+  #   optionsTextColor:
+  #     - white
+  #   selectedLineBgColor:
+  #     - black
+  #   cherryPickedCommitBgColor:
+  #     - blue
+  #   cherryPickedCommitFgColor:
+  #     - cyan
+  #   unstagedChangesColor:
+  #     - white
 # to skip without creating a new repo
 git:
   paging:
     colorArg: always
-    pager: delta --dark --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
+    # pager: delta --dark --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
+    pager: delta --dark --paging=never --line-numbers
 os:
   editPreset: "nvim"
 customCommands:
