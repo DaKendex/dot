@@ -45,7 +45,7 @@ zsh_sources=(
 )
 
 for file in "${zsh_sources[@]}"; do
-  [ -f "$file" ] && source "$file"
+  [ -f "$file" ] && plug "$file"
 done
 
 
