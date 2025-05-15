@@ -2,7 +2,6 @@
 .DS_Store
 .github
 .env*
-dadjoke
 tmux/plugins/*
 tmux-client*
 tmux/.config/tmux/plugins/*
