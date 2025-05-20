@@ -1,6 +1,7 @@
 tap "1password/tap"
 tap "arl/arl"
 tap "benjiwolff/neovim-nightly"
+tap "common-fate/granted"
 tap "derailed/k9s"
 tap "fairwindsops/tap"
 tap "felixkratz/formulae"
@@ -55,6 +56,7 @@ brew "gum"
 brew "helm"
 brew "helmfile"
 brew "jq"
+brew "kind"
 brew "kubecolor"
 brew "kubernetes-cli"
 brew "kubectx"
@@ -95,6 +97,7 @@ brew "yq"
 brew "zoxide"
 brew "zsh"
 brew "arl/arl/gitmux"
+brew "common-fate/granted/granted"
 brew "derailed/k9s/k9s"
 brew "fairwindsops/tap/pluto"
 brew "felixkratz/formulae/borders"
@@ -145,6 +148,7 @@ cask "wezterm@nightly"
 cask "yubico-yubikey-manager"
 mas "Amphetamine", id: 937984704
 mas "GarageBand", id: 682658836
+mas "Hand Mirror", id: 1502839586
 mas "iMovie", id: 408981434
 mas "Keynote", id: 409183694
 mas "Microsoft Excel", id: 462058435

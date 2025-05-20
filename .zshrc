@@ -73,6 +73,11 @@ fi
 # fzf integration
 source <(fzf --zsh)
 
+if type assume &>/dev/null; then
+  fpath=(/Users/kfreitas/.granted/zsh_autocomplete/assume/ $fpath)
+  fpath=(/Users/kfreitas/.granted/zsh_autocomplete/granted/ $fpath)
+  alias assume=". assume"
+fi
 # kubctl completion
 if type kubectl &>/dev/null; then
   source <(kubectl completion zsh)
