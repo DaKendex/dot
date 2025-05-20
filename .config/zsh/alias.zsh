@@ -35,14 +35,21 @@ alias brew-clean="brew bundle cleanup --file=~/repo/dot/Brewfile --force"
 wta() {
   local branch=$1
   local current_dir=$(pwd)
-  local worktree_path=".wt/$branch"
+  local repo_root=$(git rev-parse --show-toplevel)
+  local worktree_path="$repo_root/.wt/$branch"
 
-  [ ! -d ".wt" ] && mkdir .wt
+  # Create .wt directory if it doesn't exist
+  [ ! -d "$repo_root/.wt" ] && mkdir -p "$repo_root/.wt"
+
   # Create the worktree
-  git worktree add $worktree_path
+  git worktree add "$worktree_path"
 
-  # Change to the new worktree directory
-  cd $worktree_path && cd $current_dir
+  # Add the worktree path to zoxide's database
+  zoxide add "$worktree_path"
+  
+  # Print confirmation and instructions
+  echo "Worktree created at $worktree_path"
+  echo "Use 'z $(basename $worktree_path)' to jump to this worktree"
 }
 
 # ls to exa
