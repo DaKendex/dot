@@ -29,24 +29,17 @@ plug "zsh-users/zsh-syntax-highlighting"
 export VI_MODE_ESC_INSERT="kj" && plug "zap-zsh/vim"
 plug "zsh-users/zsh-history-substring-search"
 
-# Custom Configs
-zsh_sources=(
-  "$HOME/.env.zsh"
-  "$XDG_CONFIG_HOME/zsh/sesh.zsh"
-  "$XDG_CONFIG_HOME/zsh/git.zsh"
-  "$XDG_CONFIG_HOME/zsh/bash.zsh"
-  "$XDG_CONFIG_HOME/zsh/alias.zsh"
-  "$XDG_CONFIG_HOME/zsh/colima.zsh"
-  "$XDG_CONFIG_HOME/zsh/lg.zsh"
-  "$XDG_CONFIG_HOME/zsh/aws.zsh"
-  "$XDG_CONFIG_HOME/zsh/k8s.zsh"
-  "$XDG_CONFIG_HOME/zsh/options.zsh"
-  "$XDG_CONFIG_HOME/op/plugins.sh"
-)
+# Custom Configs - Auto-source all .zsh files in the config directory
+# First source the environment file if it exists
+[ -f "$HOME/.env.zsh" ] && plug "$HOME/.env.zsh"
 
-for file in "${zsh_sources[@]}"; do
+# Then source all .zsh files in the config directory
+for file in "$XDG_CONFIG_HOME/zsh"/*.zsh; do
   [ -f "$file" ] && plug "$file"
 done
+
+# Special case for 1Password plugins if they exist
+[ -f "$XDG_CONFIG_HOME/op/plugins.sh" ] && plug "$XDG_CONFIG_HOME/op/plugins.sh"
 
 
 # ==============================
