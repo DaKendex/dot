@@ -1,5 +1,5 @@
-alias zshconfig="code ~/.zshrc"
-alias s="source ~/.zshrc"
+alias zshconfig="code ${ZDOTDIR}/.zshrc"
+alias s="source ${ZDOTDIR}/.zshrc"
 alias ohmyzsh="code ~/.oh-my-zsh"
 alias copy="pbcopy"
 alias ipe="curl wtfismyip.com/json"
