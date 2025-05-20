@@ -1,10 +1,65 @@
+# Repository and git files
 .git
-.DS_Store
 .github
+
+# System files
+.DS_Store
+
+# Environment and local configuration
 .env*
+.env.zsh
+*.local.zsh
+local.zsh
+
+# Tmux
 tmux/plugins/*
 tmux-client*
 tmux/.config/tmux/plugins/*
+
+# Karabiner
 karabiner/.config/karabiner/automatic_backups/*
-en.utf-8.add
+
+# Neovim
 nvim/.config/nvim/spell/en.utf-8.add
+en.utf-8.add
+
+# Zsh - Completion cache
+.zcompdump*
+.zcompcache/
+
+# Zsh - History files
+.zsh_history
+.zhistory
+.zsh_sessions/
+
+# Zsh - Plugin manager cache/generated files
+.zinit/
+.antigen/
+.zplug/
+.zplugin/
+.zcomet/
+.oh-my-zsh/cache/
+.zsh_*_suggestions
+
+# Zsh - Compiled files
+*.zwc
+*.zwc.old
+
+# Zsh - Navigation tools
+.z
+.z.*
+.zi_history
+.directory_history
+._zi
+
+# Zsh - Debug files
+zsh_debug_*
+zprof_*
+.zrepl_history
+.zcalc_history
+
+# Temporary and backup files
+*.swp
+*.bak
+*~
+.*.un~
