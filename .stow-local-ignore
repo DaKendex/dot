@@ -7,4 +7,5 @@ Library
 .gitconfig
 .gitignore
 README.md
+/.aws/config
 
