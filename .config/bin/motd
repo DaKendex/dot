@@ -1,6 +1,4 @@
 #!/bin/bash
-# ln -sf ${dotfiledir}/scripts/motd/motd.sh ${homedir}/.config/motd.sh
-
 # * ASCII head
 # https://patorjk.com/software/taag/#p=display&f=Doh&t=KENDEX                                                                                                  
 

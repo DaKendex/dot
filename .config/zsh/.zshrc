@@ -50,6 +50,7 @@ done
 export PATH="/usr/local/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
+export PATH="$HOME/.config/bin:$PATH"
 
 # Go Path
 export GOPATH=$HOME/go
@@ -154,14 +155,10 @@ bindkey -M vicmd 'v' edit-command-line
 # Functions & Scripts
 # ==============================
 
-sh_if_exists () {
-  if test -r "$1"; then
-    sh "$1"
-  fi
-}
-
 # Banner MOTD
-sh_if_exists ${XDG_CONFIG_HOME}/bin/motd/motd.sh
+if type motd &>/dev/null; then
+  motd
+fi
 
 # ==============================
 # Command-Line Tools & Utilities
