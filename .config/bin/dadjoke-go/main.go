@@ -14,7 +14,7 @@ type Joke struct {
 	STATUS int    `json:"status"`
 }
 
-// go build -o /usr/local/bin/dadjoke .config/bin/dadjoke
+// go build -o ../dadjoke .
 func main() {
 	req, err := http.NewRequest("GET", "https://icanhazdadjoke.com", nil)
 	if err != nil {
