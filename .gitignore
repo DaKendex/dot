@@ -11,6 +11,9 @@
 *.local.zsh
 local.zsh
 
+# Binary files
+.config/bin/dadjoke
+
 # Tmux
 tmux/plugins/*
 tmux-client*
