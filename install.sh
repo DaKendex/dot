@@ -6,7 +6,7 @@ echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>$HOME/.zprofile
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # Brew Packages
-brew bundle install --file ~/repo/dot/bin/Brewfile
+brew bundle install --file ~/repo/dot/Brewfile
 
 # Install Zap for zsh
 zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --branch release-v1
