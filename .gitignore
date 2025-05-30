@@ -14,6 +14,9 @@ local.zsh
 # Binary files
 .config/bin/dadjoke
 
+# Raycast
+raycast/
+
 # Tmux
 tmux/plugins/*
 tmux-client*
