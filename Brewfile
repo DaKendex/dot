@@ -26,7 +26,6 @@ brew "act"
 brew "ansible"
 brew "aws-vault"
 brew "awscli"
-brew "azure-cli"
 brew "bash"
 brew "bat"
 brew "colima"
@@ -114,9 +113,7 @@ brew "warrensbox/tap/tfswitch"
 brew "weaveworks/tap/eksctl"
 cask "1password-cli"
 cask "aerospace"
-cask "alacritty"
 cask "ankerwork"
-cask "asana"
 cask "blockblock"
 cask "brave-browser"
 cask "discord"
@@ -132,34 +129,13 @@ cask "itsycal"
 cask "kap"
 cask "karabiner-elements"
 cask "keycastr"
-cask "microsoft-auto-update"
-cask "microsoft-office"
-cask "microsoft-teams"
 cask "neovim-nightly"
-cask "obs"
 cask "raycast"
 cask "sf-symbols"
 cask "shottr"
-cask "signal"
 cask "stats"
-cask "sublime-text"
 cask "vscodium"
 cask "wezterm@nightly"
 cask "yubico-yubikey-manager"
 mas "Amphetamine", id: 937984704
-mas "GarageBand", id: 682658836
 mas "Hand Mirror", id: 1502839586
-mas "iMovie", id: 408981434
-mas "Keynote", id: 409183694
-mas "Microsoft Excel", id: 462058435
-mas "Microsoft OneNote", id: 784801555
-mas "Microsoft Outlook", id: 985367838
-mas "Microsoft PowerPoint", id: 462062816
-mas "Microsoft Word", id: 462054704
-mas "Numbers", id: 409203825
-mas "Pages", id: 409201541
-vscode "asvetliakov.vscode-neovim"
-vscode "enkia.tokyo-night"
-vscode "golang.go"
-vscode "hashicorp.terraform"
-vscode "vscodevim.vim"
