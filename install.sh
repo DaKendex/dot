@@ -1,9 +1,11 @@
 #!/bin/bash
 
 # Install Brew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>$HOME/.zprofile
-eval "$(/opt/homebrew/bin/brew shellenv)"
+if type brew &>/dev/null; then
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>$HOME/.zprofile
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 
 # Brew Packages
 brew bundle install --file ~/repo/dot/Brewfile
