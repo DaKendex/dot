@@ -26,7 +26,9 @@ raycast/
 # Tmux
 tmux/plugins/*
 tmux-client*
-tmux/.config/tmux/plugins/*
+.config/tmux/plugins/
+.config/tmux/plugins/tmux-nerd-font-window-name
+.config/tmux/plugins/vim-tmux-navigator
 
 # Karabiner
 karabiner/.config/karabiner/automatic_backups/*

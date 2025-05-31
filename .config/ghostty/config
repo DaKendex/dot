@@ -80,21 +80,22 @@ keybind = super+physical:eight=text:\x008
 keybind = super+physical:nine=text:\x009
 
 # Open Sesh  # Super + k = Leader + K
-keybind = super+k=text:\x00\x4b
-keybind = super+l=text:\x00\x6c
+keybind = super+k=text:\x02\x4b
+# Sesh last  # Super + l = Leader + l
+keybind = super+l=text:\x02\x6c
 # Tmux Create Session  # Super + c = Leader + c 
-keybind = super+c=text:\x00\x63
+keybind = super+c=text:\x02\x63
 # Tmux Close pane  # Super + x = Leader + x 
-keybind = super+x=text:\x00\x78
+keybind = super+x=text:\x02\x78
 # Tmux VSplit  pane  # Super + e = Leader + %
-keybind = super+e=text:\x00\x25
+keybind = super+e=text:\x02\x25
 # Tmux HSplit  pane  # Super + E = Leader + "
-keybind = super+shift+e=text:\x00\x2d
+keybind = super+shift+e=text:\x02\x2d
 # Tmux Fullscreen pane  # Super + f = Leader + z
-keybind = super+f=text:\x00\x7a
+keybind = super+f=text:\x02\x7a
 # Open Lazygit  # Super + g = Leader + g
-keybind = super+g=text:\x00\x67
+keybind = super+g=text:\x02\x67
 # Open gh-dash  # Super + G = Leader + G
-keybind = super+shift+g=text:\x00\x47
+keybind = super+shift+g=text:\x02\x47
 # Open Octo # Super + o = :Octo
 keybind = super+o=text:\x3a\x4f\x63\x74\x6f\x0a
