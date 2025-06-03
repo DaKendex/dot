@@ -77,3 +77,4 @@ zprof_*
 *.bak
 *~
 .*.un~
+.config/colima
