@@ -2,23 +2,29 @@ gui:
   expandFocusedSidePanel: true
   mainPanelSplitMode: "flexible" # one of 'horizontal' | 'flexible' | 'vertical'
   border: rounded
-  # theme:
-  #   activeBorderColor:
-  #     - blue
-  #     - bold
-  #   inactiveBorderColor:
-  #     - cyan
-  #   optionsTextColor:
-  #     - white
-  #   selectedLineBgColor:
-  #     - black
-  #   cherryPickedCommitBgColor:
-  #     - blue
-  #   cherryPickedCommitFgColor:
-  #     - cyan
-  #   unstagedChangesColor:
-  #     - white
-# to skip without creating a new repo
+  theme:
+    activeBorderColor:
+      - '#a6e3a1'
+      - bold
+    inactiveBorderColor:
+      - '#a6adc8'
+    optionsTextColor:
+      - '#89b4fa'
+    selectedLineBgColor:
+      - '#313244'
+    cherryPickedCommitBgColor:
+      - '#45475a'
+    cherryPickedCommitFgColor:
+      - '#a6e3a1'
+    unstagedChangesColor:
+      - '#f38ba8'
+    defaultFgColor:
+      - '#cdd6f4'
+    searchingActiveBorderColor:
+      - '#f9e2af'
+  authorColors:
+    '*': '#b4befe'
+  nerdFontsVersion: "3"
 git:
   paging:
     colorArg: always
@@ -44,12 +50,60 @@ customCommands:
     context: "localBranches"
     loadingText: "Loading Octo"
     description: "Open pull request with Octo"
-    subprocess: true
+    output: terminal
   - key: "E"
     context: "files"
     command: "gitmoji -c"
     loadingText: "Loading gitmoji"
-    subprocess: true
+    output: terminal
+  # retrieved from: https://github.com/jesseduffield/lazygit/wiki/Custom-Commands-Compendium#conventional-commit
+  # altered to be a more concise list
+  - key: "<c-v>"
+    context: "global"
+    description: "Create new conventional commit"
+    prompts:
+      - type: "menu"
+        key: "Type"
+        title: "Type of change"
+        options:
+          - name: "none"
+            description: "changes that don’t affect application code (e.g. infrastructure, CI pipelines, documentation, etc)"
+            value: "none"
+          - name: "patch"
+            description: "bugfixes"
+            value: "patch"
+          - name: "minor"
+            description: "features"
+            value: "minor"
+          - name: "major"
+            description: "breaking changes"
+            value: "major"
+          - name: "test"
+            description: "Adding missing tests or correcting existing tests"
+            value: "test"
+      - type: "input"
+        title: "Scope"
+        key: "Scope"
+        initialValue: ""
+      # - type: "menu"
+      #   key: "Breaking"
+      #   title: "Breaking change"
+      #   options:
+      #     - name: "no"
+      #       value: ""
+      #     - name: "yes"
+      #       value: "!"
+      - type: "input"
+        title: "message"
+        key: "Message"
+        initialValue: ""
+      # - type: "confirm"
+      #   key: "Confirm"
+      #   title: "Commit"
+      #   body: "Are you sure you want to commit?"
+    command: "git commit --message '{{.Form.Type}}{{ if .Form.Scope }}({{ .Form.Scope }}){{ end }}: {{.Form.Message}}'"
+    # command: "git commit --message '{{.Form.Type}}: {{.Form.Message}}'"
+    loadingText: "Creating conventional commit..."
 keybinding:
   branches:
     createPullRequest: "O"
