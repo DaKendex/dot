@@ -1,6 +1,7 @@
 local M = {
   "kdheepak/lazygit.nvim",
   event = "VeryLazy",
+  enabled = false,
   dependencies = {
     "nvim-lua/plenary.nvim",
   },

@@ -5,6 +5,6 @@ return {
     "ibhagwan/fzf-lua",            -- Optional: If you want to use the `:Debugprint search` command with fzf-lua
     "nvim-telescope/telescope.nvim", -- Optional: If you want to use the `:Debugprint search` command with telescope.nvim
   },
-  lazy = false,                    -- Required to make line highlighting work before debugprint is first used
+  cmd = { "Debugprint", "DebugprintSearch" }, -- Commands to load this plugin
   version = "*",                   -- Remove if you DON'T want to use the stable version
 }

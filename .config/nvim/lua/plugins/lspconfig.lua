@@ -21,7 +21,6 @@ return {
           "nvim/nvim-lspconfig",
           "nvim-treesitter/nvim-treesitter",
         },
-        event = { "CmdlineEnter" },
         ft = { "go", "gomod" },
       },
       { "williamboman/mason-lspconfig.nvim" },
@@ -54,13 +53,13 @@ return {
 
         -- Go to navigation
         map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-        map("gd", require("fzf-lua").lsp_definitions, "[G]oto [D]efinition")
-        map("gr", require("fzf-lua").lsp_references, "[G]oto [R]eferences")
+        map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+        map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
         map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
         map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
 
         -- Symbols
-        map("<leader>ds", require("fzf-lua").lsp_document_symbols, "[D]ocument [S]ymbols")
+        map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
         map("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
 
         -- Actions
@@ -82,21 +81,21 @@ return {
     })
 
     -- Format on save
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      group = vim.api.nvim_create_augroup("Format", { clear = true }),
-      callback = function()
-        local buf = vim.api.nvim_get_current_buf()
-        if vim.api.nvim_buf_is_valid(buf) then
-          require("conform").format({
-            bufnr = buf,
-            async = false,
-          })
-          print("Formatting...with conform")
-        end
-        -- Removed the check for vim.lsp.get_clients() since it's not necessary and might cause issues
-        vim.lsp.buf.format({ async = false })
-      end,
-    })
+    -- vim.api.nvim_create_autocmd("BufWritePre", {
+    --   group = vim.api.nvim_create_augroup("Format", { clear = true }),
+    --   callback = function()
+    --     local buf = vim.api.nvim_get_current_buf()
+    --     if vim.api.nvim_buf_is_valid(buf) then
+    --       require("conform").format({
+    --         bufnr = buf,
+    --         async = false,
+    --       })
+    --       print("Formatting...with conform")
+    --     end
+    --     -- Removed the check for vim.lsp.get_clients() since it's not necessary and might cause issues
+    --     vim.lsp.buf.format({ async = false })
+    --   end,
+    -- })
 
     local servers = {
       "lua_ls",
@@ -111,7 +110,7 @@ return {
       "tflint",
       "gopls",
       "omnisharp",
-      "harper_ls",
+      -- "harper_ls",
       "taplo",
     }
 
@@ -203,11 +202,19 @@ return {
           },
         })
       end,
-      ["harper_ls"] = function()
-        lspconfig.harper_ls.setup({
-          filetypes = { "markdown", "git", "gitcommit", "octo" },
-        })
-      end,
+      -- ["harper_ls"] = function()
+      --   lspconfig.harper_ls.setup({
+      --     settings = {
+      --       ["harper-ls"] = {
+      --         linters = {
+      --           SpellCheck = false,
+      --           SentenceCapitalization = false,
+      --         },
+      --       },
+      --     },
+      --     filetypes = { "gitcommit", "markdown" },
+      --   })
+      -- end,
     }
 
     require("mason").setup()

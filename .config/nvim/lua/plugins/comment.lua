@@ -1,11 +1,11 @@
 local M = {
   "numToStr/Comment.nvim",
+  enabled = false,
   lazy = false,
-  event = "BufEnter",
+  event = "BufReadPre",
   dependencies = {
     {
       "JoosepAlviste/nvim-ts-context-commentstring",
-      event = "VeryLazy",
     },
   },
 }

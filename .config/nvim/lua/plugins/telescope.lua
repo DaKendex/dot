@@ -3,7 +3,7 @@ local M = {
   -- tag = '0.1.6',
   dependencies = {
     "nvim-lua/plenary.nvim",
-    "nvim-tree/nvim-web-devicons",
+    { 'echasnovski/mini.icons',                   opts = {},      version = false },
     { "nvim-telescope/telescope-fzf-native.nvim", build = "make", lazy = true },
   },
   cmd = "Telescope",
@@ -16,32 +16,35 @@ function M.config()
   local builtin = require("telescope.builtin")
 
   vim.keymap.set("n", "<C-p>", builtin.git_files, { desc = "Find files" }) -- find files in the current directory
-  -- vim.keymap.set("n", "<leader>ff", function()                            -- find files in the root directory
-  --   builtin.find_files({})
-  -- end, { desc = "Find files" })
-  -- vim.keymap.set("n", "<leader>fF", function() -- grep in the current directory
-  --   builtin.find_files({ cwd = vim.fn.expand("%:p:h") })
-  -- end, { desc = "Find files in Root Dir" })
-  -- vim.keymap.set("n", "<leader>ft", function() -- grep in the root directory
-  --   builtin.live_grep({})
-  --   vim.cmd("normal! zz")
-  -- end, { desc = "Live Grep" })
-  -- vim.keymap.set("n", "<leader>fT", function()
-  --   builtin.live_grep({ cwd = vim.fn.expand("%:p:h") })
-  --   vim.cmd("normal! zz")
-  -- end, { desc = "Live Grep in Root Dir" })
-  -- vim.keymap.set("n", "<leader>pws", function()
-  --   local word = vim.fn.expand("<cword>")
-  --   builtin.grep_string({ search = word })
-  --   vim.cmd("normal! zz")
-  -- end, { desc = "Grep Word" })
-  -- vim.keymap.set("n", "<leader>ps", function()
-  --   builtin.grep_string({ search = vim.fn.input("Grep for > ") })
-  --   vim.cmd("normal! zz")
-  -- end, { desc = "Grep" })
-  -- vim.keymap.set("n", "<leader>fh", function()
-  --   builtin.help_tags({})
-  -- end, { desc = "Help" })
+  vim.keymap.set("n", "<leader>ff", function()                             -- find files in the root directory
+    builtin.find_files({})
+  end, { desc = "Find files" })
+  vim.keymap.set("n", "<leader>fF", function() -- grep in the current directory
+    builtin.find_files({ cwd = vim.fn.expand("%:p:h") })
+  end, { desc = "Find files in Root Dir" })
+  vim.keymap.set("n", "<leader>ft", function() -- grep in the root directory
+    builtin.live_grep({})
+    vim.cmd("normal! zz")
+  end, { desc = "Live Grep" })
+  vim.keymap.set("n", "<leader>fT", function()
+    builtin.live_grep({ cwd = vim.fn.expand("%:p:h") })
+    vim.cmd("normal! zz")
+  end, { desc = "Live Grep in Root Dir" })
+  vim.keymap.set("n", "<leader>ps", function()
+    local word = vim.fn.expand("<cword>")
+    builtin.grep_string({ search = word })
+    vim.cmd("normal! zz")
+  end, { desc = "Grep Word" })
+  vim.keymap.set("n", "<leader>pS", function()
+    builtin.grep_string({ search = vim.fn.input("Grep for > ") })
+    vim.cmd("normal! zz")
+  end, { desc = "Grep" })
+  vim.keymap.set("n", "<leader>fh", function()
+    builtin.help_tags({})
+  end, { desc = "Help" })
+  vim.keymap.set("n", "<leader>fk", function()
+    builtin.keymaps({})
+  end, { desc = "Keymaps" })
   -- vim.keymap.set("n", "<leader>fl", function()
   --   builtin.resume({})
   -- end, { desc = "Last Search" })
@@ -156,10 +159,10 @@ function M.config()
     },
     extensions = {
       fzf = {
-        fuzzy = true,               -- false will only do exact matching
+        fuzzy = true,                   -- false will only do exact matching
         override_generic_sorter = true, -- override the generic sorter
-        override_file_sorter = true, -- override the file sorter
-        case_mode = "smart_case",   -- or "ignore_case" or "respect_case"
+        override_file_sorter = true,    -- override the file sorter
+        case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
       },
     },
   })

@@ -1,6 +1,6 @@
 local M = {
   "LunarVim/bigfile.nvim",
-  event = "VeryLazy",
+  event = "InsertEnter",
 }
 
 function M.config()

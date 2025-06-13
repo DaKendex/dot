@@ -1,7 +1,7 @@
 local M = {
   "linrongbin16/gitlinker.nvim",
   dependencies = { { "nvim-lua/plenary.nvim" } },
-  event = "VeryLazy",
+  event = "BufReadPost",
 }
 -- GitLink: generate git link and copy to clipboard.
 -- GitLink!: generate git link and open in browser.

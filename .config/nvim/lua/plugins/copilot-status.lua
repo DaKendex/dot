@@ -4,7 +4,7 @@ local M = {
     "zbirenbaum/copilot.lua",
     -- "github/copilot.vim",
   },
-  lazy = true,
+  -- lazy = true,
   event = "BufReadPost",
   enabled = false,
 }

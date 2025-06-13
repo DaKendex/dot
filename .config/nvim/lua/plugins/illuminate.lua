@@ -1,6 +1,6 @@
 local M = {
   "RRethy/vim-illuminate",
-  event = "VeryLazy",
+  event = "BufWinEnter",
 }
 
 function M.config()

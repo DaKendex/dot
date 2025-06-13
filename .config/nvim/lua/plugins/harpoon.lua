@@ -1,7 +1,7 @@
 local M = {
   "ThePrimeagen/harpoon",
   branch = "harpoon2",
-  event = "VeryLazy",
+  event = "BufReadPost",
   dependencies = {
     { "nvim-lua/plenary.nvim" },
   },

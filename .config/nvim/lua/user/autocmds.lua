@@ -18,6 +18,8 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     "lir",
     "DressingSelect",
     "tsplayground",
+    "Avante",
+    "AvanteInput",
   },
   callback = function()
     vim.cmd([[
@@ -26,6 +28,13 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 	   ]])
   end,
 })
+
+-- vim.api.nvim_create_autocmd('FileType', {
+--     pattern = 'Avante',
+--     callback = function()
+--         vim.keymap.set({'n', 'o'}, '<ESC>', '<Nop>', { buffer = true })
+--     end
+-- })
 
 -- Workaround to use macros with cmdheight 0
 vim.api.nvim_create_autocmd("RecordingEnter", {

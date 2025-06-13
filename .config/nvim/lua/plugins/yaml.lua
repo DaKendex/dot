@@ -1,6 +1,7 @@
 local M = {
   "cuducos/yaml.nvim",
   dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-telescope/telescope.nvim" },
+  ft = { "yaml", "yml" },
 }
 
 function M.config()

@@ -1,6 +1,6 @@
 local M = {
   "echasnovski/mini.nvim",
-  event = "VeryLazy",
+  event = "BufWinEnter",
   version = false,
 }
 

@@ -1,6 +1,8 @@
 return {
   "stevearc/oil.nvim",
-  dependencies = { "nvim-tree/nvim-web-devicons" },
+  event = "UIEnter",
+  dependencies =
+  { 'echasnovski/mini.icons', opts = {}, version = false },
 
   config = function()
     require("oil").setup({
