@@ -1,6 +1,6 @@
 local M = {
   "ahmedkhalf/project.nvim",
-  event = "VeryLazy",
+  event = "VimEnter",
 }
 
 function M.config()

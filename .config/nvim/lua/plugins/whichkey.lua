@@ -32,10 +32,10 @@ function M.config()
     plugins = {
       marks = true,
       registers = true,
-      spelling = {
-        enabled = true,
-        suggestions = 20,
-      },
+      -- spelling = {
+      --   enabled = true,
+      --   suggestions = 20,
+      -- },
       presets = {
         operators = false,
         motions = false,

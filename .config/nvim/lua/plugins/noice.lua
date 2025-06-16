@@ -1,7 +1,7 @@
 -- install noice
 return {
   "folke/noice.nvim",
-  event = "VeryLazy",
+  event = "BufReadPre",
   -- dependencies = {
   -- 	{
   -- 		"rcarriga/nvim-notify",

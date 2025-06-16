@@ -21,6 +21,7 @@ return {
       "Kaiser-Yang/blink-cmp-git",
       "ray-x/cmp-sql",
     },
+    event = "InsertEnter",
 
     -- use a release tag to download pre-built binaries
     version = "1.*",

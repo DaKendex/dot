@@ -1,6 +1,7 @@
 local M = {
   "nvim-tree/nvim-tree.lua",
-  event = "VeryLazy",
+  event = "BufWinEnter",
+  enabled = false,
 }
 
 function M.config()
