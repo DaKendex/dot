@@ -4,6 +4,10 @@ import = ["~/.sesh.toml"] # Importing local config not in git
 startup_command = "nvim -c ':Telescope find_files"
 preview_command = "eza --all --git --icons --color=always {}"
 
+[[window]]
+name = "git"
+startup_script = "lazygit"
+
 
 [[session]]
 name = "AWS config"
@@ -21,7 +25,8 @@ preview_command = "bat --color=always ~/repo/dot/.config/aerospace/aerospace.tom
 [[session]]
 name = "Dotfiles"
 path = "~/repo/dot"
-startup_command = "lazygit"
+# startup_command = "lazygit"
+windows = ["git"]
 
 
 [[session]]
@@ -45,7 +50,7 @@ startup_command = "nvim config.yml"
 [[session]]
 name = "Local Config"
 path = "~/.config"
-startup_command = "nvim -c ':MiniFile'"
+startup_command = "nvim -c ':Telescope find_files'"
 
 
 [[session]]
@@ -70,6 +75,12 @@ path = "~/repo/dot/.config/nvim"
 name = "SSH Config"
 path = "~/.ssh"
 startup_command = "nvim config"
+
+[[session]]
+name = "Git Config"
+path = "~/"
+startup_command = "nvim .gitconfig"
+preview_command = "bat --color=always ~/.gitconfig"
 
 
 [[session]]
