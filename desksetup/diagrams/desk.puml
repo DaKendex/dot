@@ -1,0 +1,48 @@
+@startuml
+left to right direction
+skinparam componentStyle rectangle
+
+!include <osa/desktop/imac/imac>
+
+package "Main Setup" {
+    [<$imac> (Main)] --> [CalDigit TS3 Dock]
+    [CalDigit TS3 Dock] --> [Samsung M7 43" Monitor]
+    [CalDigit TS3 Dock] --> [Sceptre 34" Ultrawide Monitor]
+    [CalDigit TS3 Dock] <--> [Ugreen USB-C Switch (A/V)]
+    [CalDigit TS3 Dock] <--> [Ugreen USB-C Switch (I/O)]
+    [CalDigit TS3 Dock] <--> [Network / Ethernet]
+    [CalDigit TS3 Dock] --> [iPhone MagSafe Charger]
+}
+
+package "Secondary Setup" {
+    [<$imac> (Secondary)] --> [OWC Thunderbolt 3 Dock]
+    [OWC Thunderbolt 3 Dock] --> [AOC 27" 4K Monitor]
+    [OWC Thunderbolt 3 Dock] <--> [Ugreen USB-C Switch (A/v)]
+    [OWC Thunderbolt 3 Dock] <--> [Ugreen USB-C Switch (I/O)]
+    [OWC Thunderbolt 3 Dock] <--> [Network / Ethernet]
+}
+
+package "Shared Peripherals" {
+    [Ugreen USB-C Switch (A/V)] <--> [Fifine Audio Interface]
+    [Fifine AM8 Microphone] --> [Fifine Audio Interface]
+    [Ugreen USB-C Switch (A/V)] <-- [Anker Webcam]
+    [Ugreen USB-C Switch (I/O)] <-- [Keebio Iris Keyboard]
+    [Logitech MX Master 3 Mouse] <--> [Bluetooth connection]
+    [Bluetooth connection] --> [Main Setup]
+    [Bluetooth connection] --> [Secondary Setup]
+}
+
+package "Audio Chain" {
+    [Fifine Audio Interface] --> [Fifine 4-input Mixer]
+    [OWC Thunderbolt 3 Dock] --> [Fifine 4-input Mixer]
+    [Fifine 4-input Mixer] --> [Fifine 4-output Splitter]
+    [Fifine 4-output Splitter] --> [Presonus Studio Monitors]
+    [Fifine 4-output Splitter] --> [3.5mm Headphones Jack]
+}
+
+package "Network" {
+    [Network / Ethernet] --> [Ubiquiti USW Switch]
+    [Ubiquiti USW Switch] --> [UDM Pro]
+    [UDM Pro] --> [ISP]
+}
+@enduml
