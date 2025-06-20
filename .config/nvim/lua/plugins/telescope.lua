@@ -3,8 +3,9 @@ local M = {
   -- tag = '0.1.6',
   dependencies = {
     "nvim-lua/plenary.nvim",
-    { 'echasnovski/mini.icons',                   opts = {},      version = false },
+    "echasnovski/mini.icons",
     { "nvim-telescope/telescope-fzf-native.nvim", build = "make", lazy = true },
+    "nvim-telescope/telescope-ui-select.nvim",
   },
   cmd = "Telescope",
 }
@@ -168,6 +169,7 @@ function M.config()
   })
   require("telescope").load_extension("fzf")
   require("telescope").load_extension("harpoon")
+  require("telescope").load_extension("ui-select")
   -- require("telescope").load_extension("live_grep_args")
   -- require("telescope").load_extension("smart_goto")
   -- require("telescope").load_extension("smart_open")
