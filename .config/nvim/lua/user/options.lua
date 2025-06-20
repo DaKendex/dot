@@ -1,5 +1,6 @@
 local opt = vim.opt     -- for conciseness
 vim.cmd("let g:netrw_liststyle = 3")
+vim.lsp.set_log_level("off")
 opt.cmdheight = 0       -- height of command line
 
 opt.spelllang = "en_us" -- set spell language to english
