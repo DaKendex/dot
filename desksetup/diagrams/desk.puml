@@ -6,7 +6,7 @@ skinparam componentStyle rectangle
 
 package "Main Setup" {
     [<$imac> (Main)] --> [CalDigit TS3 Dock]
-    [CalDigit TS3 Dock] --> [Samsung M7 43" Monitor]
+    [CalDigit TS3 Dock] --> [Decogar 40" 5k2k Ultrawide Monitor"]
     [CalDigit TS3 Dock] --> [Sceptre 34" Ultrawide Monitor]
     [CalDigit TS3 Dock] <--> [Ugreen USB-C Switch (A/V)]
     [CalDigit TS3 Dock] <--> [Ugreen USB-C Switch (I/O)]
