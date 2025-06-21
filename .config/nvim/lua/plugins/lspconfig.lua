@@ -65,7 +65,13 @@ return {
         -- Actions
         map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
         map("<leader>la", vim.lsp.buf.code_action, "[L]ist [A]ctions", { "n", "x" })
-        map("<leader>lf", vim.lsp.buf.format, "[L]SP [F]ormat", { "n", "v" })
+        -- map("<leader>lf", vim.lsp.buf.format, "[L]SP [F]ormat", { "n", "v" })
+        map("<leader>lf", function()
+          require("conform").format({
+            async = false,
+            lsp_fallback = true,
+          })
+        end, "[L]SP [F]ormat", { "n", "v" })
 
         -- Info and diagnostics
         map("K", vim.lsp.buf.hover, "Hover Documentation")
