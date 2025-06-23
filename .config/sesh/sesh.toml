@@ -93,7 +93,7 @@ preview_command = "bat --color=always ~/repo/dot/sesh/.config/sesh/sesh.toml"
 [[session]]
 name = "Starship"
 path = "~/repo/dot/.config"
-startup_command = "nvim statrship.toml"
+startup_command = "nvim starship.toml"
 preview_command = "bat --color=always ~/repo/dot/.config/starship.toml"
 
 

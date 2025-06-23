@@ -122,7 +122,6 @@ setopt bang_hist                # Enable `!keyword` expansion
 # Load Starship if necessary
 type starship_zle-keymap-select >/dev/null || \
   {
-    echo "Load starship"
     eval "$($(brew --prefix)/bin/starship init zsh)"
   }
 
