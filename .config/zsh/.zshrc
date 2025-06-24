@@ -7,8 +7,8 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 
 # Load and initialize completion system
-autoload -Uz compinit
-compinit
+autoload -Uz compinit && compinit
+autoload -U +X bashcompinit && bashcompinit
 
 # ==============================
 # Plugin & Configuration Loading
@@ -67,11 +67,13 @@ fi
 # fzf integration
 source <(fzf --zsh)
 
+# assume completion
 if type assume &>/dev/null; then
-  fpath=(/Users/kfreitas/.granted/zsh_autocomplete/assume/ $fpath)
-  fpath=(/Users/kfreitas/.granted/zsh_autocomplete/granted/ $fpath)
+  fpath=($HOME/.granted/zsh_autocomplete/assume/ $fpath)
+  fpath=($HOME/.granted/zsh_autocomplete/granted/ $fpath)
   alias assume=". assume"
 fi
+
 # kubctl completion
 if type kubectl &>/dev/null; then
   source <(kubectl completion zsh)
@@ -80,6 +82,13 @@ fi
 if type kubecolor &>/dev/null; then
   source <(kubecolor completion zsh)
   compdef kubecolor=kubectl
+fi
+
+# terraform completion
+if type terraform &>/dev/null; then
+  terraform_path=$(which terraform)
+  complete -o nospace -C "$terraform_path" terraform 
+  complete -o nospace -C "$terraform_path" tf
 fi
 
 # Zoxide initialization
