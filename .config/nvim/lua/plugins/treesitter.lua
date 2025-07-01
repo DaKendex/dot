@@ -7,9 +7,6 @@ local M = {
 function M.config()
   require("nvim-treesitter.configs").setup({
     auto_install = true,
-    sync_install = false,
-    ignore_install = {},
-    modules = {},
     ensure_installed = {
       "bash",
       "go",
@@ -26,7 +23,7 @@ function M.config()
       "yaml",
     },
     highlight = { enable = true },
-    indent = { enable = true },
+    indent = { enable = true, disable = { "yaml" } },
     incremental_selection = {
       enable = true,
       keymaps = {
