@@ -4,15 +4,6 @@ return {
   dependencies = {
     {
       {
-        "folke/lazydev.nvim",
-        ft = "lua", -- only load on lua files
-        opts = {
-          library = {
-            { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-          },
-        },
-      },
-      {
         "ray-x/go.nvim",
         dependencies = {
           "ray-x/guihua.lua",
@@ -108,6 +99,7 @@ return {
 
     local servers = {
       lua_ls = {
+        root_marker = { ".luarc.json", ".luacheckrc", "stylua.toml", ".git" },
         settings = {
           Lua = {
             diagnostics = {
