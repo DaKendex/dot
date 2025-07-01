@@ -1,15 +1,10 @@
-local M = {
-  "echasnovski/mini.nvim",
+return {
+  "sphamba/smear-cursor.nvim",
   event = "BufWinEnter",
-  version = false,
+  opts = {
+    stiffness = 0.8,
+    trailing_stiffness = 0.5,
+    distance_stop_animating = 0.5,
+  },
 }
 
-function M.config()
-  require("mini.animate").setup({
-    scroll = {
-      enable = false,
-    },
-  })
-end
-
-return M
