@@ -1,6 +1,5 @@
 return {
   "stevearc/conform.nvim",
-  -- enabled = false,
   event = { "BufReadPre", "BufNewFile" },
   config = function()
     require("conform").setup({
@@ -12,6 +11,8 @@ return {
         return { timeout_ms = 500, lsp_format = "fallback" }
       end,
       formatters_by_ft = {
+        bash = { "shfmt" },
+        shell = { "shfmt" },
         lua = { "stylua" },
         javascript = { "prettier" },
         typescript = { "prettier" },
@@ -23,7 +24,7 @@ return {
         css = { "prettier" },
         scss = { "prettier" },
         python = { "black" },
-        -- go = { "goimports_reviser", "golines", "gofumpt" },
+        go = { "goimports-reviser", "golines", "gofumpt" },
         markdown = { "prettier" },
       },
       formatters = {

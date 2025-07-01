@@ -6,23 +6,23 @@ function M.setup()
   local current_vt = vim.diagnostic.config().virtual_text
   if type(current_vt) ~= "table" or current_vt.prefix == "■" then
     vim.api.nvim_set_hl(0, "DiagnosticSignError", { link = "DiagnosticError" })
-    vim.api.nvim_set_hl(0, "DiagnosticSignWarn",  { link = "DiagnosticWarn" })
-    vim.api.nvim_set_hl(0, "DiagnosticSignInfo",  { link = "DiagnosticInfo" })
-    vim.api.nvim_set_hl(0, "DiagnosticSignHint",  { link = "DiagnosticHint" })
+    vim.api.nvim_set_hl(0, "DiagnosticSignWarn", { link = "DiagnosticWarn" })
+    vim.api.nvim_set_hl(0, "DiagnosticSignInfo", { link = "DiagnosticInfo" })
+    vim.api.nvim_set_hl(0, "DiagnosticSignHint", { link = "DiagnosticHint" })
 
     vim.diagnostic.config({
       signs = {
         text = {
           [vim.diagnostic.severity.ERROR] = icons.Error,
-          [vim.diagnostic.severity.WARN]  = icons.Warning,
-          [vim.diagnostic.severity.INFO]  = icons.Information,
-          [vim.diagnostic.severity.HINT]  = icons.Hint,
+          [vim.diagnostic.severity.WARN] = icons.Warning,
+          [vim.diagnostic.severity.INFO] = icons.Information,
+          [vim.diagnostic.severity.HINT] = icons.Hint,
         },
         texthl = {
           [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
-          [vim.diagnostic.severity.WARN]  = "DiagnosticSignWarn",
-          [vim.diagnostic.severity.INFO]  = "DiagnosticSignInfo",
-          [vim.diagnostic.severity.HINT]  = "DiagnosticSignHint",
+          [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
+          [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+          [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
         },
       },
       virtual_text = {
@@ -31,9 +31,9 @@ function M.setup()
         format = function(diagnostic)
           local icon = ({
             [vim.diagnostic.severity.ERROR] = icons.Error,
-            [vim.diagnostic.severity.WARN]  = icons.Warning,
-            [vim.diagnostic.severity.INFO]  = icons.Information,
-            [vim.diagnostic.severity.HINT]  = icons.Hint,
+            [vim.diagnostic.severity.WARN] = icons.Warning,
+            [vim.diagnostic.severity.INFO] = icons.Information,
+            [vim.diagnostic.severity.HINT] = icons.Hint,
           })[diagnostic.severity] or ""
           return string.format("%s %s", icon, diagnostic.message)
         end,

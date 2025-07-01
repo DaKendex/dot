@@ -80,23 +80,6 @@ return {
       end,
     })
 
-    -- Format on save
-    -- vim.api.nvim_create_autocmd("BufWritePre", {
-    --   group = vim.api.nvim_create_augroup("Format", { clear = true }),
-    --   callback = function()
-    --     local buf = vim.api.nvim_get_current_buf()
-    --     if vim.api.nvim_buf_is_valid(buf) then
-    --       require("conform").format({
-    --         bufnr = buf,
-    --         async = false,
-    --       })
-    --       print("Formatting...with conform")
-    --     end
-    --     -- Removed the check for vim.lsp.get_clients() since it's not necessary and might cause issues
-    --     vim.lsp.buf.format({ async = false })
-    --   end,
-    -- })
-
     local servers = {
       lua_ls = {
         root_marker = { ".luarc.json", ".luacheckrc", "stylua.toml", ".git" },
@@ -124,19 +107,35 @@ return {
       gopls = {
         on_attach = function()
           require("go").setup({})
-          local format_sync_grp = vim.api.nvim_create_augroup("goimports", {})
-          vim.api.nvim_create_autocmd("BufWritePre", {
-            pattern = "*.go",
-            callback = function()
-              require("go.format").goimports()
-            end,
-            group = format_sync_grp,
-          })
+          -- vim.api.nvim_create_autocmd("BufWritePre", {
+          --   pattern = "*.go",
+          --   callback = function()
+          --     require("conform").format({
+          --       bufnr = vim.api.nvim_get_current_buf(),
+          --       async = false,
+          --       lsp_fallback = true,
+          --     })
+          --   end,
+          --   group = vim.api.nvim_create_augroup("go_format", { clear = true }),
+          -- })
         end,
       },
       terraformls = {
         cmd = { "terraform-ls", "serve" },
         root_marker = { ".terraform", ".git" },
+        -- on_attach = function()
+        --   vim.api.nvim_create_autocmd("BufWritePre", {
+        --     buffer = vim.api.nvim_get_current_buf(),
+        --     callback = function()
+        --       require("conform").format({
+        --         bufnr = vim.api.nvim_get_current_buf(),
+        --         async = false,
+        --         lsp_fallback = true,
+        --       })
+        --     end,
+        --     group = vim.api.nvim_create_augroup("tf_format", { clear = true }),
+        -- })
+        -- end,
       },
       tflint = {},
       jsonls = {
@@ -198,6 +197,11 @@ return {
           "typescript.tsx",
         },
       },
+      ["plantuml-lsp"] = {
+        cmd = { "plantuml-lsp" },
+        filetypes = { "plantuml" },
+        root_marker = { ".git" },
+      },
 
       -- harper_ls = {
       --   settings = {
@@ -231,24 +235,27 @@ return {
     })
     local ensure_installed = vim.tbl_keys(servers or {})
     vim.list_extend(ensure_installed, {
-      "lua_ls",
       "bashls",
+      "cssls",
+      "eslint",
+      "eslint",
+      "goimports-reviser",
+      "golines",
       "gopls",
+      "groovyls",
+      "html",
+      "jsonls",
+      "lua_ls",
+      "omnisharp",
+      "pyright",
+      "shfmt",
+      "tailwindcss",
+      "taplo",
       "terraformls",
       "tflint",
-      "jsonls",
-      "yamlls",
-      "groovyls",
-      "eslint",
       "ts_ls",
-      "tailwindcss",
+      "yamlls",
       -- "harper_ls", -- Disabled due to issues with the server
-      "taplo",
-      "omnisharp",
-      "cssls",
-      "html",
-      "eslint",
-      "pyright",
     })
     require("mason-tool-installer").setup({
       ensure_installed = ensure_installed,

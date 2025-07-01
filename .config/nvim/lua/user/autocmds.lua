@@ -53,13 +53,13 @@ vim.api.nvim_create_autocmd("RecordingLeave", {
   end,
 })
 
-vim.api.nvim_create_autocmd('BufWritePost', {
-  pattern = { 'tmux.conf' },
+vim.api.nvim_create_autocmd("BufWritePost", {
+  pattern = { "tmux.conf" },
   command = "execute 'silent !tmux source <afile> --silent'",
 })
 
-vim.api.nvim_create_autocmd('BufWritePost', {
-  pattern = { 'aerospace.toml' },
+vim.api.nvim_create_autocmd("BufWritePost", {
+  pattern = { "aerospace.toml" },
   command = "execute 'silent !aerospace reload-config'",
 })
 
@@ -143,10 +143,10 @@ vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = { "aerospace.toml" },
   command = "!aerospace reload-config",
 })
-vim.api.nvim_create_autocmd({ 'BufRead' }, {
-  pattern = { '*.puml' },
+vim.api.nvim_create_autocmd({ "BufRead" }, {
+  pattern = { "*.puml" },
   callback = function()
-    vim.cmd [[set filetype=plantuml]]
+    vim.cmd([[set filetype=plantuml]])
   end,
 })
 --
