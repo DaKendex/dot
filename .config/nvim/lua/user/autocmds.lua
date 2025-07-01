@@ -143,6 +143,12 @@ vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = { "aerospace.toml" },
   command = "!aerospace reload-config",
 })
+vim.api.nvim_create_autocmd({ 'BufRead' }, {
+  pattern = { '*.puml' },
+  callback = function()
+    vim.cmd [[set filetype=plantuml]]
+  end,
+})
 --
 -- function SortBlocks(opts)
 --   local ft = vim.bo.filetype
