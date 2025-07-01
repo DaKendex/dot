@@ -53,6 +53,16 @@ vim.api.nvim_create_autocmd("RecordingLeave", {
   end,
 })
 
+vim.api.nvim_create_autocmd('BufWritePost', {
+  pattern = { 'tmux.conf' },
+  command = "execute 'silent !tmux source <afile> --silent'",
+})
+
+vim.api.nvim_create_autocmd('BufWritePost', {
+  pattern = { 'aerospace.toml' },
+  command = "execute 'silent !aerospace reload-config'",
+})
+
 -- vim.api.nvim_create_autocmd({ "CmdWinEnter" }, {
 -- 	callback = function()
 -- 		vim.cmd("quit")
