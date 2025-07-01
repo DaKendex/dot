@@ -197,11 +197,11 @@ return {
           "typescript.tsx",
         },
       },
-      ["plantuml-lsp"] = {
-        cmd = { "plantuml-lsp" },
-        filetypes = { "plantuml" },
-        root_marker = { ".git" },
-      },
+      -- ["plantuml-lsp"] = {
+      --   cmd = { "plantuml-lsp" },
+      --   filetypes = { "plantuml" },
+      --   root_marker = { ".git" },
+      -- },
 
       -- harper_ls = {
       --   settings = {
