@@ -6,6 +6,7 @@ local set = vim.keymap.set -- for conciseness
 ---------------------
 -- General  -------------------
 set("n", "<leader><leader>x", "<cmd>source %<CR>", { desc = "Reload current file" }) -- reload current file
+set("n", "<leader>L", "<cmd>Lazy<CR>", { desc = "Open Lazy" })                     -- open Lazy
 
 set("n", "<leader>nh", "<cmd>nohlsearch<CR>", { desc = "NOHL" })                     -- clear search highlights
 -- use jk to exit insert mode
