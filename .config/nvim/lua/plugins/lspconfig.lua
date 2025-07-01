@@ -166,6 +166,38 @@ return {
         },
         root_marker = { "Jenkinsfile", ".git" },
       },
+      eslint = {
+        settings = { workingDirectories = { mode = "auto" } },
+        filetypes = {
+          "javascript",
+          "javascriptreact",
+          "javascript.jsx",
+          "typescript",
+          "typescriptreact",
+          "typescript.tsx",
+        },
+      },
+      ts_ls = {
+        filetypes = {
+          "javascript",
+          "javascriptreact",
+          "javascript.jsx",
+          "typescript",
+          "typescriptreact",
+          "typescript.tsx",
+        },
+      },
+      tailwindcss = {
+        filetypes = {
+          "astro",
+          "javascript",
+          "javascriptreact",
+          "javascript.jsx",
+          "typescript",
+          "typescriptreact",
+          "typescript.tsx",
+        },
+      },
 
       -- harper_ls = {
       --   settings = {
@@ -182,7 +214,6 @@ return {
       omnisharp = {},
       cssls = {},
       html = {},
-      eslint = {},
       pyright = {},
     }
 
@@ -208,6 +239,9 @@ return {
       "jsonls",
       "yamlls",
       "groovyls",
+      "eslint",
+      "ts_ls",
+      "tailwindcss",
       -- "harper_ls", -- Disabled due to issues with the server
       "taplo",
       "omnisharp",
