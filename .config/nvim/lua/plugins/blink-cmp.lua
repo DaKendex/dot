@@ -40,15 +40,14 @@ return {
         default = { "git", "avante", "lsp", "path", "snippets", "buffer", "emoji", "sql" },
         providers = {
           git = {
-            module = 'blink-cmp-git',
-            name = 'Git',
+            module = "blink-cmp-git",
+            name = "Git",
             enabled = function()
-              return vim.tbl_contains({ 'octo', 'gitcommit', 'markdown' }, vim.bo.filetype)
+              return vim.tbl_contains({ "octo", "gitcommit", "markdown" }, vim.bo.filetype)
             end,
             --- @module 'blink-cmp-git'
             --- @type blink-cmp-git.Options
-            opts = {
-            },
+            opts = {},
           },
           emoji = {
             module = "blink-emoji",
@@ -56,17 +55,13 @@ return {
             score_offset = 15,
             opts = { insert = true },
             should_show_items = function()
-              return vim.tbl_contains(
-                { "gitcommit", "markdown" },
-                vim.o.filetype
-              )
+              return vim.tbl_contains({ "gitcommit", "markdown" }, vim.o.filetype)
             end,
           },
           avante = {
-            module = 'blink-cmp-avante',
-            name = 'Avante',
-            opts = {
-            }
+            module = "blink-cmp-avante",
+            name = "Avante",
+            opts = {},
           },
           sql = {
             name = "sql",
@@ -74,10 +69,7 @@ return {
             score_offset = -3,
             opts = {},
             should_show_items = function()
-              return vim.tbl_contains(
-                { "sql" },
-                vim.o.filetype
-              )
+              return vim.tbl_contains({ "sql" }, vim.o.filetype)
             end,
           },
         },

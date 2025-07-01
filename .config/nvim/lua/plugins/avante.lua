@@ -2,16 +2,16 @@ return {
   "yetone/avante.nvim",
   event = { "BufReadPre", "BufNewFile" },
   dependencies = {
-    'nvim-treesitter/nvim-treesitter',
-    'stevearc/dressing.nvim',
-    'nvim-lua/plenary.nvim',
-    'MunifTanjim/nui.nvim',
-    { 'echasnovski/mini.icons', opts = {}, version = false },
-    'zbirenbaum/copilot.lua',
-    'ravitemer/mcphub.nvim',
+    "nvim-treesitter/nvim-treesitter",
+    "stevearc/dressing.nvim",
+    "nvim-lua/plenary.nvim",
+    "MunifTanjim/nui.nvim",
+    { "echasnovski/mini.icons", opts = {}, version = false },
+    "zbirenbaum/copilot.lua",
+    "ravitemer/mcphub.nvim",
     {
-      'HakonHarnes/img-clip.nvim',
-      event = 'BufWinEnter',
+      "HakonHarnes/img-clip.nvim",
+      event = "BufWinEnter",
       opts = {
         default = {
           embed_image_as_base64 = true,
@@ -27,26 +27,26 @@ return {
   -- enabled = false,
   version = false, -- Never set this value to "*"! Never!
   config = function()
-    require('avante').setup {
+    require("avante").setup({
       windows = {
-        postion = 'right',
+        postion = "right",
         width = 40,
         sidebar_header = {
           enabled = true,
-          align = 'left',
+          align = "left",
           rounded = true,
         },
         input = {
-          prefix = ' ',
+          prefix = " ",
           height = 12, -- Height of the input window in vertical layout
         },
       },
 
       file_selector = {
-        provider = 'telescope',
+        provider = "telescope",
       },
       selector = {
-        provider = 'telescope',
+        provider = "telescope",
       },
 
       -- cursor_applying_provider = nil,
@@ -57,13 +57,13 @@ return {
 
       -- provider = "ollama",
       -- ollama = { model = 'devstral:latest' },
-      provider = 'copilot', -- The default provider to use for LLM interactions
+      provider = "copilot", -- The default provider to use for LLM interactions
       providers = {
         copilot = {
-          model = 'claude-3.7-sonnet',
+          model = "claude-3.7-sonnet",
         },
         ollama = {
-          model = 'devstral:latest', -- The model to use for Ollama
+          model = "devstral:latest", -- The model to use for Ollama
         },
       },
 
@@ -78,7 +78,7 @@ return {
       -- },
 
       system_prompt = function()
-        local hub = require('mcphub').get_hub_instance()
+        local hub = require("mcphub").get_hub_instance()
         if hub then
           return hub:get_active_servers_prompt()
         else
@@ -87,7 +87,7 @@ return {
       end,
       custom_tools = function()
         return {
-          require('mcphub.extensions.avante').mcp_tool(),
+          require("mcphub.extensions.avante").mcp_tool(),
         }
       end,
 
@@ -104,6 +104,6 @@ return {
       --   'delete_dir',
       --   'bash',
       -- },
-    }
+    })
   end,
 }

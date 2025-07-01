@@ -8,7 +8,12 @@ return {
       ft = { "plantuml" },
     },
     config = function()
-      vim.keymap.set("n", "<leader>pu", "<cmd>PlantumlOpen<cr>", { desc = "Open PlantUML in browser" })
+      vim.keymap.set(
+        "n",
+        "<leader>pu",
+        "<cmd>PlantumlOpen<cr>",
+        { desc = "Open PlantUML in browser" }
+      )
     end,
   },
 }

@@ -7,4 +7,3 @@ return {
     distance_stop_animating = 0.5,
   },
 }
-

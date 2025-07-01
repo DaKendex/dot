@@ -6,9 +6,9 @@ local set = vim.keymap.set -- for conciseness
 ---------------------
 -- General  -------------------
 set("n", "<leader><leader>x", "<cmd>source %<CR>", { desc = "Reload current file" }) -- reload current file
-set("n", "<leader>L", "<cmd>Lazy<CR>", { desc = "Open Lazy" })                     -- open Lazy
+set("n", "<leader>L", "<cmd>Lazy<CR>", { desc = "Open Lazy" }) -- open Lazy
 
-set("n", "<leader>nh", "<cmd>nohlsearch<CR>", { desc = "NOHL" })                     -- clear search highlights
+set("n", "<leader>nh", "<cmd>nohlsearch<CR>", { desc = "NOHL" }) -- clear search highlights
 -- use jk to exit insert mode
 set("i", "kj", "<ESC>", { desc = "Exit insert mode with jk" })
 
@@ -26,12 +26,12 @@ set("n", "<leader>+", "<C-a>", { desc = "Increment number" }) -- increment
 set("n", "<leader>-", "<C-x>", { desc = "Decrement number" }) -- decrement
 
 -- window management
-set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" })     -- split window vertically
-set("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" })   -- split window horizontally
-set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" })      -- make split windows equal width & height
+set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" }) -- split window vertically
+set("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" }) -- split window horizontally
+set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" }) -- make split windows equal width & height
 set("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current split" }) -- close current split window
 
-set("n", "<leader>'", "<C-^>", { desc = "Switch to previous buffer" })     -- switch to previous buffer
+set("n", "<leader>'", "<C-^>", { desc = "Switch to previous buffer" }) -- switch to previous buffer
 
 -- Center the screen on the cursor
 set("n", "<C-u>", "<C-u>zz")
@@ -56,7 +56,7 @@ set("n", "<M-,>", "<C-W>-")
 
 -- Copy file path / filepath to the clipboard
 set("n", "<leader>fp", function()
-  local filePath = vim.fn.expand("%:~")                -- Gets the file path relative to the home directory
-  vim.fn.setreg("+", filePath)                         -- Copy the file path to the clipboard register
+  local filePath = vim.fn.expand("%:~") -- Gets the file path relative to the home directory
+  vim.fn.setreg("+", filePath) -- Copy the file path to the clipboard register
   print("File path copied to clipboard: " .. filePath) -- Optional: print message to confirm
 end, { desc = "[P]Copy file path to clipboard" })

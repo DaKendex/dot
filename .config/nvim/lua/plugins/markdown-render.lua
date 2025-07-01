@@ -11,8 +11,8 @@ return {
     },
     code = {
       disable_background = true,
-      style = 'normal',
-      border = 'none',
-    }
-  }
+      style = "normal",
+      border = "none",
+    },
+  },
 }

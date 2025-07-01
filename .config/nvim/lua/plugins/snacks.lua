@@ -23,7 +23,7 @@ ________            ____  __.                 .___
         desc = "LazyGit",
         action = function()
           require("snacks").lazygit()
-        end
+        end,
       },
       {
         icon = " ",
@@ -54,7 +54,14 @@ ________            ____  __.                 .___
         sections = {
           { section = "header" },
           { section = "keys", padding = 1, gap = 1 },
-          { pane = 2, icon = icons.kind.File, title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
+          {
+            pane = 2,
+            icon = icons.kind.File,
+            title = "Recent Files",
+            section = "recent_files",
+            indent = 2,
+            padding = 1,
+          },
           {
             pane = 2,
             icon = " ",
@@ -77,5 +84,5 @@ ________            ____  __.                 .___
 
   vim.keymap.set({ "n", "v" }, "<leader>gg", function()
     require("snacks").lazygit()
-  end, { desc = "LazyGit" })
+  end, { desc = "LazyGit" }),
 }

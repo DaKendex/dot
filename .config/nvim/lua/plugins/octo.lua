@@ -4,7 +4,7 @@ local M = {
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-telescope/telescope.nvim",
-    { 'echasnovski/mini.icons', opts = {}, version = false },
+    { "echasnovski/mini.icons", opts = {}, version = false },
   },
 }
 

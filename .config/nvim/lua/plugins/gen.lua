@@ -10,8 +10,7 @@ function M.config()
     display_mode = "float",
   })
   require("gen").prompts["Elaborate_Text"] = {
-    prompt =
-    "Elaborate the following text. If there are code snippets, leave them in place, but you can add comments:\n$text",
+    prompt = "Elaborate the following text. If there are code snippets, leave them in place, but you can add comments:\n$text",
     replace = true,
   }
   require("gen").prompts["Fix_Code"] = {

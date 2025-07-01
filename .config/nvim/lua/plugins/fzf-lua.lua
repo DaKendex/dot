@@ -1,8 +1,7 @@
 return {
   "ibhagwan/fzf-lua",
   -- optional for icon support
-  dependencies =
-  { 'echasnovski/mini.icons', opts = {}, version = false },
+  dependencies = { "echasnovski/mini.icons", opts = {}, version = false },
 
   -- or if using mini.icons/mini.nvim
   -- dependencies = { "echasnovski/mini.icons" },
@@ -29,7 +28,7 @@ return {
   --   }
   -- end,
   keys = {
-    { "<leader>f.", "<cmd>FzfLua resume<cr>",                    desc = "Resume last command" },
+    { "<leader>f.", "<cmd>FzfLua resume<cr>", desc = "Resume last command" },
     -- {
     --   "<leader>ff",
     --   function()
@@ -70,7 +69,7 @@ return {
     --   end,
     --   desc = "Live Grep in Root Dir",
     -- },
-    { "<leader>fd", "<cmd>FzfLua lsp_document_diagnostics<cr>",  desc = "Document diagnostics" },
+    { "<leader>fd", "<cmd>FzfLua lsp_document_diagnostics<cr>", desc = "Document diagnostics" },
     { "<leader>fD", "<cmd>FzfLua lsp_workspace_diagnostics<cr>", desc = "Workspace diagnostics" },
     -- {
     --   "<leader>ps",
@@ -94,8 +93,8 @@ return {
     --   desc = "Grep Word",
     -- },
     -- { "<leader>fh", "<cmd>FzfLua help_tags<cr>", desc = "Help" },
-    { "<leader>fr", "<cmd>FzfLua oldfiles<cr>",  desc = "Recent File" },
-    { "<leader>fl", "<cmd>FzfLua resume<cr>",    desc = "Last Search" },
+    { "<leader>fr", "<cmd>FzfLua oldfiles<cr>", desc = "Recent File" },
+    { "<leader>fl", "<cmd>FzfLua resume<cr>", desc = "Last Search" },
     -- { "<leader>fk", "<cmd>FzfLua keymaps<cr>",   desc = "Keymaps" },
   },
   config = function()

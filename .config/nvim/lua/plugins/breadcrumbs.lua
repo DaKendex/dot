@@ -5,7 +5,7 @@ local M = {
   version = "*",
   dependencies = {
     "SmiteshP/nvim-navic",
-    { 'echasnovski/mini.icons', opts = {}, version = false },
+    { "echasnovski/mini.icons", opts = {}, version = false },
   },
 }
 

@@ -17,7 +17,7 @@ function M.config()
   local builtin = require("telescope.builtin")
 
   vim.keymap.set("n", "<C-p>", builtin.git_files, { desc = "Find files" }) -- find files in the current directory
-  vim.keymap.set("n", "<leader>ff", function()                             -- find files in the root directory
+  vim.keymap.set("n", "<leader>ff", function() -- find files in the root directory
     builtin.find_files({})
   end, { desc = "Find files" })
   vim.keymap.set("n", "<leader>fF", function() -- grep in the current directory
@@ -160,10 +160,10 @@ function M.config()
     },
     extensions = {
       fzf = {
-        fuzzy = true,                   -- false will only do exact matching
+        fuzzy = true, -- false will only do exact matching
         override_generic_sorter = true, -- override the generic sorter
-        override_file_sorter = true,    -- override the file sorter
-        case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
+        override_file_sorter = true, -- override the file sorter
+        case_mode = "smart_case", -- or "ignore_case" or "respect_case"
       },
     },
   })

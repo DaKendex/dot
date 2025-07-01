@@ -1,5 +1,5 @@
 return {
-  "sortblocks",                                               -- pseudo name, doesn't fetch from remote
+  "sortblocks", -- pseudo name, doesn't fetch from remote
   enabled = false,
   dir = vim.fn.stdpath("config") .. "/lua/plugins/sortblocks", -- local plugin path
   lazy = false,

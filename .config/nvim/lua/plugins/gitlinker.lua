@@ -12,7 +12,12 @@ function M.config()
   vim.keymap.set({ "n", "v" }, "<leader>gy", "<cmd>GitLink<cr>", { desc = "Git link" })
   vim.keymap.set({ "n", "v" }, "<leader>gY", "<cmd>GitLink!<cr>", { desc = "Open link" })
   vim.keymap.set({ "n", "v" }, "<leader>gb", "<cmd>GitLink blame<cr>", { desc = "Git link blame" })
-  vim.keymap.set({ "n", "v" }, "<leader>gL", "<cmd>GitLink! blame<cr>", { desc = "Open Git blame link" })
+  vim.keymap.set(
+    { "n", "v" },
+    "<leader>gL",
+    "<cmd>GitLink! blame<cr>",
+    { desc = "Open Git blame link" }
+  )
 
   require("gitlinker").setup({
     console_log = true,

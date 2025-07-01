@@ -22,9 +22,9 @@ function M.config()
       lualine_c = { "filename" },
       lualine_x = {
         {
-          'copilot',
+          "copilot",
           show_colors = true,
-          show_loading = true
+          show_loading = true,
         },
       },
       lualine_y = { "filetype", "progress" },

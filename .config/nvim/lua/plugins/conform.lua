@@ -28,10 +28,9 @@ return {
         markdown = { "prettier" },
       },
       formatters = {
-        -- optional: override args
-        -- prettier = {
-        --   prepend_args = { "--no-semi", "--single-quote" },
-        -- },
+        prettier = {
+          prepend_args = { "--no-semi", "--single-quote" },
+        },
       },
       notify_on_error = true,
       log_level = vim.log.levels.WARN,
