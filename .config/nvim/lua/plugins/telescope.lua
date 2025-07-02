@@ -16,36 +16,41 @@ function M.config()
 
   local builtin = require("telescope.builtin")
 
-  vim.keymap.set("n", "<C-p>", builtin.git_files, { desc = "Find files" }) -- find files in the current directory
-  vim.keymap.set("n", "<leader>ff", function() -- find files in the root directory
+  local map = function(keys, func, desc, mode)
+    mode = mode or { "n" }
+    vim.keymap.set(mode, keys, func, { desc = "Telescope: " .. desc })
+  end
+
+  map("<C-p>", builtin.git_files, "Find files") -- find files in the current directory
+  map("<leader>ff", function()
     builtin.find_files({})
-  end, { desc = "Find files" })
-  vim.keymap.set("n", "<leader>fF", function() -- grep in the current directory
+  end, "Find files")
+  map("<leader>fF", function() -- grep in the current directory
     builtin.find_files({ cwd = vim.fn.expand("%:p:h") })
-  end, { desc = "Find files in Root Dir" })
-  vim.keymap.set("n", "<leader>ft", function() -- grep in the root directory
+  end, "Find files in Root Dir")
+  map("<leader>ft", function() -- grep in the root directory
     builtin.live_grep({})
     vim.cmd("normal! zz")
-  end, { desc = "Live Grep" })
-  vim.keymap.set("n", "<leader>fT", function()
+  end, "Live Grep")
+  map("<leader>fT", function()
     builtin.live_grep({ cwd = vim.fn.expand("%:p:h") })
     vim.cmd("normal! zz")
-  end, { desc = "Live Grep in Root Dir" })
-  vim.keymap.set("n", "<leader>ps", function()
+  end, "Live Grep in Root Dir")
+  map("<leader>ps", function()
     local word = vim.fn.expand("<cword>")
     builtin.grep_string({ search = word })
     vim.cmd("normal! zz")
-  end, { desc = "Grep Word" })
-  vim.keymap.set("n", "<leader>pS", function()
+  end, "Grep Word")
+  map("<leader>pS", function()
     builtin.grep_string({ search = vim.fn.input("Grep for > ") })
     vim.cmd("normal! zz")
-  end, { desc = "Grep" })
-  vim.keymap.set("n", "<leader>fh", function()
+  end, "Grep")
+  map("<leader>fh", function()
     builtin.help_tags({})
-  end, { desc = "Help" })
-  vim.keymap.set("n", "<leader>fk", function()
+  end, "Help")
+  map("<leader>fk", function()
     builtin.keymaps({})
-  end, { desc = "Keymaps" })
+  end, "Keymaps")
   -- vim.keymap.set("n", "<leader>fl", function()
   --   builtin.resume({})
   -- end, { desc = "Last Search" })
