@@ -1,55 +1,34 @@
 local M = {
   "lewis6991/gitsigns.nvim",
-  event = "BufReadPost",
-  cmd = "Gitsigns",
+  event = { "BufReadPost", "BufNewFile" },
 }
 M.config = function()
-  -- local icons = require "user.icons"
-
-  vim.keymap.set(
-    { "n", "v" },
+  local map = function(keys, func, desc, mode)
+    mode = mode or { "n", "v" }
+    vim.keymap.set(
+      mode,
+      keys,
+      func,
+      { buffer = vim.api.nvim_get_current_buf(), desc = "[G]it: " .. desc }
+    )
+  end
+  map(
     "gj",
     "<cmd>lua require 'gitsigns'.next_hunk({navigation_message = false})<cr>zz",
-    { desc = "Next Hunk" }
+    "Next Hunk"
   )
-  vim.keymap.set(
-    { "n", "v" },
+  map(
     "gk",
     "<cmd>lua require 'gitsigns'.prev_hunk({navigation_message = false})<cr>zz",
-    { desc = "Prev Hunk" }
+    "Prev Hunk"
   )
-  vim.keymap.set(
-    { "n", "v" },
-    "hp",
-    "<cmd>lua require 'gitsigns'.preview_hunk()<cr>",
-    { desc = "Preview Hunk" }
-  )
-  vim.keymap.set(
-    { "n", "v" },
-    "hr",
-    "<cmd>lua require 'gitsigns'.reset_hunk()<cr>",
-    { desc = "Reset Hunk" }
-  )
-  vim.keymap.set({ "n", "v" }, "hs", ":Gitsigns stage_hunk<CR>", { desc = "Stage Hunk" })
-  vim.keymap.set({ "n", "v" }, "<leader>gl", ":Gitsigns blame_line<CR>", { desc = "Blame" })
-  vim.keymap.set(
-    { "n", "v" },
-    "<leader>gR",
-    "<cmd>lua require 'gitsigns'.reset_buffer()<cr>",
-    { desc = "Reset Buffer" }
-  )
-  vim.keymap.set(
-    { "n", "v" },
-    "hu",
-    "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>",
-    { desc = "Undo Stage Hunk" }
-  )
-  vim.keymap.set(
-    { "n", "v" },
-    "<leader>gd",
-    "<cmd>Gitsigns diffthis HEAD<cr>",
-    { desc = "Git Diff" }
-  )
+  map("ghp", "<cmd>lua require 'gitsigns'.preview_hunk()<cr>", "[H]unk [P]review")
+  map("ghr", "<cmd>lua require 'gitsigns'.reset_hunk()<cr>", "[H]unk [R]eset")
+  map("ghs", ":Gitsigns stage_hunk<CR>", "[H]unk [S]tage")
+  map("<leader>gl", ":Gitsigns blame_line<CR>", "Blame [L]ine")
+  map("<leader>gR", "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", "[R]eset Buffer")
+  map("ghu", "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>", "[H]unk [U]ndo Stage")
+  map("<leader>gd", "<cmd>Gitsigns diffthis HEAD<cr>", "[G]it [D]iff This")
 
   require("gitsigns").setup({
     signs = {
