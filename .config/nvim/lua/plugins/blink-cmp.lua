@@ -55,7 +55,7 @@ return {
             score_offset = 15,
             opts = { insert = true },
             should_show_items = function()
-              return vim.tbl_contains({ "gitcommit", "markdown" }, vim.o.filetype)
+              return vim.tbl_contains({ "octo", "gitcommit", "markdown" }, vim.o.filetype)
             end,
           },
           avante = {
