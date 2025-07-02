@@ -84,5 +84,5 @@ ________            ____  __.                 .___
 
   vim.keymap.set({ "n", "v" }, "<leader>gg", function()
     require("snacks").lazygit()
-  end, { desc = "LazyGit" }),
+  end, { desc = "[G]it: LazyGit" }),
 }
