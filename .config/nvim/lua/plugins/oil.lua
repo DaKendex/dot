@@ -16,11 +16,11 @@ return {
         show_hidden = true,
       },
     })
-    vim.keymap.set(
-      "n",
-      "-",
-      "<CMD>lua require('oil').open_float()<CR>",
-      { desc = "Open parent directory" }
-    )
+
+    local map = function(keys, func, desc, mode)
+      mode = mode or { "n" }
+      vim.keymap.set(mode, keys, func, { desc = "Oil: " .. desc })
+    end
+    map("-", "<CMD>lua require('oil').open_float()<CR>", "Open parent directory")
   end,
 }
