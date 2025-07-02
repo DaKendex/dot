@@ -6,20 +6,20 @@ vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = {
-    "netrw",
-    "Jaq",
-    "qf",
-    "git",
-    "help",
-    "man",
-    "lspinfo",
-    "oil",
-    "spectre_panel",
-    "lir",
-    "DressingSelect",
-    "tsplayground",
     "Avante",
     "AvanteInput",
+    "DressingSelect",
+    "Jaq",
+    "git",
+    "help",
+    "lir",
+    "lspinfo",
+    "man",
+    "netrw",
+    "oil",
+    "qf",
+    "spectre_panel",
+    "tsplayground",
   },
   callback = function()
     vim.cmd([[
@@ -143,6 +143,13 @@ vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = { "aerospace.toml" },
   command = "!aerospace reload-config",
 })
+
+vim.api.nvim_create_autocmd("BufWritePost", {
+  desc = "Validate and reload ghostty config",
+  pattern = { "*/ghostty/config" },
+  command = "!ghostty +validate",
+})
+
 vim.api.nvim_create_autocmd({ "BufRead" }, {
   pattern = { "*.puml" },
   callback = function()
