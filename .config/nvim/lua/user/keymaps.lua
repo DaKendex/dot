@@ -60,3 +60,9 @@ set("n", "<leader>fp", function()
   vim.fn.setreg("+", filePath) -- Copy the file path to the clipboard register
   print("File path copied to clipboard: " .. filePath) -- Optional: print message to confirm
 end, { desc = "[P]Copy file path to clipboard" })
+
+-- open in finder
+set("n", "<leader>fo", function()
+  local filePath = vim.fn.expand("%:p") -- Gets the full file path
+  vim.fn.system({ "open", "-R", filePath }) -- Opens the file in Finder
+end, { desc = "[O]pen file in Finder" })
