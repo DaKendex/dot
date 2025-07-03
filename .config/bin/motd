@@ -1,21 +1,20 @@
 #!/bin/bash
 # * ASCII head
-# https://patorjk.com/software/taag/#p=display&f=Doh&t=KENDEX                                                                                                  
+# https://patorjk.com/software/taag/#p=display&f=Doh&t=KENDEX
 
- 
 echo '______  _______ _     _ _______ __   _ ______  _______ _     _'
 echo '|     \ |_____| |____/  |______ | \  | |     \ |______  \___/ '
 echo '|_____/ |     | |    \_ |______ |  \_| |_____/ |______ _/   \_'
 # echo $'\n'
 
-# * Cowsay                                                                    
+# * Cowsay
 # dadjoke | cowsay -f tux
 
 cache_file="/tmp/dadjoke_cache.txt"
 
 if [ -s "$cache_file" ] && [ "$(($(date +%s) - $(stat -f %m "$cache_file")))" -lt 43200 ]; then
-    cat "$cache_file" | cowsay -f tux
+  cat "$cache_file" | cowsay -f tux
 else
-    dadjoke > "$cache_file"
-    cat "$cache_file" | cowsay -f tux
+  dadjoke >"$cache_file"
+  cat "$cache_file" | cowsay -f tux
 fi
