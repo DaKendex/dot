@@ -1,0 +1,88 @@
+#!/bin/bash
+
+# Color definitions
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+BOLD='\033[1m'
+NC='\033[0m' # No Color
+branch=$1
+current_dir=$(pwd)
+repo_root=$(git rev-parse --show-toplevel)
+
+if [[ -z "$branch" ]]; then
+  # source: https://conventional-branch.github.io/
+  options=(
+    "feature: For new features (e.g., feature/add-login-page)"
+    "bugfix: For bug fixes (e.g., bugfix/fix-header-bug)"
+    "hotfix: For urgent fixes (e.g., hotfix/security-patch)"
+    "release: For branches preparing a release (e.g., release/v1.2.0)"
+    "chore: For non-code tasks like dependency updates (e.g., chore/update-dependencies)"
+    "main: Use main branch"
+    "custom: Enter a custom branch name"
+  )
+
+  selected=$(printf "%s\n" "${options[@]}" | fzf --height=40% --layout=reverse --prompt="Select branch type: " --header="Branch Naming Convention: <type>/<description>" --preview="echo {}" --preview-window=up:3:wrap)
+
+  # Handle user cancellation (ESC key in fzf)
+  if [[ -z "$selected" ]]; then
+    echo -e "${YELLOW}${BOLD}Info:${NC} Operation cancelled by user."
+    exit 1
+  fi
+
+  branch_type=$(echo "$selected" | cut -d: -f1)
+
+  if [[ "$branch_type" == "custom" ]]; then
+    echo -n "Enter custom branch name: "
+    read -r branch
+  elif [[ "$branch_type" == "main" ]]; then
+    branch="main"
+  else
+    echo -n "Enter description (without spaces, use hyphens): "
+    read -r description
+
+    branch="${branch_type}/${description}"
+  fi
+
+  if [[ -z "$branch" ]]; then
+    echo -e "${RED}${BOLD}Error:${NC} No branch specified. Exiting."
+    exit 1
+  fi
+fi
+
+safe_branch=$(echo "$branch" | tr '/' '-')
+worktree_path="$repo_root/.wt/$safe_branch"
+
+# Create worktree directory if it doesn't exist
+if [ ! -d "$repo_root/.wt" ]; then
+  mkdir -p "$repo_root/.wt" || {
+    echo -e "${RED}${BOLD}Error:${NC} Failed to create worktree directory. Check permissions."
+    exit 1
+  }
+fi
+
+# Add worktree for existing or new branch
+if git show-ref --verify --quiet refs/heads/"$branch"; then
+  echo -e "${BLUE}${BOLD}Info:${NC} Using existing branch: $branch"
+  git worktree add "$worktree_path" "$branch" || {
+    echo -e "${RED}${BOLD}Error:${NC} Failed to add worktree for existing branch. Check if branch exists and is not locked."
+    exit 1
+  }
+else
+  echo -e "${BLUE}${BOLD}Info:${NC} Creating new branch: $branch"
+  git worktree add -b "$branch" "$worktree_path" || {
+    echo -e "${RED}${BOLD}Error:${NC} Failed to create new branch and worktree. Check git status."
+    exit 1
+  }
+fi
+
+# Add to zoxide for quick directory navigation
+zoxide add "$worktree_path" || {
+  echo -e "${YELLOW}${BOLD}Warning:${NC} Failed to add directory to zoxide. Directory created but not indexed."
+}
+
+# Connect to sesh session
+sesh connect "$worktree_path" || {
+  echo -e "${YELLOW}${BOLD}Warning:${NC} Failed to connect to sesh session. You can manually run 'sesh connect $worktree_path'"
+}
