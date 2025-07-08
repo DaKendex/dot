@@ -123,6 +123,11 @@ return {
       terraformls = {
         cmd = { "terraform-ls", "serve" },
         root_marker = { ".terraform", ".git" },
+        filetypes = {
+          "terraform",
+          "tf",
+          "tfvars",
+        },
         -- on_attach = function()
         --   vim.api.nvim_create_autocmd("BufWritePre", {
         --     buffer = vim.api.nvim_get_current_buf(),
