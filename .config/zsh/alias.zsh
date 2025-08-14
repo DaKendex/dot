@@ -19,6 +19,7 @@ alias idgaf="git commit -m $(curl -s https://whatthecommit.com/index.txt)"
 alias vi="nvim"
 alias vid="NVIM_APPNAME=nvim-dev nvim "
 alias hi="history 1 | fzf"
+alias zad="ls -d */ | xargs -I {} zoxide add {}"
 
 alias kubectl="kubecolor"
 alias k="kubectl"
