@@ -1,6 +1,6 @@
 local M = {
   "lewis6991/gitsigns.nvim",
-  event = { "BufReadPre", "BufNewFile" },
+  event = "BufReadPost",
 }
 M.config = function()
   local map = function(keys, func, desc, mode)
