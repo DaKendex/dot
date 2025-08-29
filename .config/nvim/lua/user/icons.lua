@@ -11,6 +11,7 @@ return {
     Event = " ",
     Field = " ",
     File = " ",
+    FileFilled = " ",
     Folder = "󰉋 ",
     Function = " ",
     Interface = " ",

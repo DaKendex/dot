@@ -12,11 +12,15 @@ ________            ____  __.                 .___
     local icons = require("user.icons")
 
     local keys = {
-      { icon = " ", key = "f", desc = "Find File", action = ":Telescope find_files" },
-      -- live grep text
-      { icon = " ", key = "t", desc = "Live Grep", action = ":Telescope live_grep" },
-      { icon = " ", key = "h", desc = "Help", action = ":Telescope help_tags" },
-      { icon = " ", key = "s", desc = "Restore Session", section = "session" },
+      {
+        icon = icons.ui.Files,
+        key = "f",
+        desc = "Find File",
+        action = ":Telescope find_files",
+      },
+      { icon = icons.ui.Search, key = "t", desc = "Live Grep", action = ":Telescope live_grep" },
+      { icon = icons.ui.Telescope, key = "h", desc = "Help", action = ":Telescope help_tags" },
+      { icon = icons.ui.History, key = "s", desc = "Restore Session", section = "session" },
       {
         icon = icons.git.Branch,
         key = "g",
@@ -26,12 +30,18 @@ ________            ____  __.                 .___
         end,
       },
       {
-        icon = " ",
+        icon = icons.ui.Gear,
         key = "c",
         desc = "Config",
         action = ":e ~/.config/nvim/init.lua",
       },
-      { icon = "󰒲 ", key = "L", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy },
+      {
+        icon = icons.misc.Package,
+        key = "L",
+        desc = "Lazy",
+        action = ":Lazy",
+        enabled = package.loaded.lazy,
+      },
       { icon = " ", key = "q", desc = "Quit", action = ":qa" },
     }
 
@@ -43,8 +53,8 @@ ________            ____  __.                 .___
       },
       dashboard = {
         width = 80,
-        row = nil, -- dashboard position. nil for center
-        col = nil, -- dashboard position. nil for center
+        row = nil,
+        col = nil,
         enabled = true,
         pane_gap = 4,
         preset = {
@@ -64,7 +74,7 @@ ________            ____  __.                 .___
           },
           {
             pane = 2,
-            icon = " ",
+            icon = icons.git.Branch,
             title = "Git Status",
             section = "terminal",
             enabled = function()
