@@ -9,6 +9,9 @@ function M.config()
   require("catppuccin").setup({
     flavour = "mocha",
     transparent_background = true,
+    float = {
+      transparent = true,
+    },
     styles = {
       comments = { "italic" },
       functions = { "italic" },
