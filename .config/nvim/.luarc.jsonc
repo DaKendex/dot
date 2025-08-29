@@ -35,5 +35,9 @@
       "$XDG_DATA_HOME/nvim/lazy/overseer.nvim/lua/overseer/init.lua",
       "$XDG_DATA_HOME/nvim/lazy/quicker.nvim/lua"
     ]
-  }
+  },
+  "diagnostics.globals": [
+    "vim",
+    "Snacks",
+  ]
 }
