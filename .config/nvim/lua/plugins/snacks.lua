@@ -91,7 +91,7 @@ ________            ____  __.                 .___
                 icon = " ",
                 title = "Open PRs",
                 cmd = "gh pr list -L 3",
-                key = "P",
+                key = "p",
                 action = function()
                   vim.fn.jobstart("gh pr list --web", { detach = true })
                 end,
