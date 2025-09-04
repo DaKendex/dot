@@ -1,0 +1,11 @@
+**/.wt/
+**/.terraform/*
+**/op/config
+**/granted/config
+**/gh/*
+**/configstore/*
+**/AWSVPNClient/*
+**/AWS VPN Client/*
+**/.aws/credentials
+**/.aws/cli
+**/.aws/sso
