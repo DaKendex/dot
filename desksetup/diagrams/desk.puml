@@ -17,7 +17,7 @@ package "Main Setup" {
 package "Secondary Setup" {
     [<$imac> (Secondary)] --> [OWC Thunderbolt 3 Dock]
     [OWC Thunderbolt 3 Dock] --> [AOC 27" 4K Monitor]
-    [OWC Thunderbolt 3 Dock] <--> [Ugreen USB-C Switch (A/v)]
+    [OWC Thunderbolt 3 Dock] <--> [Ugreen USB-C Switch (A/V)]
     [OWC Thunderbolt 3 Dock] <--> [Ugreen USB-C Switch (I/O)]
     [OWC Thunderbolt 3 Dock] <--> [Network / Ethernet]
 }
