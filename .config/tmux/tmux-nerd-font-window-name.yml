@@ -1,9 +1,10 @@
 config:
-  fallback-icon: "❓"
-  multi-pane-icon: "🪟"
+  fallback-icon: '❓'
+  multi-pane-icon: '🪟'
   show-name: true
 
 icons:
+  op: '🔑'
   # btop: "📈"
   # bun: "🥟"
   # docker: "🐳"
