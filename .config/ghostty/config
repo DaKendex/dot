@@ -99,3 +99,5 @@ keybind = super+g=text:\x02\x67
 keybind = super+shift+g=text:\x02\x47
 # Open Octo # Super + o = :Octo
 keybind = super+o=text:\x3a\x4f\x63\x74\x6f\x0a
+# Open Github for current repo # Super + O = Leader + o
+keybind = super+shift+o=text:\x02\x6f
