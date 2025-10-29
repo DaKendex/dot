@@ -1,11 +1,7 @@
 local M = {
   "zbirenbaum/copilot.lua",
-  -- "github/copilot.vim",
   cmd = "Copilot",
   event = "InsertEnter",
-  -- dependencies = {
-  --   "zbirenbaum/copilot-cmp",
-  -- },
 }
 
 function M.config()
@@ -23,15 +19,15 @@ function M.config()
       enabled = true,
       auto_trigger = true,
       keymap = {
-        accept = "<c-l>",
-        next = "<c-j>",
-        prev = "<c-k>",
+        accept = "<c-y>",
+        next = "<c-n>",
+        prev = "<c-p>",
         dismiss = "<c-h>",
       },
     },
     filetypes = {
       yaml = true,
-      --   markdown = true,
+      markdown = true,
       --   help = false,
       --   gitcommit = false,
       --   gitrebase = false,
@@ -48,8 +44,6 @@ function M.config()
     ":lua require('copilot.suggestion').toggle_auto_trigger()<CR>",
     opts
   )
-
-  -- require("copilot_cmp").setup()
 end
 
 return M
