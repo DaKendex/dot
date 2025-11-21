@@ -1,5 +1,7 @@
 import = ["~/.sesh.toml"] # Importing local config not in git
 
+dir_length = 3
+
 [default_session]
 startup_command = "nvim"
 preview_command = "eza --all --git --icons --color=always {}"
