@@ -5,6 +5,7 @@ config:
 
 icons:
   op: '🔑'
+  terraform: '☁️'
   # btop: "📈"
   # bun: "🥟"
   # docker: "🐳"
