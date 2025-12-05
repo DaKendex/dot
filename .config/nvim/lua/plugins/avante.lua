@@ -3,10 +3,10 @@ return {
   event = { "BufReadPre", "BufNewFile" },
   dependencies = {
     "nvim-treesitter/nvim-treesitter",
-    "stevearc/dressing.nvim",
+    "folke/snacks.nvim",
     "nvim-lua/plenary.nvim",
     "MunifTanjim/nui.nvim",
-    { "echasnovski/mini.icons", opts = {}, version = false },
+    "echasnovski/mini.icons",
     "zbirenbaum/copilot.lua",
     "ravitemer/mcphub.nvim",
     {
@@ -37,8 +37,12 @@ return {
           rounded = true,
         },
         input = {
-          prefix = " ",
-          height = 12, -- Height of the input window in vertical layout
+          provider = "snacks",
+          provider_opts = {
+            -- Additional snacks.input options
+            title = "Avante Input",
+            icon = " ",
+          },
         },
       },
 
@@ -60,7 +64,7 @@ return {
       provider = "copilot", -- The default provider to use for LLM interactions
       providers = {
         copilot = {
-          model = "claude-3.7-sonnet",
+          model = "claude-sonnet-4.5",
         },
         ollama = {
           model = "devstral:latest", -- The model to use for Ollama
@@ -92,18 +96,18 @@ return {
       end,
 
       -- If you are using the builtin Neovim server, you might have to disable the following tools in your avante config to avoid any conflicts.
-      -- disabled_tools = {
-      --   'list_files',
-      --   'search_files',
-      --   'read_file',
-      --   'create_file',
-      --   'rename_file',
-      --   'delete_file',
-      --   'create_dir',
-      --   'rename_dir',
-      --   'delete_dir',
-      --   'bash',
-      -- },
+      disabled_tools = {
+        "list_files",
+        "search_files",
+        "read_file",
+        "create_file",
+        "rename_file",
+        "delete_file",
+        "create_dir",
+        "rename_dir",
+        "delete_dir",
+        "bash",
+      },
     })
   end,
 }
