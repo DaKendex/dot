@@ -19,7 +19,7 @@ function M.config()
       enabled = true,
       auto_trigger = true,
       keymap = {
-        accept = "<c-y>",
+        accept = "<TAB>",
         next = "<c-n>",
         prev = "<c-p>",
         dismiss = "<c-h>",
