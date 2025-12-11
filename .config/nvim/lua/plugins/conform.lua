@@ -24,7 +24,7 @@ return {
         css = { "prettier" },
         scss = { "prettier" },
         python = { "black" },
-        go = { "goimports-reviser", "golines", "gofumpt" },
+        go = { "goimports-reviser", "gofumpt" },
         markdown = { "prettier" },
       },
       formatters = {
