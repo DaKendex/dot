@@ -24,12 +24,15 @@ return {
         css = { "prettier" },
         scss = { "prettier" },
         python = { "black" },
-        go = { "goimports-reviser", "gofumpt" },
+        go = { "goimports-reviser", "golines", "gofumpt" },
         markdown = { "prettier" },
       },
       formatters = {
         prettier = {
           prepend_args = { "--no-semi", "--single-quote" },
+        },
+        golines = {
+          prepend_args = { "--max-len=140" },
         },
       },
       notify_on_error = true,
