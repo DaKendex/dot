@@ -29,7 +29,7 @@ return {
       },
       formatters = {
         prettier = {
-          prepend_args = { "--no-semi", "--single-quote" },
+          prepend_args = { "--no-semi", "--quote-props=preserve" },
         },
         golines = {
           prepend_args = { "--max-len=140" },
