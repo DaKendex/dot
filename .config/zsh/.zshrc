@@ -52,6 +52,9 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="$HOME/.config/bin:$PATH"
 
+# Bob (Neovim version manager)
+export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
+
 # Go Path
 export GOPATH=$HOME/go
 export GOROOT="$(brew --prefix golang)/libexec"
