@@ -89,6 +89,9 @@ alt-shift-semicolon = 'mode service'
 
 alt-shift-r = 'mode resize'
 
+alt-cmd-j = 'exec-and-forget ~/.config/aerospace/scripts/apply-work-layout.sh'
+alt-cmd-k = 'exec-and-forget ~/.config/aerospace/scripts/apply-daily-layout.sh'
+
 [mode.resize.binding]
 h = 'resize width -50'
 j = 'resize height +50'
