@@ -15,15 +15,35 @@ This repository contains configurations for a terminal-centric development workf
 
 ## Quick Start
 
+### Fresh macOS Installation
+
+Run this single command on a fresh Mac to install everything:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/DaKendex/dot/main/bootstrap.sh | bash
+```
+
+The bootstrap script will:
+
+- Install Xcode Command Line Tools (if needed)
+- Clone this repository to `~/repo/dot` (or custom location)
+- Run the main installation script automatically
+- Install Homebrew and all packages
+- Configure macOS settings
+- Symlink dotfiles with GNU Stow
+
+### Manual Installation
+
+If you prefer to clone manually:
+
 ```bash
 # Clone repository
-git clone <repo-url> ~/repo/dot && cd ~/repo/dot
+git clone https://github.com/DaKendex/dot.git ~/repo/dot
+cd ~/repo/dot
 
 # Run automated setup
 ./install.sh
 ```
-
-The install script handles Homebrew installation, package installation via Brewfile, and dotfile symlinking with Stow.
 
 ## Manual Installation
 
@@ -91,7 +111,9 @@ install.sh         # Automated setup script
 Several git-ignored files allow for machine-specific customization:
 
 ### `~/.env.zsh`
+
 Sourced early in shell initialization for environment variables and secrets:
+
 ```bash
 # ~/.env.zsh
 export GITHUB_TOKEN="ghp_..."
@@ -101,7 +123,9 @@ alias work="cd ~/work-projects"
 ```
 
 ### `~/.sesh.toml`
+
 Additional sesh sessions imported into the main config:
+
 ```toml
 # ~/.sesh.toml
 [[session]]
