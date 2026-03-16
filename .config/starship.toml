@@ -15,9 +15,9 @@ $terraform\
 $line_break\
 $character\
 """
-right_format = """$all"""
+right_format = """$aws$docker_context$golang$helm$lua$nodejs$python$rust$cmd_duration$jobs"""
 follow_symlinks = true
-command_timeout = 1000
+command_timeout = 500
 
 [os]
 disabled = false
@@ -25,7 +25,7 @@ disabled = false
 Macos = " "
 
 [nodejs]
-format = "[$symbol($version )]($style)"
+format = "[$symbol($version)]($style) "
 
 [fill]
 symbol = " "
@@ -33,7 +33,7 @@ symbol = " "
 [directory]
 style = "blue"
 read_only = " 🔒"
-truncation_length = 4
+truncation_length = 3
 truncate_to_repo = false
 
 [character]
@@ -44,6 +44,7 @@ vicmd_symbol = "[❮](green)"
 [git_branch]
 symbol = " "
 format = "[$symbol$branch]($style) "
+ignore_bare_repo = true
 style = "green"
 
 [jobs]
@@ -68,15 +69,11 @@ format = "[$duration]($style)"
 style = "yellow"
 
 [memory_usage]
+disabled = true
 symbol = "🐏 "
 
 [rust]
 symbol = "🦀 "
-
-[time]
-disabled = false
-style = "bold white"
-format = "[$time]($style)"
 
 [aws]
 format = 'on [$symbol$profile:$region]($style) '
@@ -89,7 +86,6 @@ us-west-1 = 'USW1'
 us-west-2 = 'USW2'
 eu-west-1 = 'EUW1'
 eu-west-2 = 'EUW2'
-[aws.profile_aliases]
 
 [docker_context]
 format = 'via [🐋 $context](blue bold)'
@@ -125,20 +121,20 @@ format = '[${symbol}(\($virtualenv\))]($style) '
 pyenv_version_name = true
 
 [shell]
-fish_indicator = ''
-powershell_indicator = '_'
+disabled = true
+fish_indicator = ''
+powershell_indicator = '_'
 unknown_indicator = 'mystery shell'
 zsh_indicator = ''
 style = 'cyan bold'
-disabled = false
 
 [sudo]
+disabled = true
 style = 'bold green'
 symbol = '👨🏽 💻 '
-disabled = false
 
 [terraform]
-format = '| [$symbol$workspace]($style) '
+format = '| [$symbol $workspace]($style) '
 
 [username]
 style_user = 'white bold'
