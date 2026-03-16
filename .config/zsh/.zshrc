@@ -41,7 +41,6 @@ done
 # Special case for 1Password plugins if they exist
 [ -f "$XDG_CONFIG_HOME/op/plugins.sh" ] && plug "$XDG_CONFIG_HOME/op/plugins.sh"
 
-
 # ==============================
 # Environment Variables
 # ==============================
@@ -62,9 +61,9 @@ export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
 
 # Brew Zsh completion
 if type brew &>/dev/null; then
-    FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-    autoload -Uz compinit
-    compinit
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+  autoload -Uz compinit
+  compinit
 fi
 
 # fzf integration
@@ -90,7 +89,7 @@ fi
 # terraform completion
 if type terraform &>/dev/null; then
   terraform_path=$(which terraform)
-  complete -o nospace -C "$terraform_path" terraform 
+  complete -o nospace -C "$terraform_path" terraform
   complete -o nospace -C "$terraform_path" tf
 fi
 
@@ -105,10 +104,13 @@ else
 fi
 
 # Ripgrep (rg) integration with fzf
-if type rg &> /dev/null; then
+if type rg &>/dev/null; then
   export FZF_DEFAULT_COMMAND='rg --files'
   export FZF_DEFAULT_OPTS='-m --height 50% --border'
 fi
+
+# 1Password SSH Agent
+export SSH_AUTH_SOCK=$HOME/.1password/agent.sock
 
 # ==============================
 # Shell History Configuration
@@ -118,21 +120,21 @@ export HISTSIZE=110000
 export SAVEHIST=100000
 export HISTFILE=~/.histfile
 
-setopt append_history           # Append history
-setopt hist_ignore_all_dups     # No duplicate history entries
-unsetopt hist_ignore_space      # Ignore space-prefixed commands
-setopt hist_reduce_blanks       # Trim blanks
-setopt hist_verify              # Show before executing history commands
-setopt inc_append_history       # Add commands as they are typed
-setopt share_history            # Share history between sessions
-setopt bang_hist                # Enable `!keyword` expansion
+setopt append_history       # Append history
+setopt hist_ignore_all_dups # No duplicate history entries
+unsetopt hist_ignore_space  # Ignore space-prefixed commands
+setopt hist_reduce_blanks   # Trim blanks
+setopt hist_verify          # Show before executing history commands
+setopt inc_append_history   # Add commands as they are typed
+setopt share_history        # Share history between sessions
+setopt bang_hist            # Enable `!keyword` expansion
 
 # ==============================
 # Shell Behavior & Keybindings
 # ==============================
 
 # Load Starship if necessary
-type starship_zle-keymap-select >/dev/null || \
+type starship_zle-keymap-select >/dev/null ||
   {
     eval "$($(brew --prefix)/bin/starship init zsh)"
   }
@@ -144,13 +146,13 @@ bindkey '^[[A' history-substring-search-up
 bindkey '^[OA' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 bindkey '^[OB' history-substring-search-down
-bindkey -M vicmd '^[[A' history-substring-search-up 
-bindkey -M vicmd '^[OA' history-substring-search-up 
+bindkey -M vicmd '^[[A' history-substring-search-up
+bindkey -M vicmd '^[OA' history-substring-search-up
 bindkey -M vicmd '^[[B' history-substring-search-down
 bindkey -M vicmd '^[OB' history-substring-search-down
-bindkey -M viins '^[[A' history-substring-search-up 
-bindkey -M viins '^[OA' history-substring-search-up 
-bindkey -M viins '^[[B' history-substring-search-down 
+bindkey -M viins '^[[A' history-substring-search-up
+bindkey -M viins '^[OA' history-substring-search-up
+bindkey -M viins '^[[B' history-substring-search-down
 bindkey -M viins '^[OB' history-substring-search-down
 bindkey -r '^X'
 
@@ -182,9 +184,12 @@ fi
 # for serial in $(ykman list -s); do
 #   echo "Disabling OTP for Serial $serial"
 #   ykman --device $serial config usb --disable OTP --force
-#   echo "--- $serial ---" 
+#   echo "--- $serial ---"
 #   ykman --device $serial info
 #   echo
 # done
 
 export GPG_TTY=$(tty)
+
+# opencode
+export PATH=/Users/kenji.freitas/.opencode/bin:$PATH
