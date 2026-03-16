@@ -26,6 +26,22 @@ print_warning() {
   echo -e "${YELLOW}!${NC} $1"
 }
 
+# Parse command line arguments
+SKIP_XCODE_CHECK=false
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --skip-xcode-check)
+      SKIP_XCODE_CHECK=true
+      shift
+      ;;
+    *)
+      print_error "Unknown option: $1"
+      echo "Usage: $0 [--skip-xcode-check]"
+      exit 1
+      ;;
+  esac
+done
+
 # Default installation directory
 DEFAULT_INSTALL_DIR="$HOME/repo/dot"
 
@@ -35,27 +51,59 @@ echo -e "${BOLD}║     dotfiles Bootstrap Installation Script    ║${NC}"
 echo -e "${BOLD}╚════════════════════════════════════════════════╝${NC}"
 echo ""
 
-# Check for Command Line Tools
-print_status "Checking for Xcode Command Line Tools..."
-if ! xcode-select -p &>/dev/null; then
-  print_warning "Command Line Tools not found"
-  print_status "Installing Xcode Command Line Tools (this may take a few minutes)..."
-  
-  # Trigger installation
-  xcode-select --install &>/dev/null || true
-  
-  # Wait for installation to complete
-  echo "Please complete the Command Line Tools installation in the popup window."
-  echo "Press Enter once the installation is complete..."
-  read -r
-  
-  # Verify installation
+# Check for Command Line Tools (can be skipped for testing)
+if [[ "$SKIP_XCODE_CHECK" == "false" ]]; then
+  print_status "Checking for Xcode Command Line Tools..."
   if ! xcode-select -p &>/dev/null; then
-    print_error "Command Line Tools installation failed or was cancelled"
-    exit 1
+    print_warning "Command Line Tools not found"
+    
+    # Check if git is available anyway (from Homebrew, etc.)
+    if command -v git &>/dev/null; then
+      print_success "Git found via alternative installation ($(command -v git))"
+    else
+      print_status "Installing Xcode Command Line Tools (this may take a few minutes)..."
+      
+      # Trigger installation
+      xcode-select --install 2>/dev/null || {
+        print_warning "Command Line Tools installation dialog may have already been shown"
+        print_warning "If you see an error, the tools may already be installing"
+      }
+      
+      # Wait for installation to complete
+      echo ""
+      echo "Please complete the Command Line Tools installation:"
+      echo "  1. A popup window should appear - click 'Install'"
+      echo "  2. Wait for installation to complete (can take 5-10 minutes)"
+      echo "  3. Press Enter here once installation is done"
+      echo ""
+      read -r
+      
+      # Verify installation
+      if ! xcode-select -p &>/dev/null && ! command -v git &>/dev/null; then
+        print_error "Command Line Tools installation failed or was cancelled"
+        print_warning "Git is required to continue"
+        echo ""
+        echo "You can:"
+        echo "  1. Install Command Line Tools manually:"
+        echo "     xcode-select --install"
+        echo "  2. Install Homebrew first (includes git):"
+        echo "     /bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
+        echo "  3. Then re-run this script"
+        exit 1
+      fi
+    fi
   fi
+  print_success "Command Line Tools installed"
+else
+  print_warning "Skipping Xcode Command Line Tools check (--skip-xcode-check)"
 fi
-print_success "Command Line Tools installed"
+
+# Verify git is available
+if ! command -v git &>/dev/null; then
+  print_error "Git is not installed"
+  print_warning "Please install Xcode Command Line Tools or Homebrew first"
+  exit 1
+fi
 
 # Prompt for installation directory
 echo ""
