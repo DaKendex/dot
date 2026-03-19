@@ -1,0 +1,76 @@
+flowchart TB
+    %% Main Setup
+    subgraph main["Main Setup"]
+        MainMac["🖥️ Main iMac"]
+        CalDigit["CalDigit TS3 Dock"]
+        Decogar["Decogar 40&quot; 5k2k Ultrawide Monitor"]
+        Sceptre["Sceptre 34&quot; Ultrawide Monitor"]
+        MagSafe["iPhone MagSafe Charger"]
+        
+        MainMac --> CalDigit
+        CalDigit --> Decogar
+        CalDigit --> Sceptre
+        CalDigit <--> SwitchAV
+        CalDigit <--> SwitchIO
+        CalDigit <--> NetworkEth
+        CalDigit --> MagSafe
+    end
+    
+    %% Secondary Setup
+    subgraph secondary["Secondary Setup"]
+        SecondaryMac["🖥️ Secondary iMac"]
+        OWC["OWC Thunderbolt 3 Dock"]
+        AOC["AOC 27&quot; 4K Monitor"]
+        
+        SecondaryMac --> OWC
+        OWC --> AOC
+        OWC <--> SwitchAV
+        OWC <--> SwitchIO
+        OWC <--> NetworkEth
+    end
+    
+    %% Shared Peripherals
+    subgraph peripherals["Shared Peripherals"]
+        SwitchAV["Ugreen USB-C Switch (A/V)"]
+        SwitchIO["Ugreen USB-C Switch (I/O)"]
+        FifineInterface["Fifine Audio Interface"]
+        FifineMic["Fifine AM8 Microphone"]
+        AnkerCam["Anker Webcam"]
+        Keyboard["Keebio Iris Keyboard"]
+        Mouse["Logitech MX Master 3 Mouse"]
+        BT["Bluetooth connection"]
+        
+        SwitchAV <--> FifineInterface
+        FifineMic --> FifineInterface
+        AnkerCam --> SwitchAV
+        Keyboard --> SwitchIO
+        Mouse <--> BT
+        BT --> MainMac
+        BT --> SecondaryMac
+    end
+    
+    %% Audio Chain
+    subgraph audio["Audio Chain"]
+        FifineMixer["Fifine 4-input Mixer"]
+        FifineSplitter["Fifine 4-output Splitter"]
+        Monitors["Presonus Studio Monitors"]
+        Headphones["3.5mm Headphones Jack"]
+        
+        FifineInterface --> FifineMixer
+        OWC --> FifineMixer
+        FifineMixer --> FifineSplitter
+        FifineSplitter --> Monitors
+        FifineSplitter --> Headphones
+    end
+    
+    %% Network
+    subgraph network["Network"]
+        NetworkEth["Network / Ethernet"]
+        UbiSwitch["Ubiquiti USW Switch"]
+        UDM["UDM Pro"]
+        ISP["ISP"]
+        
+        NetworkEth --> UbiSwitch
+        UbiSwitch --> UDM
+        UDM --> ISP
+    end

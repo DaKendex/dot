@@ -1,12 +1,12 @@
 # Desk Setup
-Uses PlantUML...for now
+Uses Mermaid for diagrams
 
 ![Current Setup](./diagrams/desk.svg)
 
 
 ## Setup
 ```sh
-brew install plantuml
+brew install mermaid-cli
 ```
 
 ## Run

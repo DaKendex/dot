@@ -62,6 +62,7 @@ brew "kubectx"
 brew "kubent"
 brew "lazydocker"
 brew "mas"
+brew "mermaid-cli"
 brew "mise"
 brew "nmap"
 brew "ollama", restart_service: :changed
