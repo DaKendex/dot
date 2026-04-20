@@ -26,9 +26,10 @@ gui:
     '*': '#b4befe'
   nerdFontsVersion: "3"
 git:
-  paging:
-    colorArg: always
-    pager: delta --dark --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
+  pagers:
+    - colorArg: always
+      pager: delta --dark --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
+  overrideGpg: true
 os:
   editPreset: "nvim"
 customCommands:
@@ -96,10 +97,10 @@ customCommands:
         title: "message"
         key: "Message"
         initialValue: ""
-      # - type: "confirm"
-      #   key: "Confirm"
-      #   title: "Commit"
-      #   body: "Are you sure you want to commit?"
+        # - type: "confirm"
+        #   key: "Confirm"
+        #   title: "Commit"
+        #   body: "Are you sure you want to commit?"
     command: "git commit --message '{{.Form.Type}}{{ if .Form.Scope }}({{ .Form.Scope }}){{ end }}: {{.Form.Message}}'"
     # command: "git commit --message '{{.Form.Type}}: {{.Form.Message}}'"
     loadingText: "Creating conventional commit..."
