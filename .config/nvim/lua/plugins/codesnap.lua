@@ -1,23 +1,17 @@
 local M = {
   "mistricky/codesnap.nvim",
   build = "make",
-  command = "CodeSnap",
-  event = "BufRead",
+  cmd = "CodeSnap",
+  keys = {
+    { "<leader>cc", "<cmd>CodeSnap<cr>", mode = "x", desc = "Save selected code snapshot into clipboard" },
+  },
 }
 
 function M.config()
   require("codesnap").setup({
-
     bg_color = "#1f2335",
     has_breadcrumbs = true,
     watermark = "DaKendex",
-
-    vim.keymap.set(
-      "x",
-      "<leader>cc",
-      "<cmd>CodeSnap<cr>",
-      { desc = "Save selected code snapshot into clipboard" }
-    ),
   })
 end
 
