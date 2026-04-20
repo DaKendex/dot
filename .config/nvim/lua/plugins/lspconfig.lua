@@ -1,6 +1,7 @@
 return {
   "neovim/nvim-lspconfig",
   event = { "BufReadPre", "BufNewFile" },
+
   dependencies = {
     {
       {
@@ -86,7 +87,7 @@ return {
         settings = {
           Lua = {
             diagnostics = {
-              globals = { "vim" },
+              globals = { "vim", "Snacks" },
             },
             runtime = {
               version = "LuaJIT",
@@ -160,37 +161,6 @@ return {
         },
       },
 
-      groovyls = {
-        filetypes = { "groovy", "jenkinsfile" },
-        cmd = {
-          "java",
-          "-jar",
-          vim.fn.stdpath("data")
-            .. "/mason/packages/groovy-language-server/build/libs/groovy-language-server-all.jar",
-        },
-        root_marker = { "Jenkinsfile", ".git" },
-      },
-      eslint = {
-        settings = { workingDirectories = { mode = "auto" } },
-        filetypes = {
-          "javascript",
-          "javascriptreact",
-          "javascript.jsx",
-          "typescript",
-          "typescriptreact",
-          "typescript.tsx",
-        },
-      },
-      ts_ls = {
-        filetypes = {
-          "javascript",
-          "javascriptreact",
-          "javascript.jsx",
-          "typescript",
-          "typescriptreact",
-          "typescript.tsx",
-        },
-      },
       tailwindcss = {
         filetypes = {
           "astro",
@@ -202,11 +172,6 @@ return {
           "typescript.tsx",
         },
       },
-      -- ["plantuml-lsp"] = {
-      --   cmd = { "plantuml-lsp" },
-      --   filetypes = { "plantuml" },
-      --   root_marker = { ".git" },
-      -- },
 
       -- harper_ls = {
       --   settings = {
