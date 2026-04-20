@@ -53,7 +53,7 @@ keybindings:
   universal:
     - key: g
       command: >
-        cd {{.RepoPath}} && lazygit
+        cd {{.RepoPath}}; lazygit
   prs:
     - key: O
       command: >
@@ -80,4 +80,4 @@ theme:
     table:
       showSeparator: true
 pager:
-  diff: 'delta --dark --line-numbers'
+  diff: "diffnav"
