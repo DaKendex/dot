@@ -146,8 +146,8 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 
 vim.api.nvim_create_autocmd("BufWritePost", {
   desc = "Validate and reload ghostty config",
-  pattern = { "*/ghostty/config" },
-  command = "!ghostty +validate",
+  pattern = { "/ghostty/config" },
+  command = "!ghostty +validate ~/.config/ghostty/config",
 })
 
 vim.api.nvim_create_autocmd({ "BufRead" }, {
