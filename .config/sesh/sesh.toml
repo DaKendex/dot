@@ -1,6 +1,6 @@
 import = ["~/.sesh.toml"] # Importing local config not in git
 
-dir_length = 3
+dir_length = 2
 
 [default_session]
 startup_command = "nvim"
@@ -116,3 +116,10 @@ name = "Gh-dash"
 path = "~/repo/dot/.config/gh-dash"
 startup_command = "nvim config.yml"
 preview_command = "bat --color=always ~/repo/dot/.config/gh-dash/config.yml"
+
+
+[[session]]
+name = "Obsidian"
+path = "~/repo/obsidian"
+startup_command = "nvim"
+preview_command = "eza --all --git --icons --color=always ~/repo/obsidian"
