@@ -1,10 +1,12 @@
 local opt = vim.opt -- for conciseness
 vim.cmd("let g:netrw_liststyle = 3")
-vim.lsp.set_log_level("OFF") -- set LSP log level to debug
+vim.lsp.log.set_level("OFF")
 opt.cmdheight = 0 -- height of command line
 
 opt.spelllang = "en_us" -- set spell language to english
 opt.spell = false -- enable spell checking
+
+opt.scrolloff = 10 -- keep 8 lines above and below the cursor when scrolling
 
 -- line numbers
 opt.relativenumber = true -- show relative line numbers
