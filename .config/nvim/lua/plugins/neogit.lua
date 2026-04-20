@@ -1,6 +1,6 @@
 return {
   "NeogitOrg/neogit",
-  event = { "BufReadPost", "BufNewFile" },
+  event = "BufReadPre",
   dependencies = {
     "nvim-lua/plenary.nvim", -- required
     "sindrets/diffview.nvim", -- optional - Diff integration
