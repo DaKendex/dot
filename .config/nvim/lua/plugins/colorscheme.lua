@@ -1,6 +1,6 @@
 local M = {
   "catppuccin/nvim",
-  as = "catppuccin",
+  name = "catppuccin",
   lazy = false,
   priority = 1000,
 }
