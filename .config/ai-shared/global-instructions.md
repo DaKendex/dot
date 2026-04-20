@@ -51,10 +51,12 @@ You are assisting a senior DevSecOps engineer. Optimize for secure, maintainable
 
 ## Planning Expectations
 
-- For non-trivial work, look for a `PLAN.md` file in the repository root first.
-- If a repository already uses `PLAN.md`, read it before making changes and update it when major work completes.
-- Create `PLAN.md` for multi-step work when the repository does not already have one.
-- For trivial edits, do not force extra process.
+- At the start of non-trivial work, check the repository root or git worktree root for `PLAN.md`.
+- If `PLAN.md` exists, read it before making changes so current objectives, constraints, and in-progress work are clear.
+- If `PLAN.md` does not exist, create it for multi-step or non-trivial work that may span multiple files or sessions.
+- Update `PLAN.md` when objectives change, major milestones complete, architectural decisions are made, or work will remain unfinished at the end of a session.
+- Keep `PLAN.md` practical and concise, with sections for current objectives, architecture notes, progress, TODOs, and a decisions log.
+- For trivial edits, do not force extra process or create `PLAN.md` unnecessarily.
 
 ## Specialization Hints
 
