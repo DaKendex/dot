@@ -215,6 +215,39 @@ else
   exit 1
 fi
 
+# Prompt for machine profile
+echo ""
+print_status "Select machine profile"
+echo "  1) personal"
+echo "  2) work"
+read -rp "  Enter choice [1/2]: " MACHINE_PROFILE_CHOICE
+case "$MACHINE_PROFILE_CHOICE" in
+  2) MACHINE_PROFILE="work" ;;
+  *) MACHINE_PROFILE="personal" ;;
+esac
+print_success "Machine profile: $MACHINE_PROFILE"
+
+# Install git hooks
+print_status "Installing git hooks..."
+HOOKS_DIR="$SCRIPT_DIR/.git/hooks"
+if [[ "$MACHINE_PROFILE" == "work" ]]; then
+  cat > "$HOOKS_DIR/pre-push" << 'HOOK'
+#!/bin/bash
+branch=$(git symbolic-ref HEAD 2>/dev/null | sed 's|refs/heads/||')
+if [ "$branch" = "work" ]; then
+  echo "Error: pushing 'work' branch is blocked. Cherry-pick personal commits to main first."
+  exit 1
+fi
+HOOK
+  chmod +x "$HOOKS_DIR/pre-push"
+  git -C "$SCRIPT_DIR" checkout -b work 2>/dev/null || git -C "$SCRIPT_DIR" checkout work
+  git -C "$SCRIPT_DIR" config branch.work.rebase true
+  git -C "$SCRIPT_DIR" config branch.work.pushRemote no_push
+  print_success "Work branch and push guard configured"
+else
+  print_success "Personal profile — skipping work branch setup"
+fi
+
 # brew auto update
 print_status "Setting up Homebrew auto-update..."
 if brew autoupdate start --upgrade &>/dev/null; then
@@ -234,9 +267,13 @@ echo "  ✓ Homebrew and packages installed"
 echo "  ✓ Zap plugin manager for zsh installed"
 echo "  ✓ macOS settings configured"
 echo "  ✓ Dotfiles symlinked to $HOME"
+echo "  ✓ Machine profile: $MACHINE_PROFILE"
 echo ""
 echo -e "${BOLD}Next steps:${NC}"
 echo "  1. Restart your terminal or run: exec zsh"
 echo "  2. Verify setup: neovim, tmux, and zsh should work"
 echo "  3. Configure machine-specific settings in ~/.env.zsh"
+if [[ "$MACHINE_PROFILE" == "work" ]]; then
+  echo "  4. You're on the 'work' branch — commit work-specific changes with 'work:' prefix"
+fi
 echo ""
