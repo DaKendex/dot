@@ -9,7 +9,5 @@
 **/.aws/credentials
 **/.aws/cli
 **/.aws/sso
-**/AVANTE.md
-**/AGENTS.md
 **/*.out
 **/out.*

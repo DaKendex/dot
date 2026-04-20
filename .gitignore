@@ -79,3 +79,4 @@ zprof_*
 .*.un~
 .config/colima
 .config/gcloud
+/.config/opencode/package-lock.json
