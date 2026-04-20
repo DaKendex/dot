@@ -14,29 +14,34 @@ ave() {
 # Uncomment to use FIPS endpoints
 # AWS_FEDERAL=true
 
-ecr-login () {
-    if [ "$#" -gt 2 ]; then
-        echo "Usage: ecr-login [profile] [region]"
-        return 1
-    fi
-    profile=${1:-$(sed -n 's/^\[profile \(.*\)\]/\1/p' ~/.aws/config | fzf --height 40% --reverse --prompt="Select AWS Profile: ")}
-    if [ -z "$profile" ]; then
-        echo "No profile selected"
-        return 1
-    fi
-    region=${2:-$(aws configure get region --profile "$profile")}
-    if [ -z "$region" ]; then
-        echo "Region not specified and no default region set for profile $profile"
-        return 1
-    fi
-    if [ "$AWS_FEDERAL" = true ]; then
-        endpoint_suffix="dkr.ecr-fips"
-    else
-        endpoint_suffix="dkr.ecr"
-    fi
-    registry="$(aws sts get-caller-identity --profile "$profile" --query 'Account' --output text).$endpoint_suffix.$region.amazonaws.com"
-    docker logout "$registry" 2>/dev/null
-    aws ecr get-login-password --profile "$profile" --region "$region" | docker login --username AWS --password-stdin "$registry"
+ecr-login() {
+  # add this
+  # function ecr-login() {
+  #  aws ecr get-login-password --region us-east-1 --profile prod | docker login --username AWS --password-stdin 380235110861.dkr.ecr.us-east-1.amazonaws.com
+  #}
+
+  if [ "$#" -gt 2 ]; then
+    echo "Usage: ecr-login [profile] [region]"
+    return 1
+  fi
+  profile=${1:-$(sed -n 's/^\[profile \(.*\)\]/\1/p' ~/.aws/config | fzf --height 40% --reverse --prompt="Select AWS Profile: ")}
+  if [ -z "$profile" ]; then
+    echo "No profile selected"
+    return 1
+  fi
+  region=${2:-$(aws configure get region --profile "$profile")}
+  if [ -z "$region" ]; then
+    echo "Region not specified and no default region set for profile $profile"
+    return 1
+  fi
+  if [ "$AWS_FEDERAL" = true ]; then
+    endpoint_suffix="dkr.ecr-fips"
+  else
+    endpoint_suffix="dkr.ecr"
+  fi
+  registry="$(aws sts get-caller-identity --profile "$profile" --query 'Account' --output text).$endpoint_suffix.$region.amazonaws.com"
+  docker logout "$registry" 2>/dev/null
+  aws ecr get-login-password --profile "$profile" --region "$region" | docker login --username AWS --password-stdin "$registry"
 }
 
 # BEGIN_AWS_SSO_CLI
@@ -47,7 +52,7 @@ ecr-login () {
 # autoload -Uz +X compinit && compinit
 # autoload -Uz +X bashcompinit && bashcompinit
 #
-# If you do not already have these lines, you must COPY the lines 
+# If you do not already have these lines, you must COPY the lines
 # above, place it OUTSIDE of the BEGIN/END_AWS_SSO_CLI markers
 # and of course uncomment it
 
