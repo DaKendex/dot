@@ -98,3 +98,7 @@ keybind = super+shift+g=text:\x02\x47
 keybind = super+o=text:\x3a\x4f\x63\x74\x6f\x0a
 # Open Github for current repo # Super + O = Leader + o
 keybind = super+shift+o=text:\x02\x6f
+# Open Obsidian notes session  # Super + Shift + n = Leader + N
+keybind = super+shift+n=text:\x02\x4e
+# Enter Tmux Copy Mode  # Super + y = Leader + [
+keybind = super+y=text:\x02\x5b
