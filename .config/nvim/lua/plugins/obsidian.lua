@@ -1,6 +1,5 @@
 local M = {
   "epwalsh/obsidian.nvim",
-  version = "v3.7.12",
   event = {
     "BufReadPre " .. vim.fn.expand("~") .. "/repo/obsidian/**.md",
     "BufNewFile " .. vim.fn.expand("~") .. "/repo/obsidian/**.md",
@@ -46,7 +45,7 @@ function M.config()
       -- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
       templates = {
         {
-          folder = "templates/daily.md",
+          folder = "~/repo/obsidian/templates/daily.md",
         },
       },
       -- template = "./templates/daily.md",
