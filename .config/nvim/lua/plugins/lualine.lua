@@ -3,14 +3,16 @@ local M = {
   event = "BufWinEnter",
   dependencies = {
     "AndreM222/copilot-lualine",
+    "catppuccin/nvim",
   },
 }
 
 function M.config()
+  local catppuccin_lualine = require("catppuccin.utils.lualine")
+
   require("lualine").setup({
     options = {
-      -- theme = bubbles_theme,
-      theme = "catppuccin",
+      theme = catppuccin_lualine(),
       component_separators = "",
       section_separators = { left = "", right = "" },
       icons_enabled = true,
