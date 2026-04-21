@@ -48,6 +48,23 @@ set("n", "%", "%zz")
 set("n", "*", "*zz")
 set("n", "#", "#zz")
 
+-- Treesitter incremental selection (Neovim built-in API on nightly)
+set({ "x", "o" }, "<CR>", function()
+  if vim.treesitter.get_parser(nil, nil, { error = false }) then
+    require("vim.treesitter._select").select_parent(vim.v.count1)
+  else
+    vim.lsp.buf.selection_range(vim.v.count1)
+  end
+end, { desc = "Expand selection" })
+
+set({ "x", "o" }, "<BS>", function()
+  if vim.treesitter.get_parser(nil, nil, { error = false }) then
+    require("vim.treesitter._select").select_child(vim.v.count1)
+  else
+    vim.lsp.buf.selection_range(-vim.v.count1)
+  end
+end, { desc = "Shrink selection" })
+
 -- These mappings control the size of splits (height/width)
 set("n", "<M-n>", "<c-w>5>")
 set("n", "<M-.>", "<c-w>5<")
