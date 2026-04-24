@@ -102,3 +102,5 @@ keybind = super+shift+o=text:\x02\x6f
 keybind = super+shift+n=text:\x02\x4e
 # Enter Tmux Copy Mode  # Super + y = Leader + [
 keybind = super+y=text:\x02\x5b
+# Enter Tmux fzf-urls # Super + u = Leader + u
+keybind = super+u=text:\x02\x75
