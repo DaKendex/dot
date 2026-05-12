@@ -112,6 +112,10 @@ wtmainup() {
 
 alias vi="nvim"
 alias vid="NVIM_APPNAME=nvim-dev nvim "
+
+mdp() {
+  nvim -c ':MarkdownPreviewToggle' "${1:-README.md}"
+}
 alias hi="history 1 | fzf"
 alias zad="ls -d */ | xargs -I {} zoxide add {}"
 
