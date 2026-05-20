@@ -58,6 +58,29 @@ You are assisting a senior DevSecOps engineer. Optimize for secure, maintainable
 - Keep `PLAN.md` practical and concise, with sections for current objectives, architecture notes, progress, TODOs, and a decisions log.
 - For trivial edits, do not force extra process or create `PLAN.md` unnecessarily.
 
+## Decision Tracking
+
+- Maintain a `DECISIONS.md` alongside `PLAN.md` at the repository or worktree root to capture major direction shifts.
+- Check `DECISIONS.md` at the start of non-trivial work to see what approaches have already been tried, what was ruled out, and why — this prevents retracing dead-ends.
+- Add a new entry when a finding changes direction: an approach is abandoned, a tradeoff resolves differently than first assumed, a constraint is discovered, or an architectural pivot occurs.
+- Do not log routine implementation choices or small refactors — only decisions that future work would benefit from understanding.
+- Each entry should be append-only and dated, with: date, context (what problem was being solved), options considered, decision made, and reasoning (especially what was learned that triggered the shift).
+- Suggested entry format:
+
+  ```markdown
+  ## YYYY-MM-DD — <short title>
+
+  **Context:** what problem or question prompted this.
+  **Considered:** approaches evaluated, including the prior approach if pivoting.
+  **Decision:** the chosen direction.
+  **Reasoning:** why, including the finding that drove the change.
+  **Supersedes:** link or reference to any prior decision this replaces.
+  ```
+
+- When pivoting away from a prior decision, reference the superseded entry rather than deleting it — the history of *why* the path changed is the value.
+- Keep entries concise; link to PRs, issues, or code rather than restating implementation detail.
+- Never reference `PLAN.md` or `DECISIONS.md` in committed code, comments, commit messages, PR descriptions, or repo documentation. These files are local-only working notes and will not exist for other readers.
+
 ## Specialization Hints
 
 - Use Terraform-focused reasoning for `*.tf` and `*.tfvars` changes.
