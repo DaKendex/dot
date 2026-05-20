@@ -11,3 +11,6 @@
 **/.aws/sso
 **/*.out
 **/out.*
+**/.claude/settings.local*
+**/PLAN.md
+**/DECISIONS.md
