@@ -15,7 +15,8 @@ alias glist="gcloud compute instances list"
 alias gla="git log --oneline"
 alias glp='git log --pretty=format:"%C(yellow)%h%Creset - %C(green)%an%Creset, %ar : %s"'
 alias trigger="git commit --allow-empty -m 'trigger'"
-alias idgaf="git commit -m $(curl -s https://whatthecommit.com/index.txt)"
+alias idgaf='git commit -m "$(curl -s https://whatthecommit.com/index.txt)"'
+alias oo="cd $HOME/repo/obsidian && nvim"
 
 wtmainup() {
   local default_branch
@@ -36,8 +37,8 @@ wtmainup() {
 
   if [[ -z "$default_branch" ]]; then
     for branch in develop master main trunk mainline default; do
-      if command git show-ref -q --verify "refs/remotes/origin/$branch" \
-        || command git show-ref -q --verify "refs/heads/$branch"; then
+      if command git show-ref -q --verify "refs/remotes/origin/$branch" ||
+        command git show-ref -q --verify "refs/heads/$branch"; then
         default_branch="$branch"
         break
       fi

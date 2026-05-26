@@ -6,8 +6,6 @@ export LANG="en_US.UTF-8"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 
-# Load and initialize completion system
-autoload -Uz compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
 
 # ==============================
@@ -62,9 +60,10 @@ export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
 # Brew Zsh completion
 if type brew &>/dev/null; then
   FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-  autoload -Uz compinit
-  compinit
 fi
+
+# Initialize completion system once after FPATH is fully built
+autoload -Uz compinit && compinit -C
 
 # fzf integration
 source <(fzf --zsh)
@@ -193,3 +192,5 @@ export GPG_TTY=$(tty)
 
 # opencode
 export PATH=/Users/kenji.freitas/.opencode/bin:$PATH
+
+. "$HOME/.local/share/../bin/env"
