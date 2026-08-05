@@ -17,6 +17,7 @@ alias glp='git log --pretty=format:"%C(yellow)%h%Creset - %C(green)%an%Creset, %
 alias trigger="git commit --allow-empty -m 'trigger'"
 alias idgaf='git commit -m "$(curl -s https://whatthecommit.com/index.txt)"'
 alias oo="cd $HOME/repo/obsidian && nvim"
+alias cc="claude --dangerously-skip-permissions"
 
 wtmainup() {
   local default_branch
