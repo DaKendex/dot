@@ -1,0 +1,5 @@
+# herdr configuration
+
+[keys]
+# tmux prefix is ctrl+b; avoid stealing it since herdr runs inside tmux panes.
+prefix = "ctrl+a"
