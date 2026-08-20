@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Called from a codex hook (see ~/.codex/hooks.json). Records state on the tmux
+# pane it's running in, mirroring how claude-agent-rows sources Claude status
+# but push-based: codex has no `agents --json` query, only lifecycle hooks.
+#
+# Verified 2026-08-20 against codex-cli 0.148.0: UserPromptSubmit fires as
+# expected; SessionStart fires lazily on first activity, not at TUI launch
+# (an idle-only session never triggers it); Stop is unverified here (the test
+# turn hit an unrelated AWS credential error before completing) but should
+# fire on normal turn completion per the same hook contract.
+#
+# Codex hooks inherit the interactive session's environment, so $TMUX_PANE is
+# set whenever codex runs inside tmux. Outside tmux this is a no-op.
+
+[[ -z "${TMUX_PANE:-}" ]] && exit 0
+
+case "${1:-idle}" in
+  working | waiting | idle) state="${1:-idle}" ;;
+  *) state='idle' ;;
+esac
+
+tmux set-option -p -t "$TMUX_PANE" @codex_state "$state" >/dev/null 2>&1
+tmux set-option -p -t "$TMUX_PANE" @codex_state_at "$(date +%s)" >/dev/null 2>&1
+exit 0

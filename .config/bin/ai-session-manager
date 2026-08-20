@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
-# Claude-only for now -- see the TODO in claude-agent-rows for why codex,
-# copilot, and opencode aren't in this list yet.
+# Claude + codex for now. copilot/opencode don't expose an equivalent hook or
+# status API yet -- see the TODO in claude-agent-rows.
 
-sel=$(claude-agent-rows | fzf-tmux -p 90%,70% --ansi --delimiter '\t' --with-nth 3 \
+sel=$( { claude-agent-rows; codex-agent-rows; } | sort -t$'\t' -k1,1n \
+  | fzf-tmux -p 90%,70% --ansi --delimiter '\t' --with-nth 3 \
   --border-label ' ai sessions ' --prompt '✳  ' \
   --header '  enter: jump   esc/q: cancel' \
   --bind 'esc:abort,q:abort' \

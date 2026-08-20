@@ -18,13 +18,18 @@
 # the task summary -- that only exists as the pane's terminal title, which
 # Claude sets itself (e.g. "✳ Wiz sensor chart upgrade"). Pull it from tmux.
 #
-# TODO: fold codex/copilot/opencode into ai-session-manager too. Checked
-# 2026-08-20 (versions: codex-cli 0.148.0, copilot-cli 1.0.80, opencode
-# 1.17.19) -- none expose a live-process status API like `claude agents
-# --json`. Their session/resume commands only list persisted history on
-# disk, not busy/idle state of a running instance. Revisit if any of them
-# ship one; until then, adding them here means falling back to a pane-text
-# heuristic like the one this file replaced for Claude.
+# Codex is now covered too -- see codex-agent-rows and codex-session-state.
+# It has no `agents --json` equivalent, but it does have lifecycle hooks
+# (~/.codex/hooks.json), verified working 2026-08-20 against codex-cli
+# 0.148.0.
+#
+# TODO: fold copilot/opencode into ai-session-manager too. Checked 2026-08-20
+# (copilot-cli 1.0.80, opencode 1.17.19) -- neither exposes a live-process
+# status API or a hooks system like Claude/codex. Their session/resume
+# commands only list persisted history on disk, not busy/idle state of a
+# running instance. Revisit if either ships one; until then, adding them
+# here means falling back to a pane-text heuristic like the one this file
+# replaced for Claude.
 
 agents="$(claude agents --json 2>/dev/null)" || exit 0
 rows="$(printf '%s' "$agents" \

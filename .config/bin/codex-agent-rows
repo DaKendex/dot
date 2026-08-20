@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# Emit one row per running codex CLI session that lives in a tmux pane.
+# Status comes from tmux pane options (@codex_state) written by
+# codex-session-state, wired into ~/.codex/hooks.json -- codex has no
+# `agents --json` equivalent, only lifecycle hooks, so this is push- not
+# pull-based. See codex-session-state for what event firing is verified.
+#
+# Unlike Claude (a Node process that renames itself on macOS, see
+# claude-agent-rows), codex is a native binary and pane_current_command
+# reports it directly -- no pid/tty join needed, just filter panes by that.
+#
+#   Row: rank \t pane_id \t display
+#   Same display format and hidden-field convention as claude-agent-rows, so
+#   ai-session-manager can merge both lists and sort them together.
+
+tmux list-panes -a -F $'#{pane_id}\t#{@codex_state}\t#{pane_current_command}\t#{pane_current_path}' 2>/dev/null \
+  | awk -F'\t' -v dirlen=2 -v titlew=48 -v home="$HOME" '
+  $3 != "codex" { next }   # not a codex pane
+
+  {
+    state = $2   # unset until the first hook fires (lazy SessionStart) -- treat as idle
+
+    if      (state == "waiting") { color = "\033[33m"; label = "waiting"; rank = 0 }  # yellow - needs input
+    else if (state == "working") { color = "\033[31m"; label = "working"; rank = 3 }  # red    - busy, leave it
+    else                          { color = "\033[32m"; label = "idle";    rank = 1 }  # green  - idle/unset
+
+    # short path: last N segments only, same idea as sesh dir_length=2
+    n = split($4, parts, "/")
+    short = parts[n]
+    for (i = 1; i < dirlen && n - i >= 1; i++) short = parts[n - i] "/" short
+
+    display = sprintf("%s●\033[0m %-7s  %-*s  %s", color, label, titlew, "codex", short)
+
+    printf "%s\t%s\t%s\n", rank, $1, display
+  }
+' | sort -t$'\t' -k1,1n
