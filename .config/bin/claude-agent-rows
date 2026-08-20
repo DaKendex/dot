@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+# Emit one row per running Claude Code session that lives in a tmux pane.
+# Status ("busy"/"idle"/"waiting") comes straight from `claude agents --json` --
+# no text scraping of the pane (pane_current_command reports the parent shell
+# on macOS, never the claude child running inside it).
+#
+# Identity is the claude process (by pid -> tty), not the tmux pane, so several
+# Claudes in one window/session each still get their own row.
+#
+#   Row: rank \t pane_id \t display
+#   rank/pane_id are hidden from the display via fzf's --with-nth. display is
+#   one pre-padded string (spaces, not tabs) so title/location line up in
+#   fixed columns regardless of length -- fzf's --with-nth rejoins fields
+#   using the field delimiter itself, and a raw tab there just lands wherever
+#   the terminal's next 8-column tab stop happens to be.
+#
+# `claude agents --json` only gives a short session slug (e.g. "dot-4e"), not
+# the task summary -- that only exists as the pane's terminal title, which
+# Claude sets itself (e.g. "✳ Wiz sensor chart upgrade"). Pull it from tmux.
+
+agents="$(claude agents --json 2>/dev/null)" || exit 0
+rows="$(printf '%s' "$agents" \
+  | jq -r '.[] | select(.kind == "interactive") | [.pid, .status, .cwd] | @tsv' 2>/dev/null)"
+[[ -n "$rows" ]] || exit 0
+
+{
+  ps -Ao pid=,tty= 2>/dev/null | awk '{ print "P\t" $1 "\t" $2 }'
+  tmux list-panes -a -F $'T\t#{pane_tty}\t#{pane_id}\t#{pane_title}' 2>/dev/null
+  printf '%s\n' "$rows" | sed $'s/^/A\t/'
+} | awk -F'\t' -v dirlen=2 -v titlew=48 '
+  $1 == "P" { tty_of[$2] = $3; next }
+  $1 == "T" {
+    sub(/^\/dev\//, "", $2)
+    pane[$2] = $3
+    title = $4
+    sub(/^✳ /, "", title)
+    ttl[$2] = title
+    next
+  }
+  $1 == "A" {
+    tty = tty_of[$2]
+    if (tty == "" || !(tty in pane)) next   # this claude is not running inside tmux
+
+    if      ($3 == "waiting") { color = "\033[33m"; label = "waiting"; rank = 0 }  # yellow - needs input
+    else if ($3 == "idle")    { color = "\033[32m"; label = "idle";    rank = 1 }  # green  - done, your turn
+    else if ($3 == "busy")    { color = "\033[31m"; label = "working"; rank = 3 }  # red    - busy, leave it
+    else                      { color = "\033[90m"; label = "?";       rank = 2 }  # grey   - unrecognised status
+
+    # short path: last N segments only, same idea as sesh dir_length=2
+    n = split($4, parts, "/")
+    short = parts[n]
+    for (i = 1; i < dirlen && n - i >= 1; i++) short = parts[n - i] "/" short
+
+    title = ttl[tty]
+    if (length(title) > titlew) title = substr(title, 1, titlew - 1) "…"
+
+    display = sprintf("%s●\033[0m %-7s  %-*s  %s", color, label, titlew, title, short)
+
+    printf "%s\t%s\t%s\n", rank, pane[tty], display
+  }
+' | sort -t$'\t' -k1,1n

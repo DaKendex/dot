@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+sel=$(claude-agent-rows | fzf-tmux -p 90%,70% --ansi --delimiter '\t' --with-nth 3 \
+  --border-label ' claude sessions ' --prompt '✳  ' \
+  --header '  enter: jump   esc/q: cancel' \
+  --bind 'esc:abort,q:abort' \
+  --preview-window 'right:55%,follow' \
+  --preview 'tmux capture-pane -ept {2}')
+
+if [[ -n "$sel" ]]; then
+  pane=$(printf '%s' "$sel" | cut -f2)
+  session=$(tmux display-message -p -t "$pane" '#{session_name}' 2>/dev/null)
+  tmux switch-client -t "$session"
+  tmux select-window -t "$pane"
+  tmux select-pane -t "$pane"
+fi
+
+exit 0
