@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
+# Claude-only for now -- see the TODO in claude-agent-rows for why codex,
+# copilot, and opencode aren't in this list yet.
 
 sel=$(claude-agent-rows | fzf-tmux -p 90%,70% --ansi --delimiter '\t' --with-nth 3 \
-  --border-label ' claude sessions ' --prompt '✳  ' \
+  --border-label ' ai sessions ' --prompt '✳  ' \
   --header '  enter: jump   esc/q: cancel' \
   --bind 'esc:abort,q:abort' \
   --preview-window 'right:55%,follow' \
