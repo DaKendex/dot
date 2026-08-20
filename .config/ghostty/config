@@ -104,3 +104,5 @@ keybind = super+shift+n=text:\x02\x4e
 keybind = super+y=text:\x02\x5b
 # Enter Tmux fzf-urls # Super + u = Leader + u
 keybind = super+u=text:\x02\x75
+# Jump to claude pane  # Super + i = Leader + C
+keybind = super+i=text:\x02\x43
