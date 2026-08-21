@@ -7,12 +7,17 @@
 # Identity is the claude process (by pid -> tty), not the tmux pane, so several
 # Claudes in one window/session each still get their own row.
 #
-#   Row: rank \t pane_id \t display
-#   rank/pane_id are hidden from the display via fzf's --with-nth. display is
-#   one pre-padded string (spaces, not tabs) so title/location line up in
+#   Row: sortkey \t pane_id \t display
+#   sortkey/pane_id are hidden from the display via fzf's --with-nth. display
+#   is one pre-padded string (spaces, not tabs) so title/location line up in
 #   fixed columns regardless of length -- fzf's --with-nth rejoins fields
 #   using the field delimiter itself, and a raw tab there just lands wherever
 #   the terminal's next 8-column tab stop happens to be.
+#
+#   sortkey packs rank and recency into one ascending numeric sort: rank in
+#   the billions place (needs-you floats up), window_activity (tmux's free
+#   last-output timestamp, no extra instrumentation) inverted as the
+#   tiebreaker so the most recently active pane sorts first within a rank.
 #
 # `claude agents --json` only gives a short session slug (e.g. "dot-4e"), not
 # the task summary -- that only exists as the pane's terminal title, which
@@ -38,7 +43,7 @@ rows="$(printf '%s' "$agents" \
 
 {
   ps -Ao pid=,tty= 2>/dev/null | awk '{ print "P\t" $1 "\t" $2 }'
-  tmux list-panes -a -F $'T\t#{pane_tty}\t#{pane_id}\t#{pane_title}' 2>/dev/null
+  tmux list-panes -a -F $'T\t#{pane_tty}\t#{pane_id}\t#{pane_title}\t#{window_activity}' 2>/dev/null
   printf '%s\n' "$rows" | sed $'s/^/A\t/'
 } | awk -F'\t' -v dirlen=2 -v titlew=32 '
   $1 == "P" { tty_of[$2] = $3; next }
@@ -48,6 +53,7 @@ rows="$(printf '%s' "$agents" \
     title = $4
     sub(/^✳ /, "", title)
     ttl[$2] = title
+    act[$2] = $5
     next
   }
   $1 == "A" {
@@ -73,6 +79,8 @@ rows="$(printf '%s' "$agents" \
 
     display = sprintf("%s %s●\033[0m %-7s %-*s %s", logo, color, label, titlew, title, short)
 
-    printf "%s\t%s\t%s\n", rank, pane[tty], display
+    sortkey = rank * 10000000000 + (9999999999 - act[tty])
+
+    printf "%s\t%s\t%s\n", sortkey, pane[tty], display
   }
 ' | sort -t$'\t' -k1,1n

@@ -9,11 +9,12 @@
 # claude-agent-rows), codex is a native binary and pane_current_command
 # reports it directly -- no pid/tty join needed, just filter panes by that.
 #
-#   Row: rank \t pane_id \t display
-#   Same display format and hidden-field convention as claude-agent-rows, so
-#   ai-session-manager can merge both lists and sort them together.
+#   Row: sortkey \t pane_id \t display
+#   Same display format, sortkey packing, and hidden-field convention as
+#   claude-agent-rows, so ai-session-manager can merge both lists and sort
+#   them together.
 
-tmux list-panes -a -F $'#{pane_id}\t#{@codex_state}\t#{pane_current_command}\t#{pane_current_path}' 2>/dev/null \
+tmux list-panes -a -F $'#{pane_id}\t#{@codex_state}\t#{pane_current_command}\t#{pane_current_path}\t#{window_activity}' 2>/dev/null \
   | awk -F'\t' -v dirlen=2 -v titlew=32 -v home="$HOME" '
   $3 != "codex" { next }   # not a codex pane
 
@@ -36,6 +37,8 @@ tmux list-panes -a -F $'#{pane_id}\t#{@codex_state}\t#{pane_current_command}\t#{
 
     display = sprintf("%s %s●\033[0m %-7s %-*s %s", logo, color, label, titlew, "codex", short)
 
-    printf "%s\t%s\t%s\n", rank, $1, display
+    sortkey = rank * 10000000000 + (9999999999 - $5)
+
+    printf "%s\t%s\t%s\n", sortkey, $1, display
   }
 ' | sort -t$'\t' -k1,1n
