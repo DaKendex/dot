@@ -40,7 +40,7 @@ rows="$(printf '%s' "$agents" \
   ps -Ao pid=,tty= 2>/dev/null | awk '{ print "P\t" $1 "\t" $2 }'
   tmux list-panes -a -F $'T\t#{pane_tty}\t#{pane_id}\t#{pane_title}' 2>/dev/null
   printf '%s\n' "$rows" | sed $'s/^/A\t/'
-} | awk -F'\t' -v dirlen=2 -v titlew=48 '
+} | awk -F'\t' -v dirlen=2 -v titlew=32 '
   $1 == "P" { tty_of[$2] = $3; next }
   $1 == "T" {
     sub(/^\/dev\//, "", $2)
@@ -67,7 +67,11 @@ rows="$(printf '%s' "$agents" \
     title = ttl[tty]
     if (length(title) > titlew) title = substr(title, 1, titlew - 1) "…"
 
-    display = sprintf("%s●\033[0m %-7s  %-*s  %s", color, label, titlew, title, short)
+    # nerd-font glyph for Claude (cod-claude, U+EC82). Static, not verified
+    # against every font -- renders as tofu if the terminal font lacks it.
+    logo = "\xee\xb2\x82"
+
+    display = sprintf("%s %s●\033[0m %-7s %-*s %s", logo, color, label, titlew, title, short)
 
     printf "%s\t%s\t%s\n", rank, pane[tty], display
   }

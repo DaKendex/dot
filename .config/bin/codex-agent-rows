@@ -14,7 +14,7 @@
 #   ai-session-manager can merge both lists and sort them together.
 
 tmux list-panes -a -F $'#{pane_id}\t#{@codex_state}\t#{pane_current_command}\t#{pane_current_path}' 2>/dev/null \
-  | awk -F'\t' -v dirlen=2 -v titlew=48 -v home="$HOME" '
+  | awk -F'\t' -v dirlen=2 -v titlew=32 -v home="$HOME" '
   $3 != "codex" { next }   # not a codex pane
 
   {
@@ -29,7 +29,12 @@ tmux list-panes -a -F $'#{pane_id}\t#{@codex_state}\t#{pane_current_command}\t#{
     short = parts[n]
     for (i = 1; i < dirlen && n - i >= 1; i++) short = parts[n - i] "/" short
 
-    display = sprintf("%s●\033[0m %-7s  %-*s  %s", color, label, titlew, "codex", short)
+    # nerd-font glyph for OpenAI (cod-openai, U+EC81) -- codex has no glyph
+    # of its own, this is the closest brand mark. Static, not verified
+    # against every font -- renders as tofu if the terminal font lacks it.
+    logo = "\xee\xb2\x81"
+
+    display = sprintf("%s %s●\033[0m %-7s %-*s %s", logo, color, label, titlew, "codex", short)
 
     printf "%s\t%s\t%s\n", rank, $1, display
   }
