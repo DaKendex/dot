@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Combines claude-agent-rows and codex-agent-rows for ai-session-manager.
+# A separate script (rather than inlining this pipeline in ai-session-manager
+# itself) so fzf's --bind reload()/execute() strings stay one word, not a
+# quoted sub-pipeline -- same reason sesh's own picker shells out to itself.
+#
+# Usage: ai-agent-rows [claude|codex]  -- omit for both, merged and sorted.
+
+case "${1:-}" in
+  claude) claude-agent-rows ;;
+  codex)  codex-agent-rows ;;
+  *)      { claude-agent-rows; codex-agent-rows; } | sort -t$'\t' -k1,1n ;;
+esac

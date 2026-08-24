@@ -7,9 +7,11 @@
 # Identity is the claude process (by pid -> tty), not the tmux pane, so several
 # Claudes in one window/session each still get their own row.
 #
-#   Row: sortkey \t pane_id \t display
-#   sortkey/pane_id are hidden from the display via fzf's --with-nth. display
-#   is one pre-padded string (spaces, not tabs) so title/location line up in
+#   Row: sortkey \t pane_id \t pid \t display
+#   sortkey/pane_id/pid are hidden from the display via fzf's --with-nth.
+#   pid is the actual claude process (already known from the --json join),
+#   used by ai-session-manager's kill bind. display is one pre-padded
+#   string (spaces, not tabs) so title/location line up in
 #   fixed columns regardless of length -- fzf's --with-nth rejoins fields
 #   using the field delimiter itself, and a raw tab there just lands wherever
 #   the terminal's next 8-column tab stop happens to be.
@@ -81,6 +83,6 @@ rows="$(printf '%s' "$agents" \
 
     sortkey = rank * 10000000000 + (9999999999 - act[tty])
 
-    printf "%s\t%s\t%s\n", sortkey, pane[tty], display
+    printf "%s\t%s\t%s\t%s\n", sortkey, pane[tty], $2, display
   }
 ' | sort -t$'\t' -k1,1n

@@ -2,11 +2,14 @@
 # Claude + codex for now. copilot/opencode don't expose an equivalent hook or
 # status API yet -- see the TODO in claude-agent-rows.
 
-sel=$( { claude-agent-rows; codex-agent-rows; } | sort -t$'\t' -k1,1n \
-  | fzf-tmux -p 90%,70% --ansi --delimiter '\t' --with-nth 3 \
+sel=$(ai-agent-rows | fzf-tmux -p 90%,70% --ansi --delimiter '\t' --with-nth 4 \
   --border-label ' ai sessions ' --prompt '✳  ' \
-  --header '  enter: jump   esc/q: cancel' \
+  --header '  enter: jump   ^d: kill   ^a: all   ^c: claude   ^o: codex   esc/q: cancel' \
   --bind 'esc:abort,q:abort' \
+  --bind 'ctrl-a:change-prompt(✳  )+reload(ai-agent-rows)' \
+  --bind 'ctrl-c:change-prompt(claude  )+reload(ai-agent-rows claude)' \
+  --bind 'ctrl-o:change-prompt(codex  )+reload(ai-agent-rows codex)' \
+  --bind 'ctrl-d:execute-silent(kill {3})+reload(ai-agent-rows)' \
   --preview-window 'right:55%,follow' \
   --preview 'tmux capture-pane -ept {2}')
 
