@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+# Emit one row per running GitHub Copilot CLI session that lives in a tmux
+# pane. Status comes from tmux pane options (@copilot_state) written by
+# copilot-session-state, wired into ~/.copilot/hooks/hooks.json -- copilot
+# has no live-status query, only lifecycle hooks. See copilot-session-state
+# for what event firing is verified.
+#
+# Same shape as codex-agent-rows: copilot is a native binary and
+# pane_current_command reports it directly, but the actual copilot pid (for
+# ai-session-manager's kill bind) still needs a ps ppid-join since pane_pid
+# is the pane's shell, and copilot is its direct child.
+#
+#   Row: sortkey \t pane_id \t pid \t display
+#   Same display format, sortkey packing, and hidden-field convention as
+#   claude-agent-rows/codex-agent-rows, so ai-session-manager can merge all
+#   three lists and sort them together.
+
+{
+  ps -Ao pid=,ppid=,comm= 2>/dev/null | awk '{ print "C\t" $1 "\t" $2 "\t" $3 }'
+  tmux list-panes -a -F $'T\t#{pane_id}\t#{pane_pid}\t#{@copilot_state}\t#{pane_current_command}\t#{pane_current_path}\t#{window_activity}' 2>/dev/null
+} | awk -F'\t' -v dirlen=2 -v titlew=32 '
+  $1 == "C" { if ($4 == "copilot") copilot_pid_of[$3] = $2; next }   # ppid -> child copilot pid
+  $1 == "T" {
+    if ($5 != "copilot") next   # not a copilot pane
+
+    pid = copilot_pid_of[$3]
+    if (pid == "") next         # pane_current_command lagged behind an exited copilot
+
+    state = $4   # unset until the first hook fires (lazy sessionStart) -- treat as idle
+
+    if      (state == "waiting") { color = "\033[33m"; label = "waiting"; rank = 0 }  # yellow - needs input
+    else if (state == "working") { color = "\033[31m"; label = "working"; rank = 3 }  # red    - busy, leave it
+    else                          { color = "\033[32m"; label = "idle";    rank = 1 }  # green  - idle/unset
+
+    # short path: last N segments only, same idea as sesh dir_length=2
+    n = split($6, parts, "/")
+    short = parts[n]
+    for (i = 1; i < dirlen && n - i >= 1; i++) short = parts[n - i] "/" short
+
+    # nerd-font glyph for GitHub Copilot (oct-copilot, U+F4B8) -- same one
+    # already used in this repo nvim icons.lua, for consistency. Static,
+    # not verified against every font -- renders as tofu if the terminal
+    # font lacks it.
+    logo = "\xef\x92\xb8"
+
+    display = sprintf("%s %s●\033[0m %-7s %-*s %s", logo, color, label, titlew, "copilot", short)
+
+    sortkey = rank * 10000000000 + (9999999999 - $7)
+
+    printf "%s\t%s\t%s\t%s\n", sortkey, $2, pid, display
+  }
+' | sort -t$'\t' -k1,1n

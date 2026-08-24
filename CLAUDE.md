@@ -19,7 +19,9 @@ Use `git add -p` to split personal and work changes in the same file before comm
 
 ## Manual Setup (not stow-managed)
 
-- **`ai-session-manager` (tmux `prefix+C` / Ghostty `Cmd+i`)**: picks between running Claude/Codex sessions across tmux, with live status. Claude side needs nothing (reads `claude agents --json` directly). Codex side needs `~/.codex/hooks.json` wired to `codex-session-state` -- that file is a real file outside the stow tree (like `.aws/config`), so a fresh machine needs it created by hand:
+- **`ai-session-manager` (tmux `prefix+C` / Ghostty `Cmd+i`)**: picks between running Claude/Codex/Copilot sessions across tmux, with live status. Claude side needs nothing (reads `claude agents --json` directly). Codex and Copilot side each need a hooks file wired to their `*-session-state` script -- both files are real files outside the stow tree (like `.aws/config`), so a fresh machine needs them created by hand.
+
+  `~/.codex/hooks.json`:
   ```json
   {
     "hooks": {
@@ -32,6 +34,21 @@ Use `git add -p` to split personal and work changes in the same file before comm
   }
   ```
   First launch of `codex` after editing this prompts a one-time "Hooks need review" trust dialog -- pick "Trust all and continue".
+
+  `~/.copilot/hooks/hooks.json` (note the different field name -- `bash`, not `command`):
+  ```json
+  {
+    "hooks": {
+      "sessionStart": [{ "type": "command", "bash": "~/.config/bin/copilot-session-state idle", "timeoutSec": 10 }],
+      "userPromptSubmitted": [{ "type": "command", "bash": "~/.config/bin/copilot-session-state working", "timeoutSec": 10 }],
+      "postToolUse": [{ "type": "command", "bash": "~/.config/bin/copilot-session-state working", "timeoutSec": 10 }],
+      "sessionEnd": [{ "type": "command", "bash": "~/.config/bin/copilot-session-state idle", "timeoutSec": 10 }],
+      "preToolUse": []
+    },
+    "version": 1
+  }
+  ```
+  No separate hooks-trust dialog observed for copilot -- just the normal one-time folder-trust prompt.
 
 ## Code Style
 

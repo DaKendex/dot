@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Called from a copilot hook (see ~/.copilot/hooks/hooks.json). Records state
+# on the tmux pane it's running in, same pattern as codex-session-state:
+# copilot has no live-status query, only lifecycle hooks.
+#
+# Verified 2026-08-24 against copilot-cli 1.0.80: like codex, sessionStart
+# does not fire at plain TUI launch (only lazily on first activity, so an
+# idle-only session never triggers it). userPromptSubmitted fires on submit,
+# and the pane correctly settles back to idle via sessionEnd once the turn
+# completes -- confirmed with a real completed turn, not just a submit.
+#
+# Assumes copilot hooks inherit the interactive session's environment the
+# same way Claude/codex hooks do, so $TMUX_PANE is set when running inside
+# tmux. Outside tmux this is a no-op.
+
+[[ -z "${TMUX_PANE:-}" ]] && exit 0
+
+case "${1:-idle}" in
+  working | waiting | idle) state="${1:-idle}" ;;
+  *) state='idle' ;;
+esac
+
+tmux set-option -p -t "$TMUX_PANE" @copilot_state "$state" >/dev/null 2>&1
+tmux set-option -p -t "$TMUX_PANE" @copilot_state_at "$(date +%s)" >/dev/null 2>&1
+exit 0

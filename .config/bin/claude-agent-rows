@@ -25,18 +25,19 @@
 # the task summary -- that only exists as the pane's terminal title, which
 # Claude sets itself (e.g. "✳ Wiz sensor chart upgrade"). Pull it from tmux.
 #
-# Codex is now covered too -- see codex-agent-rows and codex-session-state.
-# It has no `agents --json` equivalent, but it does have lifecycle hooks
-# (~/.codex/hooks.json), verified working 2026-08-20 against codex-cli
-# 0.148.0.
+# Codex and copilot are now covered too -- see their own *-agent-rows and
+# *-session-state scripts. Neither has an `agents --json` equivalent, but
+# both have lifecycle hooks (~/.codex/hooks.json, ~/.copilot/hooks/hooks.json),
+# verified working 2026-08-20/2026-08-24 against codex-cli 0.148.0 and
+# copilot-cli 1.0.80.
 #
-# TODO: fold copilot/opencode into ai-session-manager too. Checked 2026-08-20
-# (copilot-cli 1.0.80, opencode 1.17.19) -- neither exposes a live-process
-# status API or a hooks system like Claude/codex. Their session/resume
-# commands only list persisted history on disk, not busy/idle state of a
-# running instance. Revisit if either ships one; until then, adding them
-# here means falling back to a pane-text heuristic like the one this file
-# replaced for Claude.
+# TODO: fold opencode into ai-session-manager too. Checked 2026-08-24
+# (opencode 1.17.19) -- no live-process status API, but it does have an
+# in-process JS plugin system (~/.config/opencode/plugins/*/plugin.js,
+# events like session.created/session.idle/tui.prompt.append) rather than
+# a hooks.json + subprocess like the other three. This repo already has a
+# working example plugin (~/.config/opencode/plugins/caveman/plugin.js) to
+# copy the pattern from.
 
 agents="$(claude agents --json 2>/dev/null)" || exit 0
 rows="$(printf '%s' "$agents" \
