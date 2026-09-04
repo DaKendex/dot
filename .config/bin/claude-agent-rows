@@ -1,16 +1,20 @@
 #!/usr/bin/env bash
-# Emit one row per running Claude Code session that lives in a tmux pane.
+# Emit one row per tmux pane running Claude Code.
 # Status ("busy"/"idle"/"waiting") comes straight from `claude agents --json` --
 # no text scraping of the pane (pane_current_command reports the parent shell
 # on macOS, never the claude child running inside it).
 #
-# Identity is the claude process (by pid -> tty), not the tmux pane, so several
-# Claudes in one window/session each still get their own row.
+# One row per *pane*, not per session. A pane's interactive claude can fork
+# background sessions (`--fork-session`), and those run as their own processes
+# on daemon-managed ptys rather than in the pane -- so they'd either vanish or
+# produce extra rows pointing at the same pane. Instead they fold into the
+# pane's row as a "⑂N" badge. Jumping and killing therefore stay unambiguous:
+# every row is exactly one pane.
 #
 #   Row: sortkey \t pane_id \t pid \t display
 #   sortkey/pane_id/pid are hidden from the display via fzf's --with-nth.
-#   pid is the actual claude process (already known from the --json join),
-#   used by ai-session-manager's kill bind. display is one pre-padded
+#   pid is the claude process living in that pane, used by
+#   ai-session-manager's kill bind. display is one pre-padded
 #   string (spaces, not tabs) so title/location line up in
 #   fixed columns regardless of length -- fzf's --with-nth rejoins fields
 #   using the field delimiter itself, and a raw tab there just lands wherever
@@ -24,6 +28,23 @@
 # `claude agents --json` only gives a short session slug (e.g. "dot-4e"), not
 # the task summary -- that only exists as the pane's terminal title, which
 # Claude sets itself (e.g. "✳ Wiz sensor chart upgrade"). Pull it from tmux.
+#
+# Background sessions are attributed to a pane through the process tree, since
+# `agents --json` carries no parent field: the session's parent is a
+# `--bg-pty-host`, whose parent is a `claude daemon run` whose argv includes
+# `--spawned-by {"pid":N,...}`. N is the claude that owns the pane. That argv
+# JSON is not a documented interface (unlike `agents --json`) and may change
+# between Claude Code versions -- when it does, forks stop being counted but
+# interactive rows are unaffected, so the picker degrades rather than breaks.
+#
+# A pane whose interactive claude is missing from `agents --json` but which
+# owns a live fork still gets a row, taking its status from the fork. This is
+# the common case right after forking: the parent stops being reported and
+# only the fork remains, so without this the pane you are sitting in has no
+# row at all.
+#
+# Background sessions with no `pid` field (already-exited forks that the daemon
+# still lists) are skipped -- there is no process to walk back to a pane.
 #
 # Codex and copilot are now covered too -- see their own *-agent-rows and
 # *-session-state scripts. Neither has an `agents --json` equivalent, but
@@ -40,16 +61,26 @@
 # copy the pattern from.
 
 agents="$(claude agents --json 2>/dev/null)" || exit 0
+# status is absent on some background entries, which report only state.
 rows="$(printf '%s' "$agents" \
-  | jq -r '.[] | select(.kind == "interactive") | [.pid, .status, .cwd] | @tsv' 2>/dev/null)"
+  | jq -r '.[] | select(.pid) | [.kind, .pid, (.status // .state // ""), .cwd] | @tsv' 2>/dev/null)"
 [[ -n "$rows" ]] || exit 0
 
 {
-  ps -Ao pid=,tty= 2>/dev/null | awk '{ print "P\t" $1 "\t" $2 }'
+  # ppid and argv come along for the background-session walk described above.
+  ps -Ao pid=,ppid=,tty=,command= 2>/dev/null |
+    awk '{ pid = $1; pp = $2; tt = $3; $1 = $2 = $3 = ""; sub(/^ +/, ""); print "P\t" pid "\t" tt "\t" pp "\t" $0 }'
   tmux list-panes -a -F $'T\t#{pane_tty}\t#{pane_id}\t#{pane_title}\t#{window_activity}' 2>/dev/null
   printf '%s\n' "$rows" | sed $'s/^/A\t/'
 } | awk -F'\t' -v dirlen=2 -v titlew=32 '
-  $1 == "P" { tty_of[$2] = $3; next }
+  function rank_of(status) {
+    if (status == "waiting" || status == "blocked") return 0  # needs input
+    if (status == "idle")                           return 1  # done, your turn
+    if (status == "busy"  || status == "working")   return 3  # busy, leave it
+    return 2                                                  # unrecognised
+  }
+
+  $1 == "P" { tty_of[$2] = $3; ppid_of[$2] = $4; argv_of[$2] = $5; next }
   $1 == "T" {
     sub(/^\/dev\//, "", $2)
     pane[$2] = $3
@@ -59,31 +90,88 @@ rows="$(printf '%s' "$agents" \
     act[$2] = $5
     next
   }
+
+  # A row: kind, pid, status, cwd
   $1 == "A" {
-    tty = tty_of[$2]
-    if (tty == "" || !(tty in pane)) next   # this claude is not running inside tmux
+    kind = $2; pid = $3; status = $4; cwd = $5
 
-    if      ($3 == "waiting") { color = "\033[33m"; label = "waiting"; rank = 0 }  # yellow - needs input
-    else if ($3 == "idle")    { color = "\033[32m"; label = "idle";    rank = 1 }  # green  - done, your turn
-    else if ($3 == "busy")    { color = "\033[31m"; label = "working"; rank = 3 }  # red    - busy, leave it
-    else                      { color = "\033[90m"; label = "?";       rank = 2 }  # grey   - unrecognised status
+    if (kind == "interactive") {
+      tty = tty_of[pid]
+      if (tty == "" || !(tty in pane)) next   # this claude is not running inside tmux
+      p = pane[tty]
+      owner_pid[p] = pid
+      owner_status[p] = status
+      owner_tty[p] = tty
+      owner_cwd[p] = cwd
+      seen[p] = 1
+      next
+    }
 
-    # short path: last N segments only, same idea as sesh dir_length=2
-    n = split($4, parts, "/")
-    short = parts[n]
-    for (i = 1; i < dirlen && n - i >= 1; i++) short = parts[n - i] "/" short
+    # Background: walk pid -> bg-pty-host -> daemon -> spawning claude -> pane.
+    daemon = ppid_of[ppid_of[pid]]
+    if (daemon == "" || !(daemon in argv_of)) next
+    if (match(argv_of[daemon], /"pid":[0-9]+/) == 0) next
+    spawner = substr(argv_of[daemon], RSTART + 6, RLENGTH - 6)
 
-    title = ttl[tty]
-    if (length(title) > titlew) title = substr(title, 1, titlew - 1) "…"
+    tty = tty_of[spawner]
+    if (tty == "" || !(tty in pane)) next
+    p = pane[tty]
+    forks[p]++
+    seen[p] = 1
+    # Keep the most attention-worthy fork status, for panes with no
+    # interactive session of their own to take a status from.
+    r = rank_of(status)
+    if (!(p in fork_rank) || r < fork_rank[p]) {
+      fork_rank[p] = r
+      fork_status[p] = status
+    }
+    if (!(p in fork_tty)) { fork_tty[p] = tty; fork_cwd[p] = cwd; fork_owner[p] = spawner }
+  }
 
-    # nerd-font glyph for Claude (cod-claude, U+EC82). Static, not verified
-    # against every font -- renders as tofu if the terminal font lacks it.
-    logo = "\xee\xb2\x82"
+  END {
+    for (p in seen) {
+      if (p in owner_pid) {
+        pid = owner_pid[p]; status = owner_status[p]
+        tty = owner_tty[p]; cwd = owner_cwd[p]
+      } else {
+        # Fork-only pane: the pane still belongs to the claude that spawned
+        # the fork, so that is the row to jump to and the pid to kill. Use the
+        # spawner pid recorded during the walk -- a tty is shared with the
+        # shell that owns the pane, so searching by tty can land on the
+        # wrong process.
+        tty = fork_tty[p]; cwd = fork_cwd[p]
+        status = fork_status[p]
+        pid = fork_owner[p]
+        if (pid == "") continue
+      }
 
-    display = sprintf("%s %s●\033[0m %-7s %-*s %s", logo, color, label, titlew, title, short)
+      rank = rank_of(status)
+      if      (rank == 0) { color = "\033[33m"; label = (status == "blocked" ? "blocked" : "waiting") }  # yellow
+      else if (rank == 1) { color = "\033[32m"; label = "idle" }                                        # green
+      else if (rank == 3) { color = "\033[31m"; label = "working" }                                     # red
+      else                { color = "\033[90m"; label = "?" }                                           # grey
 
-    sortkey = rank * 10000000000 + (9999999999 - act[tty])
+      # short path: last N segments only, same idea as sesh dir_length=2
+      n = split(cwd, parts, "/")
+      short = parts[n]
+      for (i = 1; i < dirlen && n - i >= 1; i++) short = parts[n - i] "/" short
 
-    printf "%s\t%s\t%s\t%s\n", sortkey, pane[tty], $2, display
+      title = ttl[tty]
+      if (length(title) > titlew) title = substr(title, 1, titlew - 1) "…"
+
+      # Padded by hand rather than %-3s: ⑂ is three bytes but one column, and
+      # awk pads by bytes, which would knock the title column out of line.
+      badge = (p in forks) ? sprintf("⑂%d ", forks[p]) : "   "
+
+      # nerd-font glyph for Claude (cod-claude, U+EC82). Static, not verified
+      # against every font -- renders as tofu if the terminal font lacks it.
+      logo = "\xee\xb2\x82"
+
+      display = sprintf("%s %s●\033[0m %-7s %s%-*s %s", logo, color, label, badge, titlew, title, short)
+
+      sortkey = rank * 10000000000 + (9999999999 - act[tty])
+
+      printf "%s\t%s\t%s\t%s\n", sortkey, p, pid, display
+    }
   }
 ' | sort -t$'\t' -k1,1n
