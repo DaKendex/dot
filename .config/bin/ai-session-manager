@@ -2,10 +2,14 @@
 # Claude + codex + copilot for now. opencode doesn't expose an equivalent
 # hook or status API yet -- see the TODO in claude-agent-rows.
 
+# --track --id-nth 2 keys rows by pane id so the periodic reload leaves the
+# cursor where it was rather than snapping back to the top.
 sel=$(ai-agent-rows | fzf-tmux -p 90%,70% --ansi --delimiter '\t' --with-nth 4 \
+  --track --id-nth 2 \
   --border-label ' ai sessions ' --prompt '✳  ' \
   --header '  enter: jump   ^d: kill   ^a: all   ^c: claude   ^o: codex   ^g: copilot   esc/q: cancel' \
   --bind 'esc:abort,q:abort' \
+  --bind 'every(3):reload-sync:ai-agent-rows-live' \
   --bind 'ctrl-a:change-prompt(✳  )+reload(ai-agent-rows)' \
   --bind 'ctrl-c:change-prompt(claude  )+reload(ai-agent-rows claude)' \
   --bind 'ctrl-o:change-prompt(codex  )+reload(ai-agent-rows codex)' \

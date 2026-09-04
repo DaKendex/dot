@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Periodic-reload wrapper for ai-session-manager's fzf picker.
+#
+# The picker's agent filter lives in the prompt, so a plain
+# `every(N):reload:ai-agent-rows` would reset the view to all agents on the
+# next tick. fzf exports FZF_PROMPT to child processes, which is the only
+# handle on the current filter that does not need a state file alongside it.
+#
+# Kept as its own script rather than inlined in the bind for the same reason
+# ai-agent-rows exists: fzf bind actions stay one word instead of a quoted
+# sub-pipeline.
+
+case "${FZF_PROMPT:-}" in
+  *claude*)  exec ai-agent-rows claude ;;
+  *codex*)   exec ai-agent-rows codex ;;
+  *copilot*) exec ai-agent-rows copilot ;;
+  *)         exec ai-agent-rows ;;
+esac
