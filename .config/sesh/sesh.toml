@@ -2,6 +2,16 @@ import = ["~/.sesh.toml"] # Importing local config not in git
 
 dir_length = 2
 
+[tui]
+prompt = "⚡  "
+placeholder = "Filter sessions... "
+show_icons = true
+show_windows = true
+preview = true
+preview_width = 60
+preview_min_width = 100
+preview_border = "line"
+
 [default_session]
 startup_command = "nvim"
 preview_command = "eza --all --git --icons --color=always {}"
@@ -32,7 +42,8 @@ windows = ["git"]
 
 
 [[session]]
-name = "Downloads 📥"
+name = "Downloads"
+icon = "📥"
 path = "~/Downloads"
 startup_command = "yazi"
 

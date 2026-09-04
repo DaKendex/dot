@@ -1,0 +1,12 @@
+#!/bin/bash
+# Directory finder for sesh. The native picker's sources (tmux, config, zoxide,
+# tmuxinator) only cover known sessions, so this walks the filesystem instead.
+set -euo pipefail
+
+selected_dir="$(
+  fd -H -d 2 -t d -E .Trash . ~ | fzf-tmux -p 80%,70% \
+    --no-sort --border-label ' find dir ' --prompt '🔎  ' \
+    --bind 'tab:down,btab:up'
+)"
+
+[ -n "$selected_dir" ] && exec sesh connect "$selected_dir"
