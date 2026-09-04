@@ -20,6 +20,10 @@ preview_command = "eza --all --git --icons --color=always {}"
 name = "git"
 startup_script = "lazygit"
 
+[[window]]
+name = "claude"
+startup_script = "cc"
+
 
 [[session]]
 name = "AWS config"
