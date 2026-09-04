@@ -8,7 +8,6 @@ macOS dotfiles managed with GNU Stow. Config for Neovim, Zsh, Tmux, and various 
 - **Brew sync**: `brew bundle --file=Brewfile`
 - **Go tests**: `cd .config/bin/dadjoke-go && go test -v`
 - **Go build**: `cd .config/bin/dadjoke-go && make build`
-- **PlantUML diagrams**: `cd desksetup && make generate`
 
 ## Branch Strategy
 

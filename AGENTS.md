@@ -7,7 +7,6 @@ This is a macOS dotfiles repository managed with GNU Stow. Configuration files f
 - **Go tests**: `cd .config/bin/dadjoke-go && go test -v` (run all tests)
 - **Go single test**: `cd .config/bin/dadjoke-go && go test -v -run TestDadJokeAPI`
 - **Go build**: `cd .config/bin/dadjoke-go && make build`
-- **PlantUML**: `cd desksetup && make generate`
 - **Stow dotfiles**: `stow .` (from repo root)
 - **Brew sync**: `brew bundle --file=Brewfile`
 
