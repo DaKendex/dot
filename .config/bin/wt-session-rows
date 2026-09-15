@@ -1,0 +1,176 @@
+#!/usr/bin/env bash
+# Emit one row per live tmux session belonging to the same unit of work as the
+# invoking pane. Consumed by wt-sessions' picker.
+#
+# Usage: wt-session-rows [work|repo|ticket|all]   -- default work.
+#
+#   work    two hops: sibling worktrees of this repo, plus sessions on those
+#           same work branches in *other* repos
+#   repo    hop one only: sibling worktrees of this repo
+#   ticket  hop two only: this unit of work wherever it lives
+#   all     every session on a work branch anywhere, ignoring origin entirely.
+#           The fallback for panes with no unit of work to hop from -- the
+#           Obsidian vault is not a git repo at all, and dot sits on `work`,
+#           which by design does not expand. Both would otherwise make the
+#           keybind a no-op.
+#
+# Why two hops: create-jira-work runs `wta <jira>/<work-name>` in several repos
+# at once, so one ticket's worktrees are spread across flock-aws-access,
+# flock-terraform and friends. Repo alone cannot see them; branch alone is
+# worse -- four of the live sessions here sit on `master`, and grouping on the
+# raw branch name would pile all of them together.
+#
+# Hence the work-branch gate in group_key(): only branches that name a unit of
+# work expand across repos.
+#   Jira `PSEC-5806/slug`  -> keyed on the ticket alone, so the same ticket
+#                             still matches when the slug drifted between repos
+#   semver `patch/slug`    -> keyed on the whole branch; `patch` alone would
+#                             match every patch branch on the machine
+#   anything else          -> no key, never expands (master, main, work, ...)
+#
+# Kept separate from wt-sessions for the same reason ai-agent-rows is separate
+# from ai-session-manager: fzf --bind reload() strings stay one word.
+#
+#   Row: sortkey \t session_id \t display
+#   sortkey/session_id are hidden from the display via fzf's --with-nth.
+#   session_id rather than the name so sessions whose name contains a colon or
+#   a space cannot break the switch-client target or the preview.
+#
+#   sortkey packs rank and recency into one ascending numeric sort: own-repo
+#   rows rank above cross-repo ones (hop one is the common case, keep it on
+#   top), session_activity inverted as the tiebreaker within a rank.
+set -uo pipefail
+
+mode="${1:-work}"
+
+REPOW=20
+BRANCHW=34
+
+# Origin context normally arrives exported from wt-sessions so that every
+# reload() child agrees on it. Recomputing it in here would be wrong once the
+# picker is open: fzf-tmux runs fzf in a tmux popup, which is its own pane, so
+# TMUX_PANE no longer points at the pane the keybind fired from. The block
+# below is only for standalone runs (tests, or straight from a shell).
+if [[ -z "${WT_ORIGIN_REPO:-}" ]]; then
+  if [[ -n "${TMUX_PANE:-}" ]]; then
+    origin_dir=$(tmux display-message -p -t "$TMUX_PANE" '#{pane_current_path}')
+    WT_ORIGIN_SESSION=$(tmux display-message -p -t "$TMUX_PANE" '#{session_id}')
+  else
+    origin_dir=$PWD
+    WT_ORIGIN_SESSION=""
+  fi
+  WT_ORIGIN_REPO=""
+  WT_ORIGIN_BRANCH=""
+  { read -r WT_ORIGIN_REPO; read -r WT_ORIGIN_BRANCH; } < <(
+    git -C "$origin_dir" rev-parse --path-format=absolute \
+      --git-common-dir --abbrev-ref HEAD 2>/dev/null
+  ) || true
+fi
+# No guard on an empty origin: `all` does not need one, and for the other
+# modes an empty origin repo matches no session's common dir, so they come
+# back empty by themselves rather than by special case.
+
+tmux list-sessions -F $'#{session_id}\t#{session_name}\t#{session_path}\t#{session_windows}\t#{session_attached}\t#{session_activity}' 2>/dev/null |
+  while IFS=$'\t' read -r id name path windows attached activity; do
+    # Reset first: read leaves the previous iteration's values in place when
+    # git prints nothing, which would attribute the last repo to this session.
+    repo=""
+    branch=""
+    { read -r repo; read -r branch; } < <(
+      git -C "$path" rev-parse --path-format=absolute \
+        --git-common-dir --abbrev-ref HEAD 2>/dev/null
+    ) || true
+    [[ -n "$repo" ]] || continue
+    [[ "$branch" == "HEAD" ]] && branch="(detached)"
+    printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
+      "$id" "$name" "$repo" "$branch" "$windows" "$attached" "$activity"
+  done |
+  awk -F'\t' -v mode="$mode" -v origin_repo="$WT_ORIGIN_REPO" \
+    -v origin_branch="${WT_ORIGIN_BRANCH:-}" -v current="${WT_ORIGIN_SESSION:-}" \
+    -v repow="$REPOW" -v branchw="$BRANCHW" '
+    # Branch types that look like a ticket but are not one. Sourced from the
+    # conventional-branch list wta itself offers, plus GitHub`s auto-created
+    # patch-1/patch-2 web-edit branches, which would otherwise key as
+    # PATCH-1 and group unrelated repos together.
+    BEGIN {
+      split("PATCH MINOR MAJOR RELEASE HOTFIX FEATURE BUGFIX CHORE", t, " ")
+      for (i in t) reserved[t[i]] = 1
+    }
+
+    # "" means this branch does not name a unit of work and must not expand.
+    #
+    # Deliberately an allowlist of work-branch shapes rather than a denylist of
+    # default branches. Default branches in use here are master, main, develop,
+    # dev, development and production, and enumerating them would break on the
+    # next repo that picks something else -- an unrecognised branch falls
+    # through to "" and stays local, which is the safe direction to fail.
+    function group_key(b,   key, sep, proj) {
+      # Keyed on the whole branch: `patch` alone would match every patch
+      # branch on the machine.
+      if (b ~ /^(patch|minor|major)\//) return "b:" b
+
+      # Ticket branches, keyed on the ticket alone so the same ticket still
+      # matches when the slug drifted between repos. Both separators are real:
+      # `PSEC-5806/grc-tfstate-ro-access` is the convention, but
+      # `psec-3335-docker-build-contract-update` is what five of these repos
+      # actually sit on. Case is normalised so the two forms group together.
+      if (!match(b, /^[A-Za-z][A-Za-z0-9]*-[0-9]+/)) return ""
+      key = toupper(substr(b, 1, RLENGTH))
+      sep = substr(b, RLENGTH + 1, 1)
+      if (sep != "" && sep != "/" && sep != "-") return ""
+      proj = key
+      sub(/-[0-9]+$/, "", proj)
+      if (proj in reserved) return ""
+      return "t:" key
+    }
+
+    # Exactly w columns, truncated or padded. Cannot lean on %-*s alone: the
+    # ellipsis is one column but three bytes and awk pads by bytes, which
+    # knocks later columns out of line -- so the truncating branch returns
+    # w-1 chars plus the ellipsis and skips padding entirely.
+    function fit(s, w) {
+      if (length(s) > w) return substr(s, 1, w - 1) "…"
+      return sprintf("%-*s", w, s)
+    }
+
+    # repo identity is the common git dir; show the repo directory holding it
+    function repo_label(d,   t) { t = d; sub(/\/\.git$/, "", t); sub(/.*\//, "", t); return t }
+
+    {
+      n++
+      id[n] = $1; nm[n] = $2; rp[n] = $3; br[n] = $4
+      wn[n] = $5; at[n] = $6; ac[n] = $7
+      gk[n] = group_key($4)
+      if ($3 == origin_repo) {
+        hop1[n] = 1
+        if (gk[n] != "") keys[gk[n]] = 1
+      }
+    }
+
+    END {
+      # The branch you are standing on counts as a work key too, so the picker
+      # works from inside a ticket worktree and not only from master.
+      ok = group_key(origin_branch)
+      if (ok != "") keys[ok] = 1
+
+      for (i = 1; i <= n; i++) {
+        if (id[i] == current) continue
+
+        hop2 = (gk[i] != "" && (gk[i] in keys))
+        if      (mode == "repo")   { if (!hop1[i]) continue }
+        else if (mode == "ticket") { if (!hop2)    continue }
+        else if (mode == "all")    { if (gk[i] == "") continue }
+        else                       { if (!hop1[i] && !hop2) continue }
+
+        own = (rp[i] == origin_repo)
+        here = own ? "▸" : " "
+        marker = (at[i] == "1") ? "\033[32m●\033[0m" : "\033[90m○\033[0m"
+
+        display = sprintf("%s %s %s %s %sw", here, marker,
+                          fit(repo_label(rp[i]), repow), fit(br[i], branchw), wn[i])
+
+        sortkey = (own ? 0 : 1) * 10000000000 + (9999999999 - ac[i])
+        printf "%s\t%s\t%s\n", sortkey, id[i], display
+      }
+    }
+  ' | sort -t$'\t' -k1,1n

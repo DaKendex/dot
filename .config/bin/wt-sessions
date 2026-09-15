@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+# Jump between live tmux sessions belonging to the same unit of work as the
+# current pane -- sibling worktrees of this repo, plus the worktrees the same
+# ticket has in *other* repos. See wt-session-rows for how that set is built.
+#
+# Complements ai-session-manager (keys on running agents, any repo) and sesh's
+# picker (every known session, unfiltered). The gap this fills: claude running
+# in a main/master worktree lands changes in sibling worktrees, often across
+# several repos at once, and getting over there meant scrolling the full list.
+#
+# Live sessions only -- no create path. A worktree with no session is a job for
+# sesh/zoxide, and conflating the two makes enter ambiguous.
+set -uo pipefail
+
+# run-shell executes with the tmux server's cwd, not the pane's, so the origin
+# repo has to come from the pane that invoked us. TMUX_PANE is set by tmux for
+# run-shell; $PWD covers being run straight from a shell.
+#
+# Resolved once here and exported, because fzf-tmux runs fzf inside a tmux
+# popup -- its own pane -- so a reload() child asking TMUX_PANE would get the
+# popup rather than the pane the keybind fired from.
+if [[ -n "${TMUX_PANE:-}" ]]; then
+  origin_dir=$(tmux display-message -p -t "$TMUX_PANE" '#{pane_current_path}')
+  WT_ORIGIN_SESSION=$(tmux display-message -p -t "$TMUX_PANE" '#{session_id}')
+else
+  origin_dir=$PWD
+  WT_ORIGIN_SESSION=""
+fi
+
+WT_ORIGIN_REPO=""
+WT_ORIGIN_BRANCH=""
+{ read -r WT_ORIGIN_REPO; read -r WT_ORIGIN_BRANCH; } < <(
+  git -C "$origin_dir" rev-parse --path-format=absolute \
+    --git-common-dir --abbrev-ref HEAD 2>/dev/null
+) || true
+
+export WT_ORIGIN_REPO WT_ORIGIN_BRANCH WT_ORIGIN_SESSION
+
+# Fall back to the origin-less `all` view rather than leaving the keybind a
+# no-op. Two panes reach it: the Obsidian vault, which is not a git repo at
+# all, and a repo sitting on a branch that does not name a unit of work (dot
+# on `work`), where hop one is just the pane you are already in.
+if [[ -n "$WT_ORIGIN_REPO" ]]; then
+  mode=work
+  label=$(basename "$(dirname "$WT_ORIGIN_REPO")")
+  prompt='⑂  '
+else
+  mode=all
+  label="all work"
+  prompt='all  '
+fi
+
+rows=$(wt-session-rows "$mode")
+if [[ -z "$rows" && "$mode" == "work" ]]; then
+  mode=all
+  label="all work"
+  prompt='all  '
+  rows=$(wt-session-rows all)
+fi
+if [[ -z "$rows" ]]; then
+  tmux display-message "wt-sessions: no other live worktree sessions"
+  exit 0
+fi
+
+# No periodic reload, unlike ai-session-manager: session membership only
+# changes when a session is created or killed, not on its own.
+sel=$(printf '%s\n' "$rows" | fzf-tmux -p 90%,60% --ansi --delimiter '\t' --with-nth 3 \
+  --border-label " worktrees: $label " --prompt "$prompt" \
+  --header '  enter: jump   ^a: work   ^r: repo   ^t: ticket   ^s: all   esc/q: cancel' \
+  --bind 'esc:abort,q:abort' \
+  --bind 'ctrl-a:change-prompt(⑂  )+reload(wt-session-rows work)' \
+  --bind 'ctrl-r:change-prompt(repo  )+reload(wt-session-rows repo)' \
+  --bind 'ctrl-t:change-prompt(ticket  )+reload(wt-session-rows ticket)' \
+  --bind 'ctrl-s:change-prompt(all  )+reload(wt-session-rows all)' \
+  --preview-window 'right:55%,follow' \
+  --preview 'tmux capture-pane -pet {2}:')
+
+[[ -n "$sel" ]] || exit 0
+
+tmux switch-client -t "$(printf '%s' "$sel" | cut -f2)"
