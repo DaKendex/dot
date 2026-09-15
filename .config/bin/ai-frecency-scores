@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Emit `F \t <path> \t <score>` for the frecency term in the *-agent-rows sort
+# keys.
+#
+# zoxide is the source because it is already the frecency backend sesh uses, so
+# the picker inherits directory history instead of keeping a hit count of its
+# own. The tradeoff is that scores are per-directory: panes sharing a cwd score
+# the same and fall through to the recency tiebreaker in the sort key.
+#
+# A separate script for the same reason ai-agent-rows is one -- all three
+# *-agent-rows scripts read this stream, and none of them should have to know
+# which frecency backend produced it.
+
+zoxide query --list --score 2>/dev/null |
+  awk '{ score = $1; $1 = ""; sub(/^ +/, ""); printf "F\t%s\t%d\n", $0, score }'

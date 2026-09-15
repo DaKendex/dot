@@ -17,9 +17,19 @@
 #   them together.
 
 {
+  ai-frecency-scores
   ps -Ao pid=,ppid=,comm= 2>/dev/null | awk '{ print "C\t" $1 "\t" $2 "\t" $3 }'
   tmux list-panes -a -F $'T\t#{pane_id}\t#{pane_pid}\t#{@codex_state}\t#{pane_current_command}\t#{pane_current_path}\t#{window_activity}' 2>/dev/null
 } | awk -F'\t' -v dirlen=2 -v titlew=32 '
+  # Clamped so an unscored cwd sorts last within its rank rather than first,
+  # and so a runaway score cannot overflow into the rank digits.
+  function invfrec(dir) {
+    score = (dir in frec) ? frec[dir] : 0
+    if (score > 99999) score = 99999
+    return 99999 - score
+  }
+
+  $1 == "F" { frec[$2] = $3; next }
   $1 == "C" { if ($4 == "codex") codex_pid_of[$3] = $2; next }   # ppid -> child codex pid
   $1 == "T" {
     if ($5 != "codex") next   # not a codex pane
@@ -45,7 +55,7 @@
 
     display = sprintf("%s %s●\033[0m %-7s %-*s %s", logo, color, label, titlew, "codex", short)
 
-    sortkey = rank * 10000000000 + (9999999999 - $7)
+    sortkey = rank * 1000000000000000 + invfrec($6) * 10000000000 + (9999999999 - $7)
 
     printf "%s\t%s\t%s\t%s\n", sortkey, $2, pid, display
   }

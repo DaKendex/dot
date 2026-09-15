@@ -20,10 +20,12 @@
 #   using the field delimiter itself, and a raw tab there just lands wherever
 #   the terminal's next 8-column tab stop happens to be.
 #
-#   sortkey packs rank and recency into one ascending numeric sort: rank in
-#   the billions place (needs-you floats up), window_activity (tmux's free
-#   last-output timestamp, no extra instrumentation) inverted as the
-#   tiebreaker so the most recently active pane sorts first within a rank.
+#   sortkey packs rank, frecency and recency into one ascending numeric sort:
+#   rank highest (needs-you floats up), then the cwd's zoxide score inverted,
+#   then window_activity (tmux's free last-output timestamp, no extra
+#   instrumentation) inverted as the tiebreaker for panes that score the same.
+#   Widths are fixed so the whole key stays an exact integer under 2^53, which
+#   is what awk can represent without losing the low digits.
 #
 # `claude agents --json` only gives a short session slug (e.g. "dot-4e"), not
 # the task summary -- that only exists as the pane's terminal title, which
@@ -66,6 +68,7 @@ rows="$(printf '%s' "$agents" \
 [[ -n "$rows" ]] || exit 0
 
 {
+  ai-frecency-scores
   # command comes along so a claude can be told apart from the pane shell that
   # shares its tty -- needed for the kill pid on a pane with no json entry.
   ps -Ao pid=,tty=,command= 2>/dev/null |
@@ -79,6 +82,16 @@ rows="$(printf '%s' "$agents" \
     if (status == "busy"  || status == "working")   return 3  # busy, leave it
     return 2                                                  # unrecognised
   }
+
+  # Clamped so an unscored cwd sorts last within its rank rather than first,
+  # and so a runaway score cannot overflow into the rank digits.
+  function invfrec(dir) {
+    score = (dir in frec) ? frec[dir] : 0
+    if (score > 99999) score = 99999
+    return 99999 - score
+  }
+
+  $1 == "F" { frec[$2] = $3; next }
 
   $1 == "P" {
     tty_of[$2] = $3
@@ -175,7 +188,7 @@ rows="$(printf '%s' "$agents" \
 
       display = sprintf("%s %s●\033[0m %-7s %s%-*s %s", logo, color, label, badge, titlew, title, short)
 
-      sortkey = rank * 10000000000 + (9999999999 - act[tty])
+      sortkey = rank * 1000000000000000 + invfrec(cwd) * 10000000000 + (9999999999 - act[tty])
 
       printf "%s\t%s\t%s\t%s\n", sortkey, p, pid, display
     }
