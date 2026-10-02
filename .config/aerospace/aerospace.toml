@@ -5,7 +5,7 @@ persistent-workspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "B", "D", 
 
 after-login-command = []
 
-after-startup-command = []
+after-startup-command = ['workspace D']
 
 start-at-login = true
 
@@ -22,6 +22,11 @@ key-mapping.preset = 'qwerty'
 
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 on-focus-changed = "move-mouse window-lazy-center"
+
+# D is the home workspace on the main display; N (notes) goes to the external monitor, falling back to main when only the laptop screen is present
+[workspace-to-monitor-force-assignment]
+D = 'main'
+N = ['U2790B', 'secondary']
 
 [gaps]
 inner.horizontal = 18
