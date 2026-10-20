@@ -1,6 +1,18 @@
+#:schema https://github.com/joshmedeski/sesh/raw/main/sesh.schema.json
 import = ["~/.sesh.toml"] # Importing local config not in git
 
 dir_length = 2
+
+# Live sessions pinned on top; everything else ranked by zoxide score so
+# configured sessions sort by actual use instead of sitting in a fixed block
+sort_order = ["tmux", ["config", "zoxide"]]
+
+# Name legacy <repo>/.wt/<worktree> paths like flat worktrees (repo/worktree),
+# not repo/_wt/worktree. Must live here: rules in imported files are ignored.
+[[name_substitution]]
+find = '^~/(?:.+/)?([^/]+)/\.wt/([^/]+)$'
+replace = "$1/$2"
+regex = true
 
 [tui]
 prompt = "⚡  "
@@ -11,6 +23,7 @@ preview = true
 preview_width = 60
 preview_min_width = 100
 preview_border = "line"
+group_separator = true
 
 [default_session]
 startup_command = "nvim"
@@ -40,6 +53,8 @@ preview_command = "bat --color=always ~/repo/dot/.config/aerospace/aerospace.tom
 
 [[session]]
 name = "Dotfiles"
+alias = "dot"
+alias_auto_connect = true
 path = "~/repo/dot"
 # startup_command = "lazygit"
 windows = ["git"]
@@ -85,6 +100,7 @@ startup_command = "nvim ~/.env.zsh"
 
 [[session]]
 name = "Neovim Config"
+alias = "nv"
 path = "~/repo/dot/.config/nvim"
 
 
@@ -104,7 +120,7 @@ preview_command = "bat --color=always ~/.gitconfig"
 name = "Sesh"
 path = "~/repo/dot/.config/sesh"
 startup_command = "nvim sesh.toml"
-preview_command = "bat --color=always ~/repo/dot/sesh/.config/sesh/sesh.toml"
+preview_command = "bat --color=always ~/repo/dot/.config/sesh/sesh.toml"
 
 
 [[session]]
@@ -135,6 +151,8 @@ preview_command = "bat --color=always ~/repo/dot/.config/gh-dash/config.yml"
 
 [[session]]
 name = "Obsidian"
+alias = "obs"
+alias_auto_connect = true
 path = "~/repo/obsidian"
 startup_command = "nvim"
 preview_command = "eza --all --git --icons --color=always ~/repo/obsidian"
