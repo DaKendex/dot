@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Copy URL",
+  "version": "1.0.0",
+  "description": "Copy the current tab URL with a keyboard shortcut.",
+  "permissions": ["activeTab", "offscreen", "clipboardWrite"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Copy URL"
+  },
+  "commands": {
+    "copy-url": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+C",
+        "mac": "Command+Shift+C"
+      },
+      "description": "Copy current tab URL"
+    }
+  }
+}
