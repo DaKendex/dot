@@ -6,13 +6,10 @@
   "providers": {
     "litellm": {
       "name": "Homelab LiteLLM",
-      "env": [
-        "LITELLM_GATEWAY_KEY"
-      ],
       "package": "@opencode/ai/providers/openai-compatible",
       "settings": {
         "baseURL": "https://ai.dakendex.com/v1",
-        "apiKey": "{env:LITELLM_GATEWAY_KEY}",
+        "apiKey": "{file:~/.config/opencode/secrets/litellm-gateway-key}",
         "encoding": "none"
       },
       // Context capped at 500k (LiteLLM reports 922k) to match OpenCode's own ChatGPT-plan cap.
