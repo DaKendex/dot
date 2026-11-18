@@ -1,0 +1,62 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  // Roles come from the homelab LiteLLM catalog (k8s/apps/ai-gateway/litellm-config.yaml); LiteLLM
+  // decides which provider model backs each role and falls back from agent/fast to the -paid twins.
+  "model": "litellm/agent",
+  "providers": {
+    "litellm": {
+      "name": "Homelab LiteLLM",
+      "env": [
+        "LITELLM_GATEWAY_KEY"
+      ],
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://ai.dakendex.com/v1",
+        "apiKey": "{env:LITELLM_GATEWAY_KEY}",
+        "encoding": "none"
+      },
+      // Context capped at 500k (LiteLLM reports 922k) to match OpenCode's own ChatGPT-plan cap.
+      "models": {
+        "agent": {
+          "modelID": "agent",
+          "name": "Agent (subscription, falls back to paid)",
+          "capabilities": { "tools": true, "input": ["text"], "output": ["text"] },
+          "limit": { "context": 500000, "output": 128000 }
+        },
+        "agent-paid": {
+          "modelID": "agent-paid",
+          "name": "Agent (paid)",
+          "capabilities": { "tools": true, "input": ["text"], "output": ["text"] },
+          "limit": { "context": 500000, "output": 128000 }
+        },
+        "fast": {
+          "modelID": "fast",
+          "name": "Fast (subscription, falls back to paid)",
+          "capabilities": { "tools": true, "input": ["text"], "output": ["text"] },
+          "limit": { "context": 500000, "output": 128000 }
+        },
+        "fast-paid": {
+          "modelID": "fast-paid",
+          "name": "Fast (paid)",
+          "capabilities": { "tools": true, "input": ["text"], "output": ["text"] },
+          "limit": { "context": 500000, "output": 128000 }
+        }
+      }
+    }
+  },
+  "plugin": [
+    "superpowers@git+https://github.com/obra/superpowers.git"
+  ],
+  "mcp": {
+    "servers": {
+      "gateway": {
+        "type": "remote",
+        "url": "https://agentgateway.dakendex.com/mcp/gateway",
+        "oauth": false,
+        "headers": {
+          "Authorization": "Bearer {file:~/.config/opencode/secrets/mcp-gateway-key}"
+        }
+      }
+    }
+  }
+}

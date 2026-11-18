@@ -128,3 +128,10 @@ You can explicitly invoke agents by saying:
 - "Use cicd-devsecops to add security scanning to..."
 
 Or let OpenCode automatically select based on context (recommended).
+
+## Models for subagents
+
+Sessions default to `litellm/agent` (homelab LiteLLM role). Subagents inherit the session model unless their
+frontmatter sets one; cheap, high-volume subagents (search, triage, summarizing) should set
+`model: litellm/fast`. LiteLLM decides which provider model backs each role and falls back to the `-paid` twin
+when the subscription is rate-limited, so never pin a provider model directly.
