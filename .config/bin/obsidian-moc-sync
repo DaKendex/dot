@@ -1,0 +1,260 @@
+#!/usr/bin/env python3
+"""Regenerate Obsidian MOC lists and index counts from note frontmatter tags.
+
+Usage: obsidian-moc-sync [--write] [--vault PATH]
+
+Without --write, prints a unified diff and exits 1 if anything drifted (safe to
+use as a check). With --write, applies the changes.
+
+Conventions it relies on (all discovered, nothing vault-specific is hardcoded):
+  - MOC notes are root-level `moc-*.md` tagged `moc`. The indexed tag is the
+    note's other tag, or `moc_tag:` in frontmatter when it has several.
+  - A MOC has a count line containing "`N` notes tagged `#tag`", followed by a
+    run of `- [[note]] - description` bullets. Only that run is rewritten.
+  - Members are root-level notes carrying the tag, excluding notes tagged `moc`
+    and symlinks.
+  - Bullet description: frontmatter `summary:`, else the existing description,
+    else the note's first H1, else nothing.
+  - index.md lines kept in sync:
+      - [[moc-x|Title]] - `N` notes `#tag`
+      - `dir/` - N notes, latest [[dir/name]]
+      - `#tag` - [[a]] · [[b]]
+"""
+
+import argparse
+import difflib
+import os
+import re
+import sys
+import tempfile
+from pathlib import Path
+
+INDEX_NAME = "index.md"
+
+COUNT_LINE_RE = re.compile(r"`(\d+)` notes tagged `#([^`]+)`")
+BULLET_RE = re.compile(r"^- \[\[([^\]|#]+)(?:[|#][^\]]*)?\]\](?: - (.*))?$")
+INDEX_MOC_RE = re.compile(r"^(- \[\[moc-[^\]]+\]\] - `)(\d+)(` notes `#)([^`]+)(`.*)$")
+INDEX_SERIES_RE = re.compile(r"^(- `)([^`/]+)(/` - )(\d+)( notes, latest \[\[)[^\]]+(\]\].*)$")
+INDEX_CLUSTER_RE = re.compile(r"^(- `#)([^`]+)(` - )(\[\[.*)$")
+
+
+def parse_frontmatter(text):
+    """Return (dict of scalar/list values, body). Handles inline and block lists."""
+    lines = text.split("\n")
+    if not lines or lines[0].strip() != "---":
+        return {}, text
+    try:
+        end = next(i for i in range(1, len(lines)) if lines[i].strip() == "---")
+    except StopIteration:
+        return {}, text
+
+    meta = {}
+    key = None
+    for line in lines[1:end]:
+        block_item = re.match(r"^\s+-\s+(.*)$", line)
+        if block_item and key is not None:
+            meta.setdefault(key, [])
+            if isinstance(meta[key], list):
+                meta[key].append(_unquote(block_item.group(1)))
+            continue
+        pair = re.match(r"^([A-Za-z0-9_-]+):\s*(.*)$", line)
+        if not pair:
+            continue
+        key, value = pair.group(1), pair.group(2).strip()
+        if value.startswith("[") and value.endswith("]"):
+            inner = value[1:-1].strip()
+            meta[key] = [_unquote(v.strip()) for v in inner.split(",") if v.strip()]
+        elif value == "":
+            meta[key] = []
+        else:
+            meta[key] = _unquote(value)
+    return meta, "\n".join(lines[end + 1 :])
+
+
+def _unquote(value):
+    if len(value) >= 2 and value[0] == value[-1] and value[0] in "\"'":
+        return value[1:-1]
+    return value
+
+
+def tags_of(meta):
+    tags = meta.get("tags", [])
+    if isinstance(tags, str):
+        tags = [tags]
+    return [t.lstrip("#") for t in tags]
+
+
+def first_heading(body):
+    for line in body.split("\n"):
+        if line.startswith("# "):
+            return line[2:].strip()
+    return ""
+
+
+class Vault:
+    def __init__(self, root):
+        self.root = root
+        self.notes = {}  # stem -> (meta, body)
+        for path in sorted(root.glob("*.md")):
+            # Symlinked notes (e.g. CLAUDE.md -> AGENTS.md) would double-count their target.
+            if path.is_symlink():
+                continue
+            meta, body = parse_frontmatter(path.read_text(encoding="utf-8"))
+            self.notes[path.stem] = (meta, body)
+
+    def members(self, tag):
+        return sorted(
+            (
+                stem
+                for stem, (meta, _) in self.notes.items()
+                if tag in tags_of(meta) and "moc" not in tags_of(meta)
+            ),
+            key=lambda stem: (stem.casefold(), stem),
+        )
+
+    def moc_tag(self, stem):
+        meta, _ = self.notes[stem]
+        if isinstance(meta.get("moc_tag"), str):
+            return meta["moc_tag"]
+        others = [t for t in tags_of(meta) if t != "moc"]
+        return others[0] if len(others) == 1 else None
+
+    def describe(self, stem, existing):
+        meta, body = self.notes[stem]
+        summary = meta.get("summary")
+        if isinstance(summary, str) and summary:
+            return summary
+        return existing or first_heading(body)
+
+
+def render_moc(vault, stem, text):
+    """Return updated MOC text, or None if the note doesn't follow the MOC shape."""
+    tag = vault.moc_tag(stem)
+    if tag is None:
+        return None
+    lines = text.split("\n")
+    count_idx = next((i for i, l in enumerate(lines) if COUNT_LINE_RE.search(l)), None)
+    if count_idx is None:
+        return None
+
+    start = count_idx + 1
+    while start < len(lines) and lines[start].strip() == "":
+        start += 1
+    end = start
+    existing = {}
+    while end < len(lines) and BULLET_RE.match(lines[end]):
+        match = BULLET_RE.match(lines[end])
+        existing[match.group(1)] = match.group(2) or ""
+        end += 1
+
+    members = vault.members(tag)
+    bullets = []
+    for member in members:
+        desc = vault.describe(member, existing.get(member, ""))
+        bullets.append(f"- [[{member}]] - {desc}" if desc else f"- [[{member}]]")
+
+    lines[count_idx] = COUNT_LINE_RE.sub(f"`{len(members)}` notes tagged `#{tag}`", lines[count_idx])
+    if start == end:
+        # No existing list: insert one after the count line, keeping a blank line around it.
+        lines[count_idx + 1 : count_idx + 1] = [""] + bullets
+    else:
+        lines[start:end] = bullets
+    return "\n".join(lines)
+
+
+def render_index(vault, text):
+    out = []
+    for line in text.split("\n"):
+        moc = INDEX_MOC_RE.match(line)
+        series = INDEX_SERIES_RE.match(line)
+        cluster = INDEX_CLUSTER_RE.match(line)
+        if moc:
+            count = len(vault.members(moc.group(4)))
+            line = f"{moc.group(1)}{count}{moc.group(3)}{moc.group(4)}{moc.group(5)}"
+        elif series and (vault.root / series.group(2)).is_dir():
+            folder = series.group(2)
+            stems = sorted(p.stem for p in (vault.root / folder).glob("*.md"))
+            if stems:
+                line = (
+                    f"{series.group(1)}{folder}{series.group(3)}{len(stems)}"
+                    f"{series.group(5)}{folder}/{stems[-1]}{series.group(6)}"
+                )
+        elif cluster:
+            members = vault.members(cluster.group(2))
+            if members:
+                links = " · ".join(f"[[{m}]]" for m in members)
+                line = f"{cluster.group(1)}{cluster.group(2)}{cluster.group(3)}{links}"
+        out.append(line)
+    return "\n".join(out)
+
+
+def plan_changes(root):
+    """Return list of (path, old_text, new_text) for files that would change."""
+    vault = Vault(root)
+    changes = []
+    for stem, (meta, _) in vault.notes.items():
+        path = root / f"{stem}.md"
+        old = path.read_text(encoding="utf-8")
+        if stem.startswith("moc-") and "moc" in tags_of(meta):
+            new = render_moc(vault, stem, old)
+            if new is None:
+                print(f"warning: {path.name}: no indexed tag or count line, skipped", file=sys.stderr)
+                continue
+        elif path.name == INDEX_NAME:
+            new = render_index(vault, old)
+        else:
+            continue
+        if new != old:
+            changes.append((path, old, new))
+    return changes
+
+
+def write_atomic(path, text):
+    fd, tmp = tempfile.mkstemp(dir=path.parent, prefix=f".{path.name}.", suffix=".tmp")
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as handle:
+            handle.write(text)
+        os.replace(tmp, path)
+    except BaseException:
+        os.unlink(tmp)
+        raise
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    parser.add_argument("--write", action="store_true", help="apply changes instead of printing a diff")
+    parser.add_argument(
+        "--vault",
+        type=Path,
+        default=Path(os.environ.get("OBSIDIAN_VAULT", ".")),
+        help="vault root (default: $OBSIDIAN_VAULT or cwd)",
+    )
+    args = parser.parse_args(argv)
+
+    root = args.vault.expanduser().resolve()
+    if not (root / INDEX_NAME).is_file() and not list(root.glob("moc-*.md")):
+        print(f"error: {root} has no {INDEX_NAME} or moc-*.md; not a vault?", file=sys.stderr)
+        return 2
+
+    changes = plan_changes(root)
+    for path, old, new in changes:
+        if args.write:
+            write_atomic(path, new)
+            print(f"updated {path.name}")
+        else:
+            sys.stdout.writelines(
+                difflib.unified_diff(
+                    old.splitlines(keepends=True),
+                    new.splitlines(keepends=True),
+                    fromfile=f"a/{path.name}",
+                    tofile=f"b/{path.name}",
+                )
+            )
+    if not changes:
+        print("in sync")
+        return 0
+    return 0 if args.write else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())
