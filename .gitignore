@@ -72,6 +72,9 @@ zprof_*
 .zrepl_history
 .zcalc_history
 
+# Python bytecode
+__pycache__/
+
 # Temporary and backup files
 *.swp
 *.bak
