@@ -8,6 +8,11 @@ macOS dotfiles managed with GNU Stow. Config for Neovim, Zsh, Tmux, and various 
 - **Brew sync**: `brew bundle --file=Brewfile`
 - **Go tests**: `cd .config/bin/dadjoke-go && go test -v`
 - **Go build**: `cd .config/bin/dadjoke-go && make build`
+- **obsidian-moc-sync tests**: `python3 -m unittest discover -s .config/bin/tests`
+
+## Obsidian Vault Tooling
+
+`.claude/skills/obsidian-vault/SETUP.md` is the public runbook for building an agent-friendly Obsidian vault. Update it in the same change when you touch any of: `.claude/skills/obsidian-vault/SKILL.md`, `.config/bin/obsidian-moc-sync`, `.config/nvim/lua/plugins/obsidian.lua`, the "Obsidian Vault (Shared Context)" section of `.config/ai-shared/global-instructions.md`, or the daily-note contract in the daily skills. Keep it generic - no work names, ticket keys, or user IDs.
 
 ## Branch Strategy
 
