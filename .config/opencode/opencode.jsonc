@@ -3,6 +3,8 @@
   // Roles come from the homelab LiteLLM catalog (k8s/apps/ai-gateway/litellm-config.yaml); LiteLLM
   // decides which provider model backs each role and falls back from agent/fast to the -paid twins.
   "model": "litellm/agent",
+  // Shared with Codex (~/.codex/AGENTS.md links to the same file); carries the Obsidian vault rules.
+  "instructions": ["~/.config/ai-shared/global-instructions.md"],
   "providers": {
     "litellm": {
       "name": "Homelab LiteLLM",
