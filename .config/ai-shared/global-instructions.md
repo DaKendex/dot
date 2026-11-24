@@ -100,7 +100,7 @@ The Obsidian vault at `~/repo/obsidian` is the central, long-lived context store
 
 **Write**
 
-- Follow `~/repo/obsidian/CLAUDE.md` for layout, frontmatter, tags, links, and the MOC sync step. Read it before your first vault edit in a session.
+- Follow `~/repo/obsidian/AGENTS.md` for layout, frontmatter, tags, links, and the MOC sync step. Read it before your first vault edit in a session.
 - Mirror every `DECISIONS.md`-worthy decision into the vault topic or ticket note for that work, as a short dated entry linking back to the repo, branch, or PR. Decisions made outside a repo go straight into the vault.
 - At meaningful milestones (work started, blocked, unblocked, PR opened, merged, abandoned), append a short dated status update to the relevant note. Create a root-level topic note if none exists.
 - Keep vault updates to outcomes and context a future reader needs, not a transcript of the session.
@@ -108,7 +108,7 @@ The Obsidian vault at `~/repo/obsidian` is the central, long-lived context store
 
 **Constraints**
 
-- The vault is not under version control. Read a note before editing it, prefer targeted edits or appends, and never bulk-rewrite notes unless asked.
+- Assume there is no undo: some vaults are not under version control, and a local git history is not a backup. Read a note before editing it, prefer targeted edits or appends, and never bulk-rewrite notes unless asked.
 - Never write secrets, tokens, credentials, or raw sensitive data into the vault. Describe and link instead.
 - Never reference the vault, its notes, or wikilinks in committed code, comments, commit messages, PR descriptions, or repo documentation. Other readers do not have it.
 - If the sandbox blocks writes outside the current repo, tell the user what vault update is pending instead of skipping it silently.
