@@ -1,0 +1,25 @@
+<!doctype html>
+<meta charset="utf-8" />
+<style>
+  body {
+    font: 13px -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    margin: 12px;
+    min-width: 280px;
+  }
+  label {
+    display: block;
+    margin: 8px 0;
+  }
+  input[type="number"] {
+    width: 4.5em;
+  }
+  p {
+    color: #666;
+    margin: 10px 0 0;
+  }
+</style>
+<label><input type="checkbox" id="enabled" /> Auto-close inactive tabs</label>
+<label>Close after <input type="number" id="hours" min="1" step="1" /> hours unused</label>
+<p>Never closed: pinned, grouped, playing audio, or the active tab in each window.</p>
+<script src="settings.js"></script>
+<script src="options.js"></script>
