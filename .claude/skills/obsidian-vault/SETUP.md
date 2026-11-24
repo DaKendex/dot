@@ -42,6 +42,8 @@ Three layers. Only the first is required.
 | Topic tags (3-8 to start) | `homelab` `reading` `money` `health` | `index.md`, MOCs |
 | Type tags | Default set below; add/remove | `index.md` |
 | Time series | `daily/` (default yes), `standups/` or `weekly/` (optional) | Layout, templates |
+| Inbox | `inbox/` for automated captures (optional) | Layout, `AGENTS.md` |
+| Version control | none (default) or local git | Step 1, `AGENTS.md` |
 | Agents in use | Claude Code, Codex, Copilot CLI | Step 6, Step 8 |
 | Editor | Obsidian app only, or also Neovim | Step 2 |
 | Integrations wanted | none / Calendar / meeting notes / GitHub / Jira / Slack | Step 9 |
@@ -66,16 +68,33 @@ Flat by design. Topic notes live at the root; folders are structural only.
 mkdir -p "$VAULT"/{daily,templates,.obsidian,.agents/skills,.claude}
 # optional time series
 mkdir -p "$VAULT"/standups   # or weekly/
+mkdir -p "$VAULT"/inbox      # optional capture folder
 ```
+
+If the user wants local git, `git init` the vault and ignore per-device state:
+
+```gitignore
+.obsidian/workspace*.json
+.obsidian/cache
+.trash/
+.DS_Store
+```
+
+Local only - no remote unless asked. Git is history and undo, not a backup. If the vault also syncs
+(Obsidian Sync, Self-hosted LiveSync), keep `.git/` out of the sync. Self-hosted LiveSync stores its
+connection settings, including credentials, in `.obsidian/plugins/obsidian-livesync/data.json`: add that
+path to `.gitignore` before installing the plugin.
 
 | Path | Contents |
 |---|---|
 | `*.md` (root) | Every topic note. |
 | `daily/YYYY-MM-DD.md` | Daily notes. |
 | `standups/standup-YYYY-MM-DD.md` | Optional weekly notes. Prefix keeps basenames unique vs `daily/`. |
+| `weekly/YYYY-Www.md` | Optional weekly reviews, ISO week (`2026-W48`). Unique vs `daily/` as-is. |
+| `inbox/YYYY-MM-DD-HHmm-<slug>.md` | Optional. Untriaged captures; the only path automations write to. |
 | `templates/` | Note templates. |
 | `.agents/skills/` | Vault-scoped skills (canonical copy). |
-| `.claude/skills/` | Symlinks into `.agents/skills/`. |
+| `.claude/skills/` | Symlinks into `.agents/skills/` (Claude Code only). |
 
 A new subject gets a tag, not a folder. Add a folder only when the user asks for one.
 
@@ -171,6 +190,12 @@ content and tag vocabulary.
 > This vault is **not** a git repository. There is no undo. Read a file before overwriting it,
 > prefer append or targeted edit over rewrite, and never bulk-rewrite notes without being asked.
 
+<!-- With local git, replace the callout above with: -->
+> [!warning] Local git, no remote
+> Git is the undo, not a license to be careless: read before overwriting, prefer targeted edits,
+> never bulk-rewrite unasked. Check `git status` is clean before a bulk change. Never add a remote
+> or push unless asked.
+
 ## Layout
 
 Flat by design. Organization comes from tags and MOCs, not folders.
@@ -180,10 +205,15 @@ Flat by design. Organization comes from tags and MOCs, not folders.
 | `*.md` (root) | Every topic note. |
 | `daily/YYYY-MM-DD.md` | Daily notes. |
 | `standups/standup-YYYY-MM-DD.md` | Weekly notes. |
+| `inbox/YYYY-MM-DD-HHmm-<slug>.md` | Untriaged captures. |
 | `templates/` | Note templates. |
 | `.agents/skills/`, `.claude/skills/` | Skills. `.claude/skills` symlinks into `.agents/skills`. |
 
 New topic notes go at the **root**. Do not invent folders. Add a folder only when the user asks.
+
+<!-- If inbox/ exists: -->
+`inbox/` is the only path automations may write to. Triage moves a capture to the root with a
+topic tag (or merges it into an existing note) and deletes the inbox file.
 
 ## Frontmatter
 
@@ -292,6 +322,7 @@ Agents: read [[AGENTS|AGENTS.md]] for vault conventions before editing.
 ## Time series
 
 - `daily/` - 0 notes, latest [[daily/YYYY-MM-DD]]
+- `inbox/` - 0 notes, latest [[inbox/YYYY-MM-DD-HHmm-slug]]
 
 ## Reference
 
@@ -336,7 +367,7 @@ Optional: a "Small clusters" section in `index.md` for tags too small for their 
 
 ```markdown
 ---
-id: daily
+id: {{date:YYYY-MM-DD}}
 aliases: []
 tags: [daily]
 date: {{date:YYYY-MM-DD}}
@@ -364,6 +395,36 @@ created: {{date:YYYY-MM-DD HH:mm}}
 ---
 # Notes
 - 
+```
+
+`templates/weekly.md` (if `weekly/` exists; ISO week tokens are Obsidian/moment syntax):
+
+```markdown
+---
+id: {{date:GGGG-[W]WW}}
+aliases: []
+tags: [weekly]
+week_of: {{date:YYYY-MM-DD}}
+sources: []
+---
+
+# Week {{date:GGGG-[W]WW}}
+
+## Done
+
+- 
+
+## In progress
+
+- 
+
+## Blocked / slipping
+
+- 
+
+## Next week
+
+- [ ] 
 ```
 
 `templates/meeting.md`:
@@ -412,8 +473,10 @@ npx skills add kepano/obsidian-skills --skill obsidian-markdown --skill obsidian
   -a claude-code -a codex -y
 ```
 
-Pass one `-a` per agent from the inputs. If the CLI copies into `.claude/skills/` directly instead
-of symlinking, keep the canonical copy in `.agents/skills/` and replace the copies with links:
+Pass one `-a` per agent from the inputs (`claude-code`, `codex`, `opencode`, ...). OpenCode and
+Codex read `.agents/skills/` directly; only Claude Code needs `.claude/skills/`. If the CLI copies
+into `.claude/skills/` instead of symlinking, keep the canonical copy in `.agents/skills/` and
+replace the copies with links:
 
 ```sh
 ln -s ../../.agents/skills/obsidian-markdown .claude/skills/obsidian-markdown
@@ -427,10 +490,13 @@ in every vault, with each vault's `AGENTS.md` winning on conflicts. It also carr
 npx skills add DaKendex/dot --skill obsidian-vault -g -a claude-code -a codex -y
 ```
 
-Skip it if the user prefers per-vault only; `AGENTS.md` alone is enough.
+Skip it if the user prefers per-vault only; `AGENTS.md` alone is enough. If the skill already lives
+in a dotfiles checkout, symlink it into each agent's global skills dir instead (`~/.claude/skills`
+for Claude Code and OpenCode, `~/.agents/skills` for Codex and OpenCode).
 
-**Verify:** `ls "$VAULT/.claude/skills"` shows both vault skills and `skills-lock.json` lists them.
-If installed, `ls ~/.claude/skills/obsidian-vault` shows `SKILL.md` and `SETUP.md`.
+**Verify:** `ls "$VAULT/.agents/skills"` (or `.claude/skills` for Claude Code) shows both vault
+skills and `skills-lock.json` lists them. If installed, `ls ~/.claude/skills/obsidian-vault` (or
+`~/.agents/skills/obsidian-vault`) shows `SKILL.md` and `SETUP.md`.
 
 ## Step 7 - `obsidian-moc-sync`
 
@@ -477,7 +543,8 @@ If the source is unreachable, implement it to this spec (single-file Python 3, s
 
 Makes every agent session, in any repo, treat the vault as shared memory. Add this to the user's
 global agent instructions (`~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, or a shared file both
-include). Replace `$VAULT`.
+include). OpenCode can load a shared file via `"instructions": ["~/path/to/shared.md"]` in
+`~/.config/opencode/opencode.jsonc`. Replace `$VAULT`.
 
 ```markdown
 ## Obsidian Vault (Shared Context)
@@ -502,7 +569,8 @@ repos, sessions, and time.
 - Record outcomes and context a future reader needs, not a session transcript.
 
 **Constraints**
-- Read a note before editing it. Prefer targeted edits. Never bulk-rewrite unless asked.
+- Assume there is no undo: local git history is not a backup. Read a note before editing it.
+  Prefer targeted edits. Never bulk-rewrite unless asked.
 - Never write secrets, tokens, credentials, or raw sensitive data into the vault.
 - Never reference the vault or its wikilinks in committed code, commit messages, PRs, or repo
   docs. Other readers do not have it.
@@ -566,7 +634,7 @@ root, tagged `scratch`. Records why a convention exists so later agents don't un
 
 ## Final checklist
 
-- [ ] Layout exists; `CLAUDE.md` -> `AGENTS.md` symlink.
+- [ ] Layout exists; `CLAUDE.md` -> `AGENTS.md` symlink; git initialized if chosen.
 - [ ] `AGENTS.md` filled in (owner line, folders, tags, skills table).
 - [ ] `index.md`, one `moc-<tag>.md` per tag, `moc-scratch.md`.
 - [ ] `templates/daily.md`, `templates/meeting.md`; daily-notes and templates config set.
@@ -579,7 +647,9 @@ root, tagged `scratch`. Records why a convention exists so later agents don't un
 ## Security and backup
 
 - No git means no undo. Before any bulk agent write, copy the affected files to a scratch dir.
-  Obsidian's File recovery plugin is a second net.
+  Obsidian's File recovery plugin is a second net. Local git gives undo but is still not a backup.
+- If automations (n8n, chat bots, agents) write to the vault, confine them to `inbox/` and keep
+  them out of sync internals - write Markdown through a controlled path, never sync-store objects.
 - Decide on backup deliberately. Work vaults can hold incident and vulnerability detail; check
   who can see a sync or Drive target before enabling it.
 - No secrets in notes, ever. Link to the vault or secret manager entry instead.

@@ -23,7 +23,8 @@ employer names, ticket keys, user IDs, or note content.
 
 ## Before any edit
 
-Vaults are not under version control. There is no undo.
+Assume there is no undo. Many vaults are not under version control, and a local git history is
+not a backup.
 
 - Read a note before writing to it.
 - Prefer an append or targeted edit over a rewrite.
@@ -38,6 +39,8 @@ Flat. Every topic note lives at the vault root. Folders are structural, never to
 |---|---|
 | `daily/` | `YYYY-MM-DD.md` |
 | `standups/` | `standup-YYYY-MM-DD.md` - the prefix keeps basenames unique across `daily/` |
+| `weekly/` | Optional. `YYYY-Www.md` (ISO week) |
+| `inbox/` | Optional. Untriaged captures; the only path automations write to |
 | `templates/` | Templater templates |
 
 A new subject gets a tag, not a folder. A cluster that feels like it needs a folder needs a MOC.
