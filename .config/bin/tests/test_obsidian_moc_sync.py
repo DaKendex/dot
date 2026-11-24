@@ -137,6 +137,14 @@ class MocTest(VaultCase):
         self.assertIn("- [[other]] - Other", text)
 
 
+class EmptyMocTest(VaultCase):
+    def test_moc_without_members_is_already_in_sync(self):
+        text = "---\nid: moc-infra\ntags: [moc, infra]\n---\n\n# Infra\n\n`0` notes tagged `#infra`.\n"
+        self.put("moc-infra.md", text)
+        self.assertEqual(self.run_sync(), 0)
+        self.assertEqual(self.read("moc-infra.md"), text)
+
+
 class IndexTest(VaultCase):
     def setUp(self):
         super().setUp()

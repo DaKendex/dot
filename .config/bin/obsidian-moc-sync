@@ -156,7 +156,8 @@ def render_moc(vault, stem, text):
     lines[count_idx] = COUNT_LINE_RE.sub(f"`{len(members)}` notes tagged `#{tag}`", lines[count_idx])
     if start == end:
         # No existing list: insert one after the count line, keeping a blank line around it.
-        lines[count_idx + 1 : count_idx + 1] = [""] + bullets
+        if bullets:
+            lines[count_idx + 1 : count_idx + 1] = [""] + bullets
     else:
         lines[start:end] = bullets
     return "\n".join(lines)
